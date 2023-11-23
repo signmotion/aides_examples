@@ -39,10 +39,16 @@ def get_products_today_tags():
 # See [get_products_today_about], [get_products_today_tags].
 def get_products_today():
     # TODO
-    return [
-        {"name": "A", "price": 1.23},
-        {"name": "B", "price": 4.56}
-    ]
+    return {
+        "result": [
+            {"name": "A", "price": 1.23},
+            {"name": "B", "price": 4.56},
+        ],
+        "parameters": {
+            "hours": 24,
+            "location": "Canada",
+        },
+    }
 
 
 @app.get("/products/today/configure")
@@ -52,15 +58,15 @@ def get_products_today_configure():
     return {
         "type": "object",
         "properties": {
-            "location": {
-                "type": "string",
-                "about": "The country or city and state, e.g. Canand or San Francisco, CA."
-            },
             "hours": {
                 "type": "integer",
                 "about": "For how many recent hours we want to see product data.",
                 "default": 24
-            }
+            },
+            "location": {
+                "type": "string",
+                "about": "The country or city and state, e.g. Canand or San Francisco, CA."
+            },
         },
         "required": ["location"]
     }
