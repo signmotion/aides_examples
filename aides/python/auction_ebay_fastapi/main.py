@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from pathlib import Path
+from dotenv import load_dotenv
+import os
 import httpx
 
 
@@ -21,6 +23,10 @@ import httpx
 #     * /end/point/tags
 #     * /end/point
 #  * The context comes last.
+
+
+load_dotenv()
+EBAY_OAUTH_APP_TOKEN = os.getenv('EBAY_OAUTH_APP_TOKEN')
 
 # For complex aide the best practic it's best to use recommendations
 # by link https://fastapi.tiangolo.com/tutorial/bigger-applications
@@ -100,10 +106,11 @@ def products_today():
     domain = "api.sandbox.ebay.com"
     url = f"https://{domain}/buy/browse/v1/item_summary/search"
     headers = {
-        "Authorization": "Bearer v^1.1#i^1#I^3#p^1#r^0#f^0#t^H4sIAAAAAAAAAOVYX2wURRjv9R9UoDyogPwp5wIx2O7e7t3e7d3KnVxbai8UWnqlrU0smdudbcfb2z12Zu0diVhpaEiMog9CjGJqFCJKAg9GgYQQEoxRX0w0YEAfjELQKCIvEIHg3F4p10qg0Ets4r1cdub7vvl+v/n+zAw/WFn15HDz8JU5rhmlI4P8YKnLJcziqyoraqvLShdWlPAFAq6RweWD5dvKLqzCIKWn5XaI06aBoTuT0g0sO4NhxrYM2QQYYdkAKYhlosjx6LoW2cvxctoyiamYOuOONYaZoMYLPh6KXj4k+oJ+kY4at2x2mGEm4Q2pkuQXFdEPBTUk0HmMbRgzMAEGCTNe3utjBYH1ih2CKPtFWZS4gM/fw7g7oYWRaVARjmcijruyo2sV+Hp3VwHG0CLUCBOJRZvirdFY45r1Has8BbYiozzECSA2Hv/VYKrQ3Ql0G959GexIy3FbUSDGjCeSX2G8UTl6y5kHcN+hGopqSOL9ClQhVCnvRaGyybRSgNzdj9wIUlnNEZWhQRDJ3otRykbieaiQ0a/11ESs0Z3722ADHWkIWmFmTX302WhbGxOJGqqFUDzLRtNpCyAM2Xh9N6toYjAU9APIaoGgSmH7RhfKWxulecJKDaahohxp2L3eJPWQeg0nciMWcEOFWo1WK6qRnEeFcoExDvme3Kbmd9Em/UZuX2GKEuF2Pu+9A2PahFgoYRM4ZmHihENRmAHpNFKZiZNOLI6GTwaHmX5C0rLHMzAwwA34ONPq83h5XvB0r2uJK/0wBRgqm8v1vDy6twKLHCgKpJoYySSbpr5kaKxSB4w+JiIKXkHiR3kf71Zk4ui/Bgowe8ZnRNEyRJF8Cq+AUDDoExQAipEhkdEg9eT8gAmQZVPASkKS1oECWYXGmZ2CFlJln1/z+oIaZNVASGPFkKaxCb8aYAUNQh7CREIJBf9PiTLZUI9DxYKkKLFetDjvatzCaxKWWtb2C20NtclQnE91D6z1dIV6UKZTTbYbzwQSyZaARXB4stlwR/ANOqLMdND1i0FALteLR0KziQlUpwQvrphp2GbqSMlOrw32WWobsEi23s7S7zjUdfo3Jag0IWPFqdhFA3mfxeLBcBevU/1HXeqOqHAucKcXqpw+pgZAGnG0D+VyPcspZspjAnoIyQ1vcrx2TxC8o5AnYWe5PhtiQj1R6Tlw0kqIFnOOtjR18ir5hklBTF6FXjJUWyEPtJDTmTnKJurrJ/i+1sxMhZSErScnr6JCoE8pRBG9akyrAKVI85CRmr8jcA5uDr+gcBbEpm3R6xHXmjsyd5hJaNADCLFMXYdWpzDl0ptK2QQkdDjdanARahGiue66Os1OSBQUH/RJgaA0JWyKc/7ZNN06SLE7533chDzj32UiJc5P2OY6xm9zHSl1uXiJZ4VafmVl2cbystkMprWHw8BQE2aGQ0DjaNkzALEtyCVhNg2QVVrpQme+U64WvAiNPMcvGHsTqioTZhU8EPGLb89UCHPnz/H6BMErCqJfFKUeftnt2XJhXvkj8luRzfuFG30iv7u2bl/8j5WR14b4OWNCLldFCQ3fkuoNSzZKX7z3zS9LT8x9+tpet3Dpx32n5u4sOXr0xBPHNz8VRoE3bjQNDp6qr/1VeS1QV/Po0svfvv741Q+W7c4cXuzaMgPtWfbmyLWzQ2cXHP94xlD/peXk50UNH6aCfe0zd/bW7PhkwfenuIuZnbsuLdpVK13uXfru9cMvr17ROkuKRX+qbGou3zPzXOuKmoUlN/UdB24mw+9UbwWHXu08edpvHjr49WPxh+BHoH4kfq5t3pUjwycPNc/r9Xx1/bxwbOWF2Z/+1t33SnfN0d+/rLi4vXJ++w+77Sr8V2PXTTH6+UvV/r+V4e2xzPW69v1nDv7ZemCr8f4R7UWmenHdw3u7hlZ/1ug7v/bt3iWn89v4D2AlKA2rEwAA",
+        "Authorization": f"Bearer {EBAY_OAUTH_APP_TOKEN}",
         "X-EBAY-C-MARKETPLACE-ID": "EBAY_ENCA",
         "X-EBAY-C-ENDUSERCTX": "affiliateCampaignId=<ePNCampaignId>,affiliateReferenceId=<referenceId>",
     }
+    print(headers)
     params = {
         "q": "iphone",
         "sort": "newlyListed",
