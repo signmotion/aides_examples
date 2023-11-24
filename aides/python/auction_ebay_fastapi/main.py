@@ -12,7 +12,7 @@ from fastapi import FastAPI
 #       * /end/point/about
 #       * /end/point/tags
 #       * /end/point
-#       * /end/point/configure
+#  * The context comes last.
 
 # For complex aide the best practic it's best to use recommendations
 # by link https://fastapi.tiangolo.com/tutorial/bigger-applications
@@ -50,6 +50,7 @@ def products_today_tags():
 
 @app.get("/products/today")
 # See [get_products_today_about], [get_products_today_tags].
+# See [context].
 def products_today():
     # TODO
     return {
@@ -64,10 +65,11 @@ def products_today():
     }
 
 
-@app.get("/products/today/configure")
-# The parameters for this function.
-# See examples on https://openai.com/blog/function-calling-and-other-api-updates
-def products_today_configure():
+@app.get("/context")
+# The context of this aide.
+# Use as parameters for call the functions.
+# By examples in https://openai.com/blog/function-calling-and-other-api-updates
+def context():
     return {
         "type": "object",
         "properties": {
