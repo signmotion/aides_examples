@@ -1,17 +1,23 @@
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from pathlib import Path
 
 # * Conventions
 # ---------------
+#   * Structure:
+#     * root endpoin
+#     * endpoints
+#     * context
 #   * Always skip the verb for get-functions.
-#   * Order for declared endpoins:
-#     * root:
-#       * /about
-#       * /tags
-#       * /
-#     * endpoints:
-#       * /end/point/about
-#       * /end/point/tags
-#       * /end/point
+#   * Order for declared the endpoint `root`:
+#     * /about
+#     * /tags
+#     * /face
+#     * /
+#   * Order for declared endpoints:
+#     * /end/point/about
+#     * /end/point/tags
+#     * /end/point
 #  * The context comes last.
 
 # For complex aide the best practic it's best to use recommendations
@@ -29,6 +35,43 @@ def root_about():
 # There is no need to repeat the tags below for your own functions.
 def tags():
     return ["auction", "eBay"]
+
+
+@app.get("/characteristic/age")
+def characteristic_age():
+    return 19
+
+
+@app.get("/characteristic/face")
+def characteristic_face():
+    return FileResponse(Path("face.webp"))
+
+
+@app.get("/characteristic/constitution")
+def characteristic_constitution():
+    return {
+        "Posture": "Upright and alert, demonstrating attentiveness.",
+        "Build": "Average, portraying approachability and practicality.",
+    }
+
+
+@app.get("/characteristic/clothing")
+def characteristic_clothing():
+    return {
+        "Business casual attire": "A blend of professionalism and comfort.",
+        "Essential accessories": "A wristwatch for timekeeping and possibly glasses for detailed examination of items.",
+    }
+
+
+@app.get("/characteristic/traits")
+def characteristic_traits():
+    return {
+        "Analytical": "Able to assess value and condition efficiently.",
+        "Decisive": "Confident in making quick purchase decisions.",
+        "Detail-Oriented": "Attentive to the specifics and potential flaws of items.",
+        "Patient": "Willing to wait for the right item and the right price.",
+        "Knowledgeable": "Well-versed in market trends and product values.",
+    }
 
 
 @app.get("/")
