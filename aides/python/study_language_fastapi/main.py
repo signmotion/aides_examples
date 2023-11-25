@@ -95,15 +95,14 @@ TEXT:
             messages=[{"role": "user", "content": prompt}],
             ignored=["ChatAnywhere", "ChatBase", "ChatgptX"]
         )
-        print(response)
 
         responseResult = response
 
         if improve_answer:
-            improvedResult = improved(responseResult)
+            improvedResult = improve(responseResult)
         if map_answer:
-            mappedResult = mapped(
-                improvedResult if improvedResult else improved(responseResult))
+            mappedResult = map(
+                improvedResult if improvedResult else improve(responseResult))
 
     except Exception as ex:
         error = ex
@@ -121,36 +120,15 @@ TEXT:
 # ...
 # 37. think of (translation: думати про)\n
 # ...
-def improved(text: str):
+def improve(text: str):
     r = []
-
     lines = text.split("\n")
     for line in lines:
-        print(f"\n{line}")
-
-        print("Removing numbering...")
-        line = re.sub(r'\d+\.\s', '', line)
-        print(line)
-
-        print("Improving a format for translation...")
-        line = re.sub("translation", "", line)
-        print(line)
-        line = re.sub(":", "", line)
-        print(line)
-
-        sl = line.split("(")
-        print(sl)
-        a = sl[0].strip()
-        b = sl[1]
-        b = re.sub("\)", "", b).strip()
-        line = f"{a} - {b}"
-        print(line)
-
-        print("Removing non-phrasal verbs...")
-        sa = a.split(" ")
-        if len(sa) < 2:
-            print(f"REMOVE {line}")
-            line = None
+        try:
+            line = improve_line(line)
+        except Exception as ex:
+            print(f"{line} :: {ex} :: {traceback.format_exc()}")
+            # line = f"{line} :: {ex} :: {traceback.format_exc()}"
 
         if line:
             r.append(line)
@@ -161,7 +139,44 @@ def improved(text: str):
     return "\n".join(r)
 
 
-def mapped(improvedText: str):
+def improve_line(line: str):
+    print(f"\n{line}")
+
+    print("Removing numbering...")
+    line = re.sub(r'\d+\.\s*', '', line)
+
+    print("Improving a format for translation...")
+    line = re.sub("translation", "", line)
+    line = re.sub(":", "", line)
+
+    # make out (: зрозуміти)
+    try:
+        sl = line.split("(")
+        a = sl[0].strip()
+        b = sl[1]
+        b = re.sub("\)", "", b).strip()
+        line = f"{a} - {b}"
+    except Exception as ex:
+        None
+
+    # Make out - Розібратися
+    try:
+        sl = line.split(" - ")
+        a = sl[0].strip()
+        b = sl[1]
+        line = f"{a} - {b}"
+    except Exception as ex:
+        None
+
+    print("Removing non-phrasal verbs...")
+    sa = a.split(" ")
+    if len(sa) < 2:
+        line = None
+
+    return line.lower() if line else line
+
+
+def map(improvedText: str):
     r = {}
 
     lines = improvedText.split("\n")
@@ -207,7 +222,8 @@ def construct_answer(
 @app.get("/phrasal-verbs-demo-text")
 def phrasal_verbs_demo_text():
     return {
-        "result": "1. make out (translation: зрозуміти)\n2. read out (translation: прочитати)\n3. come out (translation: вийти)\n4. use up (translation: використовувати)\n5. work out (translation: розібратися)\n6. figure out (translation: з'ясувати)\n7. go into (translation: увійти)\n8. read up on (translation: почитати про)\n9. set in (translation: встановлювати)\n10. make predictions (translation: робити передбачення)\n11. be good (translation: бути хорошим)\n12. be bad (translation: бути поганим)\n13. work well together (translation: добре співпрацювати разом)\n14. spend hours (translation: проводити години)\n15. love (translation: любити)\n16. hate (translation: ненавидіти)\n17. cause to pause (translation: заставляти задуматися)\n18. be useful (translation: бути корисним)\n19. be better than (translation: бути кращим, ніж)\n20. be worth it (translation: бути вартим того)\n21. figure things out (translation: розібратися в чомусь)\n22. have a disadvantage (translation: мати недолік)\n23. see something out (translation: побачити щось до кінця)\n24. know what something should do (translation: знати, що має робити щось)\n25. have a leg up on (translation: мати перевагу над)\n26. make accurate predictions (translation: робити точні передбачення)\n27. hinder from (translation: заважати чому-небудь)\n28. gloss over (translation: пропустити, замовчати)\n29. have a distinct advantage (translation: мати виразну перевагу)\n30. play a lot of (translation: грати багато в)\n31. help (translation: допомагати)\n32. have some familiarity with (translation: мати певну знайомість з)\n33. matter (translation: мати значення)\n34. provide meaningful value (translation: надавати практичну цінність)\n35. bring in (translation: привертати)\n36. get excited about (translation: захоплюватися)\n37. think of (translation: думати про)\n38. demand (translation: вимагати)\n39. learn (translation: вчитися)\n40. accomplish (translation: досягати)\n41. pull away from (translation: відводити увагу від)\n42. ask for (translation: просити)\n43. come up with (translation: придумувати)\n44. work on (translation: працювати над)\n45. create (translation: створювати)\n46. plot out (translation: розробляти схему)\n47. doubt (translation: сумніватися)\n48. happen next (translation: трапитися далі)\n49. find (translation: знаходити)\n50. struggle with (translation: боротися з)\n51. make decisions (translation: приймати рішення)\n52. understand (translation: розуміти)",
+        # "result": "1. make out (translation: зрозуміти)\n2. read out (translation: прочитати)\n3. come out (translation: вийти)\n4. use up (translation: використовувати)\n5. work out (translation: розібратися)\n6. figure out (translation: з'ясувати)\n7. go into (translation: увійти)\n8. read up on (translation: почитати про)\n9. set in (translation: встановлювати)\n10. make predictions (translation: робити передбачення)\n11. be good (translation: бути хорошим)\n12. be bad (translation: бути поганим)\n13. work well together (translation: добре співпрацювати разом)\n14. spend hours (translation: проводити години)\n15. love (translation: любити)\n16. hate (translation: ненавидіти)\n17. cause to pause (translation: заставляти задуматися)\n18. be useful (translation: бути корисним)\n19. be better than (translation: бути кращим, ніж)\n20. be worth it (translation: бути вартим того)\n21. figure things out (translation: розібратися в чомусь)\n22. have a disadvantage (translation: мати недолік)\n23. see something out (translation: побачити щось до кінця)\n24. know what something should do (translation: знати, що має робити щось)\n25. have a leg up on (translation: мати перевагу над)\n26. make accurate predictions (translation: робити точні передбачення)\n27. hinder from (translation: заважати чому-небудь)\n28. gloss over (translation: пропустити, замовчати)\n29. have a distinct advantage (translation: мати виразну перевагу)\n30. play a lot of (translation: грати багато в)\n31. help (translation: допомагати)\n32. have some familiarity with (translation: мати певну знайомість з)\n33. matter (translation: мати значення)\n34. provide meaningful value (translation: надавати практичну цінність)\n35. bring in (translation: привертати)\n36. get excited about (translation: захоплюватися)\n37. think of (translation: думати про)\n38. demand (translation: вимагати)\n39. learn (translation: вчитися)\n40. accomplish (translation: досягати)\n41. pull away from (translation: відводити увагу від)\n42. ask for (translation: просити)\n43. come up with (translation: придумувати)\n44. work on (translation: працювати над)\n45. create (translation: створювати)\n46. plot out (translation: розробляти схему)\n47. doubt (translation: сумніватися)\n48. happen next (translation: трапитися далі)\n49. find (translation: знаходити)\n50. struggle with (translation: боротися з)\n51. make decisions (translation: приймати рішення)\n52. understand (translation: розуміти)",
+        "result": "1. Take into account - Враховувати\n2. Write down - Записати\n3. Make out - Розібратися\n4. Read out - Вголос прочитати\n5. Work out - Розібратися (про щось)\n6. Come out - Вийти (про новий набір карт)\n7. Figure out - Розібратися\n8. Read up - Почитати про щось\n9. Love these things - Обожнювати це\n10. Hate them - Ненавидіти їх\n11. Paused - Зупинитись на мить\n12. Be worth it - Бути вартим\n13. Hinder from - Заважати\n14. Gloss over - Пропустити, не зупинятись\n15. Have a leg up on - Мати перевагу над\n16. Seem good - Здаватися хорошим\n17. Work out well - Вдалий результат\n18. Over-perform expectations - Перевиконувати очікування\n19. Get in the way - Заважати, стояти на шляху\n20. Look like - Виглядати як\n21. Provide meaningful value - Надавати суттєву користь\n22. Bring in - Привертати\n23. Pull away from - Відводити увагу від\n24. Come up with - Придумати\n25. Work on - Працювати над\n26. Plot out - Складати план\n27. Doubt it - Сумніватись в цьому\n28. Make good decisions - Приймати правильні рішення\n29. Studying in the moment - Вчитися в даний момент\n30. Understand right now - Розуміти зараз",
         "context": ctx,
     }
 
