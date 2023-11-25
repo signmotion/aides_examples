@@ -3,8 +3,8 @@ from fastapi.responses import FileResponse
 import g4f
 from pathlib import Path
 from dotenv import load_dotenv
-import os
 import traceback
+import re
 
 
 # ! See conventions in README.md.
@@ -13,9 +13,17 @@ import traceback
 
 is_production = False
 use_test_context = True
+fake_response = True
 
-include_context_in_response = True
-include_original_response_in_response = True
+include_context_in_answer = True
+include_original_response_in_answer = True
+
+# The answer will be formatted to JSON.
+map_answer = True
+
+# The answer will be improved: without duplicates.
+improve_answer = True
+
 
 load_dotenv(dotenv_path=Path(".env" if is_production else ".wip.env"))
 
@@ -66,6 +74,8 @@ def phrasal_verbs():
     text = test_context["text"]
     prompt = f"""
 Write out all phrasal verbs from the text below with a translation into Ukrainian.
+Phrasal verbs are a type of verb in English that consist of a verb and a preposition or an adverb, or both.
+Wite down only phrasal verbs.
 Take into account the context for the translation.
 Don't repeat verbs if they have been written down before.
 
@@ -74,35 +84,112 @@ TEXT:
 {text}
 """
 
-    result = None
+    responseResult = None
+    improvedResult = None
+    mappedResult = None
     error = None
     try:
         # automatic selection of provider
-        response = g4f.ChatCompletion.create(
+        response = phrasal_verbs_demo_text()["result"] if fake_response else g4f.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{
-                "role": "user",
-                "content": prompt
-            }],
-            ignored=[
-                "ChatAnywhere",
-                "ChatBase",
-                "ChatgptX",
-            ]
+            messages=[{"role": "user", "content": prompt}],
+            ignored=["ChatAnywhere", "ChatBase", "ChatgptX"]
         )
         print(response)
-        result = response
+
+        responseResult = response
+
+        if improve_answer:
+            improvedResult = improved(responseResult)
+        if map_answer:
+            mappedResult = mapped(
+                improvedResult if improvedResult else improved(responseResult))
 
     except Exception as ex:
         error = ex
 
-    return enrich_response(result, error)
+    return construct_answer(
+        mappedResult=mappedResult,
+        improvedResult=improvedResult,
+        responseResult=responseResult,
+        error=error)
 
 
-def enrich_response(result: dict, error: Exception):
+# 1. make out (translation: зрозуміти)\n
+# 2. read out (translation: прочитати)\n
+# 3. come out (translation: вийти)\n
+# ...
+# 37. think of (translation: думати про)\n
+# ...
+def improved(text: str):
+    r = []
+
+    lines = text.split("\n")
+    for line in lines:
+        print(f"\n{line}")
+
+        print("Removing numbering...")
+        line = re.sub(r'\d+\.\s', '', line)
+        print(line)
+
+        print("Improving a format for translation...")
+        line = re.sub("translation", "", line)
+        print(line)
+        line = re.sub(":", "", line)
+        print(line)
+
+        sl = line.split("(")
+        print(sl)
+        a = sl[0].strip()
+        b = sl[1]
+        b = re.sub("\)", "", b).strip()
+        line = f"{a} - {b}"
+        print(line)
+
+        print("Removing non-phrasal verbs...")
+        sa = a.split(" ")
+        if len(sa) < 2:
+            print(f"REMOVE {line}")
+            line = None
+
+        if line:
+            r.append(line)
+
+    print("Removing duplicates...")
+    r = list(set(r))
+
+    return "\n".join(r)
+
+
+def mapped(improvedText: str):
+    r = {}
+
+    lines = improvedText.split("\n")
+    for line in lines:
+        sl = line.split(" - ")
+        a = sl[0]
+        b = sl[1]
+        r[a] = b
+
+    return r
+
+
+def construct_answer(
+        mappedResult: dict,
+        improvedResult: dict,
+        responseResult: dict,
+        error: Exception,
+):
     o = {}
-    if result:
-        o["result"] = result
+
+    if mappedResult:
+        o["mapped_result"] = mappedResult
+
+    if improvedResult:
+        o["improved_result"] = improvedResult
+
+    if include_original_response_in_answer or (not mappedResult and not improvedResult):
+        o["response_result"] = responseResult
 
     if error:
         print(f"!) {error}")
@@ -111,17 +198,22 @@ def enrich_response(result: dict, error: Exception):
             "traceback": f"{traceback.format_exc()}",
         }
 
-    if include_context_in_response:
+    if include_context_in_answer:
         o["context"] = ctx
-
-    if include_original_response_in_response:
-        o["original_response"] = result
 
     return o
 
 
-@app.get("/phrasal-verbs-demo")
-def phrasal_verbs_demo():
+@app.get("/phrasal-verbs-demo-text")
+def phrasal_verbs_demo_text():
+    return {
+        "result": "1. make out (translation: зрозуміти)\n2. read out (translation: прочитати)\n3. come out (translation: вийти)\n4. use up (translation: використовувати)\n5. work out (translation: розібратися)\n6. figure out (translation: з'ясувати)\n7. go into (translation: увійти)\n8. read up on (translation: почитати про)\n9. set in (translation: встановлювати)\n10. make predictions (translation: робити передбачення)\n11. be good (translation: бути хорошим)\n12. be bad (translation: бути поганим)\n13. work well together (translation: добре співпрацювати разом)\n14. spend hours (translation: проводити години)\n15. love (translation: любити)\n16. hate (translation: ненавидіти)\n17. cause to pause (translation: заставляти задуматися)\n18. be useful (translation: бути корисним)\n19. be better than (translation: бути кращим, ніж)\n20. be worth it (translation: бути вартим того)\n21. figure things out (translation: розібратися в чомусь)\n22. have a disadvantage (translation: мати недолік)\n23. see something out (translation: побачити щось до кінця)\n24. know what something should do (translation: знати, що має робити щось)\n25. have a leg up on (translation: мати перевагу над)\n26. make accurate predictions (translation: робити точні передбачення)\n27. hinder from (translation: заважати чому-небудь)\n28. gloss over (translation: пропустити, замовчати)\n29. have a distinct advantage (translation: мати виразну перевагу)\n30. play a lot of (translation: грати багато в)\n31. help (translation: допомагати)\n32. have some familiarity with (translation: мати певну знайомість з)\n33. matter (translation: мати значення)\n34. provide meaningful value (translation: надавати практичну цінність)\n35. bring in (translation: привертати)\n36. get excited about (translation: захоплюватися)\n37. think of (translation: думати про)\n38. demand (translation: вимагати)\n39. learn (translation: вчитися)\n40. accomplish (translation: досягати)\n41. pull away from (translation: відводити увагу від)\n42. ask for (translation: просити)\n43. come up with (translation: придумувати)\n44. work on (translation: працювати над)\n45. create (translation: створювати)\n46. plot out (translation: розробляти схему)\n47. doubt (translation: сумніватися)\n48. happen next (translation: трапитися далі)\n49. find (translation: знаходити)\n50. struggle with (translation: боротися з)\n51. make decisions (translation: приймати рішення)\n52. understand (translation: розуміти)",
+        "context": ctx,
+    }
+
+
+@app.get("/phrasal-verbs-demo-json")
+def phrasal_verbs_demo_json():
     return {
         "result": {
             "draft (cards)": "вибирати (карти)",
