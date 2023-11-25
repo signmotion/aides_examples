@@ -4,6 +4,11 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 import httpx
+import traceback
+
+
+# For complex aide the best practic it's best to use recommendations
+# by link https://fastapi.tiangolo.com/tutorial/bigger-applications
 
 
 # * Conventions
@@ -24,12 +29,15 @@ import httpx
 #     * /end/point
 #  * The context comes last.
 
+is_production = False
+include_original_response = False
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(".env" if is_production else ".sandbox.env"))
 EBAY_OAUTH_APP_TOKEN = os.getenv('EBAY_OAUTH_APP_TOKEN')
 
-# For complex aide the best practic it's best to use recommendations
-# by link https://fastapi.tiangolo.com/tutorial/bigger-applications
+api_domain = "api.ebay.com" if is_production else "api.sandbox.ebay.com"
+
+
 app = FastAPI(title="Auction eBay Aide")
 
 
@@ -103,26 +111,66 @@ def products_today_tags():
 # See [get_products_today_about], [get_products_today_tags].
 # See [context].
 def products_today():
-    domain = "api.sandbox.ebay.com"
-    url = f"https://{domain}/buy/browse/v1/item_summary/search"
+    url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
+
     headers = {
         "Authorization": f"Bearer {EBAY_OAUTH_APP_TOKEN}",
         "X-EBAY-C-MARKETPLACE-ID": "EBAY_ENCA",
         "X-EBAY-C-ENDUSERCTX": "affiliateCampaignId=<ePNCampaignId>,affiliateReferenceId=<referenceId>",
     }
-    print(headers)
+
     params = {
-        "q": "iphone",
+        "q": "iPhone",
         "sort": "newlyListed",
-        # "fieldgroups": "ASPECT_REFINEMENTS",
-        "limit": "3",
+        "limit": "2",
     }
+    # some params work in the request to the real domain
+    if is_production:
+        params = {
+            **params,
+            **{
+                "filter": "buyingOptions:{AUCTION}",
+            }
+        }
+
     with httpx.Client(headers=headers) as client:
         response = client.get(url, params=params)
 
-    print(response.url)
+    if response.status_code == 200:
+        r = response.json()
+    else:
+        ex = "Failed to retrieve data."
+        print(f"!) {ex}")
+        return ex
 
-    return response.json()
+    try:
+        o = {
+            "total": r["total"],
+            "href": r["href"],
+            "next": r["next"],
+            "offset": r["offset"],
+            "limit": r["limit"],
+            "products": [{
+                "title": item["title"] if "title" in item else None,
+                "condition": item["condition"] if "condition" in item else None,
+                "price": item["price"] if "price" in item else None,
+                "currentBidPrice": item["currentBidPrice"] if "currentBidPrice" in item else None,
+            } for item in r["itemSummaries"]],
+
+        }
+    except Exception as e:
+        o = {
+            "error":
+            {
+                "key": f"{e}",
+                "traceback": f"{traceback.format_exc()}",
+            },
+        }
+
+    if include_original_response:
+        o["original"] = r
+
+    return o
 
 
 @app.get("/products/today/demo")
