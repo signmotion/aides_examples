@@ -15,7 +15,7 @@ import traceback
 
 is_production = False
 use_test_context = True
-include_original_response = False
+include_original_response_in_response = False
 
 load_dotenv(dotenv_path=Path(".env" if is_production else ".sandbox.env"))
 EBAY_OAUTH_APP_TOKEN = os.getenv('EBAY_OAUTH_APP_TOKEN')
@@ -87,19 +87,19 @@ def root():
 
 
 @app.get("/products/today/about")
-# Description of this function.
+# Description of the function.
 def products_today_about():
     return "Returns a list of auction products no later than the last 24 hours."
 
 
 @app.get("/products/today/tags")
-# Tags for fast detect a needed function.
+# Tags for fast detect the function in the Aide's context.
 def products_today_tags():
     return ["hours", "items", "now", "products", "today"]
 
 
 @app.get("/products/today")
-# See [get_products_today_about], [get_products_today_tags].
+# See [products_today_about], [products_today_tags].
 # See [context].
 def products_today():
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
@@ -158,10 +158,13 @@ def products_today():
             },
         }
 
-    if include_original_response:
-        o["original"] = r
+    if include_original_response_in_response:
+        o["original_response"] = r
 
-    return o
+    return {
+        "result": o,
+        "context": ctx,
+    }
 
 
 @app.get("/products/today/demo")
@@ -202,7 +205,6 @@ if use_test_context:
 # By examples in https://openai.com/blog/function-calling-and-other-api-updates
 # See also [].
 def context():
-    print("ctx", ctx)
     return ctx
 
 
@@ -237,7 +239,7 @@ def value(hid: str):
 
 
 # the context's setters section
-# See [context_schema].
+# See [schema].
 
 
 @app.post("/hours/{v}")
