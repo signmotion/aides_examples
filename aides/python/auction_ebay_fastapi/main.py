@@ -10,24 +10,8 @@ import traceback
 # For complex aide the best practic it's best to use recommendations
 # by link https://fastapi.tiangolo.com/tutorial/bigger-applications
 
+# ! See conventions in README.md.
 
-# * Conventions
-# ---------------
-#   * Structure:
-#     * root endpoint
-#     * endpoints
-#     * context
-#   * Always skip the verb for get- and set-functions.
-#   * Order for declared the endpoint `root`:
-#     * /about
-#     * /tags
-#     * /face
-#     * /
-#   * Order for declared endpoints:
-#     * /end/point/about
-#     * /end/point/tags
-#     * /end/point
-#  * The context comes last.
 
 is_production = False
 use_test_context = True
