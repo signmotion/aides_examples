@@ -14,10 +14,10 @@ import traceback
 # * Conventions
 # ---------------
 #   * Structure:
-#     * root endpoin
+#     * root endpoint
 #     * endpoints
 #     * context
-#   * Always skip the verb for get-functions.
+#   * Always skip the verb for get- and set-functions.
 #   * Order for declared the endpoint `root`:
 #     * /about
 #     * /tags
@@ -30,6 +30,7 @@ import traceback
 #  * The context comes last.
 
 is_production = False
+use_test_context = True
 include_original_response = False
 
 load_dotenv(dotenv_path=Path(".env" if is_production else ".sandbox.env"))
@@ -39,6 +40,9 @@ api_domain = "api.ebay.com" if is_production else "api.sandbox.ebay.com"
 
 
 app = FastAPI(title="Auction eBay Aide")
+
+
+# the aide character section
 
 
 @app.get("/about")
@@ -93,6 +97,9 @@ def characteristic_traits():
 @app.get("/")
 def root():
     return root_about()
+
+
+# the abilities section
 
 
 @app.get("/products/today/about")
@@ -187,11 +194,37 @@ def products_today_demo():
     }
 
 
+# the context section
+
+
+ctx = {}
+
+
+test_context = {
+    "hours": 24,
+    "location": "Canada",
+    "query": "smartphone",
+}
+
+
+if use_test_context:
+    ctx = test_context
+    print("Initialized the test context.")
+
+
 @app.get("/context")
-# The context of this aide.
+# The full context of this aide.
 # Use as parameters for call the functions.
 # By examples in https://openai.com/blog/function-calling-and-other-api-updates
+# See also [].
 def context():
+    print("ctx", ctx)
+    return ctx
+
+
+@app.get("/schema")
+# The schema for the context.
+def schema():
     return {
         "type": "object",
         "properties": {
@@ -202,8 +235,34 @@ def context():
             },
             "location": {
                 "type": "string",
-                "about": "The country or city and state, e.g. Canada or San Francisco, CA."
+                "about": "The country or city and state. E.g. Canada or San Francisco, CA."
+            },
+            "query": {
+                "type": "string",
+                "about": "Auction search query. E.g. smartphone."
             },
         },
-        "required": ["location"]
+        "required": ["location", "query"]
     }
+
+
+@app.get("/context/{hid}")
+# The getter by Human ID (HID) from the context.
+def value(hid: str):
+    return ctx[hid] if hid in ctx else None
+
+
+# the context's setters section
+# See [context_schema].
+
+
+@app.post("/hours/{v}")
+def hours(v: int): ctx["hours"] = v
+
+
+@app.post("/location/{v}")
+def location(v: str): ctx["location"] = v
+
+
+@app.post("/query/{v}")
+def location(v: str): ctx["query"] = v
