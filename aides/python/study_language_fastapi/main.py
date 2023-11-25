@@ -18,7 +18,6 @@ include_context_in_response = True
 include_original_response_in_response = True
 
 load_dotenv(dotenv_path=Path(".env" if is_production else ".wip.env"))
-EBAY_OAUTH_APP_TOKEN = os.getenv('EBAY_OAUTH_APP_TOKEN')
 
 
 app = FastAPI(title="Study Language Aide")
@@ -64,6 +63,17 @@ def phrasal_verbs_tags():
 
 @app.get("/phrasal-verbs")
 def phrasal_verbs():
+    text = test_context["text"]
+    prompt = f"""
+Write out all phrasal verbs from the text below with a translation into Ukrainian.
+Take into account the context for the translation.
+Don't repeat verbs if they have been written down before.
+
+TEXT:
+
+{text}
+"""
+
     result = None
     error = None
     try:
@@ -72,8 +82,13 @@ def phrasal_verbs():
             model="gpt-3.5-turbo",
             messages=[{
                 "role": "user",
-                "content": "Tell me a story in 12 words limit."
+                "content": prompt
             }],
+            ignored=[
+                "ChatAnywhere",
+                "ChatBase",
+                "ChatgptX",
+            ]
         )
         print(response)
         result = response
