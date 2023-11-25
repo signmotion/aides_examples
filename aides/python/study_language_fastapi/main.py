@@ -13,7 +13,7 @@ import re
 
 is_production = False
 use_test_context = True
-fake_response = True
+fake_response = False
 
 include_context_in_answer = True
 include_original_response_in_answer = True
@@ -93,7 +93,7 @@ TEXT:
         response = phrasal_verbs_demo_text()["result"] if fake_response else g4f.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
-            ignored=["ChatAnywhere", "ChatBase", "ChatgptX"]
+            ignored=["ChatAnywhere", "ChatBase", "ChatgptX", "GptGo"]
         )
 
         responseResult = response
@@ -134,9 +134,12 @@ def improve(text: str):
             r.append(line)
 
     print("Removing duplicates...")
-    r = list(set(r))
+    unique_r = []
+    for line in r:
+        if line not in unique_r:
+            unique_r.append(line)
 
-    return "\n".join(r)
+    return "\n".join(unique_r)
 
 
 def improve_line(line: str):
