@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
 import g4f
 from pathlib import Path
 from dotenv import load_dotenv
 import traceback
 import re
+
+from httpx import RequestError
 
 
 # ! See conventions in README.md.
@@ -23,6 +24,8 @@ map_answer = True
 
 # The answer will be improved: without duplicates.
 improve_answer = True
+
+max_count_request_errors = 3
 
 
 load_dotenv(dotenv_path=Path(".env" if is_production else ".wip.env"))
@@ -71,6 +74,57 @@ def phrasal_verbs_tags():
 
 @app.get("/phrasal-verbs")
 def phrasal_verbs():
+    count_request_errors = 0
+    ignored_providers = [
+        # confidently
+        "ChatAnywhere", "ChatBase", "ChatgptX", "GptGo",
+        # maybe
+        "GptForLove",
+    ]
+
+    responseResult = None
+    improvedResult = None
+    mappedResult = None
+    error = None
+    while True:
+        try:
+            # automatic selection of provider
+            response = phrasal_verbs_demo_text(
+            )["result"] if fake_response else query(ignored_providers)
+
+            responseResult = response
+
+            if improve_answer:
+                improvedResult = improve(responseResult)
+
+            if map_answer:
+                mappedResult = map(
+                    improvedResult if improvedResult else improve(responseResult))
+
+            error = None
+            break
+
+        except Exception as ex:
+            provider_error = get_provider_from_error(ex)
+            if provider_error:
+                ignored_providers.append(provider_error)
+                print(f"Added `{provider_error}` to ignored list.")
+
+            count_request_errors += 1
+            print(
+                f"ATTEMPT {count_request_errors} {ex} :: {traceback.format_exc()}")
+            error = ex
+            if count_request_errors >= max_count_request_errors:
+                break
+
+    return construct_answer(
+        mappedResult=mappedResult,
+        improvedResult=improvedResult,
+        responseResult=responseResult,
+        error=error)
+
+
+def query(ignored_providers: list):
     text = test_context["text"]
     prompt = f"""
 Write out all phrasal verbs from the text below with a translation into Ukrainian.
@@ -83,35 +137,16 @@ TEXT:
 
 {text}
 """
+    return g4f.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        ignored=ignored_providers
+    )
 
-    responseResult = None
-    improvedResult = None
-    mappedResult = None
-    error = None
-    try:
-        # automatic selection of provider
-        response = phrasal_verbs_demo_text()["result"] if fake_response else g4f.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            ignored=["ChatAnywhere", "ChatBase", "ChatgptX", "GptGo"]
-        )
 
-        responseResult = response
-
-        if improve_answer:
-            improvedResult = improve(responseResult)
-        if map_answer:
-            mappedResult = map(
-                improvedResult if improvedResult else improve(responseResult))
-
-    except Exception as ex:
-        error = ex
-
-    return construct_answer(
-        mappedResult=mappedResult,
-        improvedResult=improvedResult,
-        responseResult=responseResult,
-        error=error)
+def get_provider_from_error(ex: Exception):
+    splitted = f"{ex}".split(":")
+    return splitted[1].strip() if len(splitted) > 1 else None
 
 
 # 1. make out (translation: зрозуміти)\n
