@@ -1,11 +1,8 @@
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 import g4f
-from pathlib import Path
-from dotenv import load_dotenv
 import traceback
 import re
-
-from httpx import RequestError
+import textwrap
 
 
 # ! See conventions in README.md.
@@ -14,7 +11,7 @@ from httpx import RequestError
 
 is_production = False
 use_test_context = True
-fake_response = False
+fake_response = True
 
 include_context_in_answer = True
 include_original_response_in_answer = True
@@ -26,9 +23,6 @@ map_answer = True
 improve_answer = True
 
 max_count_request_errors = 3
-
-
-load_dotenv(dotenv_path=Path(".env" if is_production else ".wip.env"))
 
 
 app = FastAPI(title="Study Language Aide")
@@ -79,7 +73,7 @@ def phrasal_verbs():
         # confidently
         "ChatAnywhere", "ChatBase", "ChatgptX", "GptGo",
         # maybe
-        "GptForLove",
+        "GptForLove", "Chatgpt4Online",
     ]
 
     responseResult = None
@@ -146,7 +140,13 @@ TEXT:
 
 def get_provider_from_error(ex: Exception):
     splitted = f"{ex}".split(":")
-    return splitted[1].strip() if len(splitted) > 1 else None
+    r = None
+    if len(splitted) > 1:
+        r = splitted[1].strip()
+        if len(r.split(" ")) != 0 or r == "RetryProvider":
+            r = None
+
+    return r
 
 
 # 1. make out (translation: зрозуміти)\n
@@ -360,9 +360,16 @@ def value(hid: str):
 # the context's setters section
 
 
-@app.post("/languages/{first}/{second}")
-def languages(first: str, second: str): ctx["languages"] = [first, second]
+@app.post("/languages", status_code=201)
+def languages(
+        first: str = Body(..., embed=True),
+        second: str = Body(..., embed=True)
+):
+    print(f"set languages {first} {second}")
+    ctx["languages"] = [first, second]
 
 
-@app.post("/text/{v}")
-def text(v: str): ctx["text"] = v
+@app.post("/text", status_code=201)
+def text(value: str = Body(..., embed=True)):
+    print(f"set text {textwrap.shorten(value, 60)}")
+    ctx["text"] = value
