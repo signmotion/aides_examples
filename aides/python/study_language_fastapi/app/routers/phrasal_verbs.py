@@ -2,7 +2,6 @@ from fastapi import APIRouter
 import g4f
 import traceback
 import re
-import textwrap
 from ..internal.config import *
 from .context import ctx
 
