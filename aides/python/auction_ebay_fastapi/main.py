@@ -18,7 +18,7 @@ use_test_context = True
 include_original_response_in_response = False
 
 load_dotenv(dotenv_path=Path(".env" if is_production else ".sandbox.env"))
-EBAY_OAUTH_APP_TOKEN = os.getenv('EBAY_OAUTH_APP_TOKEN')
+EBAY_OAUTH_APP_TOKEN = os.getenv("EBAY_OAUTH_APP_TOKEN")
 
 api_domain = "api.ebay.com" if is_production else "api.sandbox.ebay.com"
 
@@ -121,7 +121,7 @@ def products_today():
             **params,
             **{
                 "filter": "buyingOptions:{AUCTION}",
-            }
+            },
         }
 
     with httpx.Client(headers=headers) as client:
@@ -141,18 +141,21 @@ def products_today():
             "next": r["next"],
             "offset": r["offset"],
             "limit": r["limit"],
-            "products": [{
-                "title": item["title"] if "title" in item else None,
-                "condition": item["condition"] if "condition" in item else None,
-                "price": item["price"] if "price" in item else None,
-                "currentBidPrice": item["currentBidPrice"] if "currentBidPrice" in item else None,
-            } for item in r["itemSummaries"]],
-
+            "products": [
+                {
+                    "title": item["title"] if "title" in item else None,
+                    "condition": item["condition"] if "condition" in item else None,
+                    "price": item["price"] if "price" in item else None,
+                    "currentBidPrice": item["currentBidPrice"]
+                    if "currentBidPrice" in item
+                    else None,
+                }
+                for item in r["itemSummaries"]
+            ],
         }
     except Exception as e:
         o = {
-            "error":
-            {
+            "error": {
                 "key": f"{e}",
                 "traceback": f"{traceback.format_exc()}",
             },
@@ -217,18 +220,18 @@ def schema():
             "hours": {
                 "type": "integer",
                 "about": "For how many recent hours we want to see product data.",
-                "default": 24
+                "default": 24,
             },
             "location": {
                 "type": "string",
-                "about": "The country or city and state. E.g. Canada or San Francisco, CA."
+                "about": "The country or city and state. E.g. Canada or San Francisco, CA.",
             },
             "query": {
                 "type": "string",
-                "about": "Auction search query. E.g. smartphone."
+                "about": "Auction search query. E.g. smartphone.",
             },
         },
-        "required": ["location", "query"]
+        "required": ["location", "query"],
     }
 
 
@@ -243,12 +246,15 @@ def value(hid: str):
 
 
 @app.post("/hours/{v}")
-def hours(v: int): ctx["hours"] = v
+def hours(v: int):
+    ctx["hours"] = v
 
 
 @app.post("/location/{v}")
-def location(v: str): ctx["location"] = v
+def location(v: str):
+    ctx["location"] = v
 
 
 @app.post("/query/{v}")
-def location(v: str): ctx["query"] = v
+def location(v: str):
+    ctx["query"] = v

@@ -71,9 +71,13 @@ def phrasal_verbs():
     count_request_errors = 0
     ignored_providers = [
         # confidently
-        "ChatAnywhere", "ChatBase", "ChatgptX", "GptGo",
+        "ChatAnywhere",
+        "ChatBase",
+        "ChatgptX",
+        "GptGo",
         # maybe
-        "GptForLove", "Chatgpt4Online",
+        "GptForLove",
+        "Chatgpt4Online",
     ]
 
     responseResult = None
@@ -83,8 +87,11 @@ def phrasal_verbs():
     while True:
         try:
             # automatic selection of provider
-            response = phrasal_verbs_demo_text(
-            )["result"] if fake_response else query(ignored_providers)
+            response = (
+                phrasal_verbs_demo_text()["result"]
+                if fake_response
+                else query(ignored_providers)
+            )
 
             responseResult = response
 
@@ -93,7 +100,8 @@ def phrasal_verbs():
 
             if map_answer:
                 mappedResult = map(
-                    improvedResult if improvedResult else improve(responseResult))
+                    improvedResult if improvedResult else improve(responseResult)
+                )
 
             error = None
             break
@@ -105,8 +113,7 @@ def phrasal_verbs():
                 print(f"Added `{provider_error}` to ignored list.")
 
             count_request_errors += 1
-            print(
-                f"ATTEMPT {count_request_errors} {ex} :: {traceback.format_exc()}")
+            print(f"ATTEMPT {count_request_errors} {ex} :: {traceback.format_exc()}")
             error = ex
             if count_request_errors >= max_count_request_errors:
                 break
@@ -115,7 +122,8 @@ def phrasal_verbs():
         mappedResult=mappedResult,
         improvedResult=improvedResult,
         responseResult=responseResult,
-        error=error)
+        error=error,
+    )
 
 
 def query(ignored_providers: list):
@@ -134,7 +142,7 @@ TEXT:
     return g4f.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
-        ignored=ignored_providers
+        ignored=ignored_providers,
     )
 
 
@@ -181,7 +189,7 @@ def improve_line(line: str):
     print(f"\n{line}")
 
     print("Removing numbering...")
-    line = re.sub(r'\d+\.\s*', '', line)
+    line = re.sub(r"\d+\.\s*", "", line)
 
     print("Improving a format for translation...")
     line = re.sub("translation", "", line)
@@ -228,10 +236,10 @@ def map(improvedText: str):
 
 
 def construct_answer(
-        mappedResult: dict,
-        improvedResult: dict,
-        responseResult: dict,
-        error: Exception,
+    mappedResult: dict,
+    improvedResult: dict,
+    responseResult: dict,
+    error: Exception,
 ):
     o = {}
 
@@ -341,14 +349,11 @@ def schema():
         "properties": {
             "languages": {
                 "type": "array",
-                "about": "Languages for studying in alpha-2 ISO standard: first is non-native, second is native for learner."
+                "about": "Languages for studying in alpha-2 ISO standard: first is non-native, second is native for learner.",
             },
-            "text": {
-                "type": "string",
-                "about": "Text for processing."
-            },
+            "text": {"type": "string", "about": "Text for processing."},
         },
-        "required": ["languages", "text"]
+        "required": ["languages", "text"],
     }
 
 
@@ -361,10 +366,7 @@ def value(hid: str):
 
 
 @app.post("/languages", status_code=201)
-def languages(
-        first: str = Body(..., embed=True),
-        second: str = Body(..., embed=True)
-):
+def languages(first: str = Body(..., embed=True), second: str = Body(..., embed=True)):
     print(f"set languages {first} {second}")
     ctx["languages"] = [first, second]
 
