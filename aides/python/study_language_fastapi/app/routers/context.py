@@ -1,4 +1,6 @@
-from fastapi import Body, APIRouter
+from pydantic.dataclasses import dataclass
+from fastapi import APIRouter, Body
+from pydantic import BaseModel, Field
 import textwrap
 
 from ..internal.config import *
@@ -7,11 +9,37 @@ from ..internal.config import *
 router = APIRouter()
 
 
-ctx = {}
+class Languages(BaseModel):
+    native: str = Field(
+        default="",
+        title="Native Language",
+        description="The native language of Learner in alpha-2 ISO standard.",
+    )
+    target: str = Field(
+        default="",
+        title="Target Language",
+        description="The target language of Learner in alpha-2 ISO standard.",
+    )
+
+
+class Context(BaseModel):
+    languages: Languages = Field(
+        default=Languages(),
+        title="Languages",
+        description="The native and target languages.",
+    )
+    text: str = Field(
+        default="",
+        title="Text",
+        description="The text for processing.",
+    )
+
+
+_ctx: Context = Context()
 
 
 test_context = {
-    "languages": ["en", "uk"],
+    "languages": {"native": "en", "target": "uk"},
     "text": """
 When plans are overrated
 
@@ -50,55 +78,42 @@ The whole point of learning something is that you don't know what will happen ne
 
 
 if use_test_context:
-    ctx = test_context
+    _ctx = test_context
     print("Initialized the test context.")
 
 
 @router.get("/context")
 def context():
-    print("ctx", ctx)
-    return ctx
+    print("ctx", _ctx)
+    return _ctx
 
 
 @router.get("/schema")
 def schema():
-    return {
-        "type": "object",
-        "properties": {
-            "languages": {
-                "type": "array",
-                "about": "Languages for studying in alpha-2 ISO standard: first is non-native, second is native for learner.",
-            },
-            "text": {
-                "type": "string",
-                "about": "Text for processing.",
-            },
-        },
-        "required": [
-            "languages",
-            "text",
-        ],
-    }
+    return Context.schema_json()
 
 
 @router.get("/context/{hid}")
 def value(hid: str):
-    return ctx[hid] if hid in ctx else None
+    return _ctx[hid] if hid in _ctx else None
 
 
 # the context's setters section
 
 
-@router.post("/languages", status_code=201)
-def languages(
-    first: str = Body(..., embed=True),
-    second: str = Body(..., embed=True),
-):
-    print(f"set languages {first} {second}")
-    ctx["languages"] = [first, second]
+@router.put("/languages/native", status_code=201)
+def languages_native(value: str = Body(embed=True)):
+    print(f"set native language {value}")
+    _ctx.languages.native = value
 
 
-@router.post("/text", status_code=201)
-def text(value: str = Body(..., embed=True)):
+@router.put("/languages/target", status_code=201)
+def languages_target(value: str = Body(embed=True)):
+    print(f"set native language {value}")
+    _ctx.languages.target = value
+
+
+@router.put("/text", status_code=201)
+def text(value: str = Body(embed=True)):
     print(f"set text {textwrap.shorten(value, 60)}")
-    ctx["text"] = value
+    _ctx.text = value

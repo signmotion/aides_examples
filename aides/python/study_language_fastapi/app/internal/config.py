@@ -2,8 +2,8 @@ import g4f
 
 
 is_production = False
-use_test_context = True
-fake_response = True
+use_test_context = False
+fake_response = False
 
 include_context_in_answer = True
 include_original_response_in_answer = True
