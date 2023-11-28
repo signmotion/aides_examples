@@ -54,3 +54,6 @@ ENV/
 
 # If you are using PyCharm
 .idea/
+
+# vscode
+.vscode/settings.json
