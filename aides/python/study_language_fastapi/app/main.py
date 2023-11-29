@@ -1,5 +1,5 @@
-from fastapi import Body, FastAPI
-from .routers import about, context, phrasal_verbs
+from fastapi import FastAPI
+from .routers import about, context, phrasal_verbs, translate_caption
 
 
 # ! See conventions in README.md.
@@ -11,6 +11,7 @@ app = FastAPI(title="Study Language Aide")
 app.include_router(about.router)
 app.include_router(context.router)
 app.include_router(phrasal_verbs.router)
+app.include_router(translate_caption.router)
 
 
 # the aide character section

@@ -38,9 +38,10 @@ class Context(BaseModel):
 _ctx: Context = Context()
 
 
-test_context = {
-    "languages": {"native": "en", "target": "uk"},
-    "text": """
+def test_context_article():
+    return {
+        "languages": {"native": "en", "target": "uk"},
+        "text": """
 When plans are overrated
 
 Benjamin Keep
@@ -74,11 +75,22 @@ From time to time, Youtubers ask me to help them come up with a study plan for s
 
 The whole point of learning something is that you don't know what will happen next – what you will find, what you will forget, what you will struggle with. It's far more important to make good decisions about studying in the moment. If you're three weeks into studying for a big test, what use is the study plan? The most relevant information is what you understand right now.
 """,
-}
+    }
+
+
+def test_context_caption():
+    with open("app/data/five_nights_at_freddy_2023.srt", "r") as file:
+        data = file.read()
+
+    return {
+        "languages": {"target": "uk"},
+        "text": data,
+    }
 
 
 if use_test_context:
-    _ctx = test_context
+    # _ctx = test_context_article()
+    _ctx = test_context_caption()
     print("Initialized the test context.")
 
 

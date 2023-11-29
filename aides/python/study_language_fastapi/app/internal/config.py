@@ -4,13 +4,13 @@ import os
 
 
 is_production = False
-use_test_context = False
+use_test_context = True
 fake_response = False
 
 use_chat_gpt = True
 
-include_context_in_answer = True
-include_original_response_in_answer = True
+include_context_in_answer = False
+include_raw_response_in_answer = True
 
 # The answer will be formatted to JSON.
 map_answer = True
