@@ -2,6 +2,7 @@ from fastapi import APIRouter
 import g4f
 import traceback
 import re
+import openai
 
 from ..internal.config import *
 from .context import context
@@ -41,11 +42,7 @@ def phrasal_verbs():
     while True:
         try:
             # automatic selection of provider
-            response = (
-                phrasal_verbs_demo_text()["result"]
-                if fake_response
-                else query(ignored_providers)
-            )
+            response = queryChatGpt() if use_chat_gpt else queryG4F(ignored_providers)
 
             responseResult = response
 
@@ -80,9 +77,38 @@ def phrasal_verbs():
     )
 
 
-def query(ignored_providers: list):
+def queryChatGpt():
+    if fake_response:
+        return phrasal_verbs_demo_text()["result"]
+
+    openai.api_key = OPENAI_API_KEY
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt(),
+        temperature=0.0,
+        max_tokens=300,
+    )
+
+    print(response)
+
+    return response.choices[0].text
+
+
+def queryG4F(ignored_providers: list):
+    if fake_response:
+        return phrasal_verbs_demo_text()["result"]
+
+    return g4f.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt()}],
+        ignored=ignored_providers,
+    )
+
+
+def prompt():
     text = context().text
-    prompt = f"""
+
+    return f"""
 Write out all phrasal verbs from the text below with a translation into Ukrainian.
 Phrasal verbs are a type of verb in English that consist of a verb and a preposition or an adverb, or both.
 Wite down only phrasal verbs.
@@ -93,11 +119,6 @@ TEXT:
 
 {text}
 """
-    return g4f.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        ignored=ignored_providers,
-    )
 
 
 def get_provider_from_error(ex: Exception):
@@ -183,7 +204,7 @@ def map(improvedText: str):
     for line in lines:
         sl = line.split(" - ")
         a = sl[0]
-        b = sl[1]
+        b = sl[1] if len(sl) > 1 else ""
         r[a] = b
 
     return r
