@@ -72,7 +72,7 @@ def phrasal_verbs():
     return construct_answer(
         mappedResult=mappedResult,
         improvedResult=improvedResult,
-        responseResult=responseResult,
+        rawResult=responseResult,
         error=error,
     )
 
@@ -172,9 +172,8 @@ def improve_line(line: str):
 
     # make out (: зрозуміти)
     try:
-        sl = line.split("(")
-        a = sl[0].strip()
-        b = sl[1]
+        a, b = line.split("(")
+        a = a.strip()
         b = re.sub("\)", "", b).strip()
         line = f"{a} - {b}"
     except Exception as ex:
@@ -182,9 +181,8 @@ def improve_line(line: str):
 
     # Make out - Розібратися
     try:
-        sl = line.split(" - ")
-        a = sl[0].strip()
-        b = sl[1]
+        a, b = line.split(" - ")
+        a = a.strip()
         line = f"{a} - {b}"
     except Exception as ex:
         None
@@ -202,9 +200,7 @@ def map(improvedText: str):
 
     lines = improvedText.split("\n")
     for line in lines:
-        sl = line.split(" - ")
-        a = sl[0]
-        b = sl[1] if len(sl) > 1 else ""
+        a, b = line.split(" - ")
         r[a] = b
 
     return r
@@ -213,7 +209,7 @@ def map(improvedText: str):
 def construct_answer(
     mappedResult: dict,
     improvedResult: dict,
-    responseResult: dict,
+    rawResult: dict,
     error: Exception,
 ):
     o = {}
@@ -224,8 +220,8 @@ def construct_answer(
     if improvedResult:
         o["improved_result"] = improvedResult
 
-    if include_original_response_in_answer or (not mappedResult and not improvedResult):
-        o["response_result"] = responseResult
+    if include_raw_response_in_answer or (not mappedResult and not improvedResult):
+        o["raw_result"] = rawResult
 
     if error:
         print(f"!) {error}")
