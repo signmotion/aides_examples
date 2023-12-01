@@ -1,6 +1,8 @@
 # Study Language FastAPI
 
-The server on FastAPI for learning English.
+The server for learning English.
+
+Powered by FastAPI.
 
 The [English Learning Obsidian Plugin](https://github.com/signmotion/english-learning) use this server.
 

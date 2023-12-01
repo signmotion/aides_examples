@@ -1,6 +1,6 @@
-from pydantic.dataclasses import dataclass
 from fastapi import APIRouter, Body
 from pydantic import BaseModel, Field
+import json
 import textwrap
 
 from ..internal.config import *
@@ -92,18 +92,17 @@ def test_context_caption():
 if use_test_context:
     # _ctx = test_context_article()
     _ctx = test_context_caption()
-    print("Initialized the test context.")
+    print("Initialized with the test context.")
 
 
 @router.get("/context")
 def context():
-    print("ctx", _ctx)
     return _ctx
 
 
 @router.get("/schema")
 def schema():
-    return Context.schema_json()
+    return json.loads(Context.schema_json())
 
 
 @router.get("/context/{hid}")
