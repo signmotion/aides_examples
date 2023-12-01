@@ -35,7 +35,7 @@ class AideServer(FastAPI):
         # own
         tags: Optional[List[str]] = None,
         characteristic: Optional[Dict[str, Any]] = None,
-        externalRouters: Optional[List[APIRouter]] = [],
+        external_routers: Optional[List[APIRouter]] = [],
         memo: Memo,
         # from FastAPI
         debug: bool = False,
@@ -136,61 +136,70 @@ class AideServer(FastAPI):
             extra=extra,
         )
 
-        # context router
-        contextRouter = APIRouter()
+        _init_context_routers(self)
+        _init_external_routers(self, external_routers=external_routers)
 
-        @contextRouter.get("/context")
-        def context():
-            return memo.context
+        # !) call this functions after adding all routers
+        _check_routes(self)
+        _use_route_names_as_operation_ids(self)
 
-        @contextRouter.get("/schema")
-        def schema():
-            return json.loads(memo.context.schema_json())
-
-        @contextRouter.get("/context/{hid}")
-        def value(hid: str):
-            return getattr(memo.context, hid)
-
-        # See [schema].
-        @contextRouter.put("/context/{hid}/{value}")
-        def put_inline_hid_value(hid: str, value: str):
-            setattr(memo.context, hid, value)
-            return True
-
-        # See [schema].
-        @contextRouter.put("/context/{hid}")
-        def put_inline_hid_json_value(
-            hid: str,
-            value: str = Body(embed=True),
-        ):
-            setattr(memo.context, hid, value)
-            return True
-
-        # See [schema].
-        @contextRouter.put("/context")
-        def put_json_hid_value(
-            hid: str = Body(embed=True),
-            value: str = Body(embed=True),
-        ):
-            setattr(memo.context, hid, value)
-            return True
-
-        self.include_router(contextRouter)
-
-        # external routers
-        print(externalRouters)
-        for router in externalRouters:
-            
-            self.include_router(router)
-
+    # Keep a generic context.
     memo: Memo = None
+
+
+def _init_context_routers(server: FastAPI):
+    router = APIRouter()
+
+    @router.get("/context")
+    def context():
+        return server.memo.context
+
+    @router.get("/schema")
+    def schema():
+        return json.loads(server.memo.context.schema_json())
+
+    @router.get("/context/{hid}")
+    def value(hid: str):
+        return getattr(server.memo.context, hid)
+
+    # See [schema].
+    @router.put("/context/{hid}/{value}")
+    def put_inline_hid_value(hid: str, value: str):
+        setattr(server.memo.context, hid, value)
+        return True
+
+    # See [schema].
+    @router.put("/context/{hid}")
+    def put_inline_hid_json_value(
+        hid: str,
+        value: str = Body(embed=True),
+    ):
+        setattr(server.memo.context, hid, value)
+        return True
+
+    # See [schema].
+    @router.put("/context")
+    def put_json_hid_value(
+        hid: str = Body(embed=True),
+        value: str = Body(embed=True),
+    ):
+        setattr(server.memo.context, hid, value)
+        return True
+
+    server.include_router(router)
+
+
+def _init_external_routers(server, external_routers):
+    print(external_routers)
+    for router in external_routers:
+        server.include_router(router)
 
 
 # TODO Move to separate library. See `base_server`.
 # TODO Add to other FastApi-projects into the same folder.
 # Check the declared routes.
-def check_routes(app: FastAPI) -> None:
-    for route in app.routes:
+def _check_routes(server: AideServer) -> None:
+    for route in server.routes:
         if isinstance(route, routing.APIRoute):
             print(f"\n{route}")
 
@@ -212,7 +221,7 @@ def check_routes(app: FastAPI) -> None:
 
 
 # Simplify operation IDs into the routes.
-def use_route_names_as_operation_ids(app: FastAPI) -> None:
+def _use_route_names_as_operation_ids(app: FastAPI) -> None:
     for route in app.routes:
         if isinstance(route, routing.APIRoute):
             print(f"{route.operation_id} -> {route.name}")

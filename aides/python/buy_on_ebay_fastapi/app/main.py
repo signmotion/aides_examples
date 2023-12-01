@@ -1,4 +1,3 @@
-from .internal import context
 from .internal.context import Context, test_context_smarthone
 from .internal.config import use_test_context
 from .routers import about, products_today
@@ -6,8 +5,6 @@ from .routers import about, products_today
 from .packages.aide_server.src.aide_server.server import (
     AideServer,
     Memo,
-    check_routes,
-    use_route_names_as_operation_ids,
 )
 
 # ! See conventions in ../README.md.
@@ -39,7 +36,7 @@ app = AideServer(
             "Knowledgeable": "Well-versed in market trends and product values.",
         },
     },
-    externalRouters=[about.router, products_today.router],
+    external_routers=[about.router, products_today.router],
     memo=Memo(test_context_smarthone() if use_test_context else Context()),
 )
 
@@ -54,7 +51,3 @@ app = AideServer(
 
 # the abilities section
 # See `routers/*.py`.
-
-# !) call this functions after adding all your path operations
-check_routes(app)
-use_route_names_as_operation_ids(app)
