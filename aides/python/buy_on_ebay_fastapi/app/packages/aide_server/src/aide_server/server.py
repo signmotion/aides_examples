@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+import json
+from fastapi import APIRouter, Body, FastAPI
 from fastapi.applications import AppType
 
 from typing import (
@@ -24,6 +25,8 @@ from starlette.responses import JSONResponse, Response
 from starlette.routing import BaseRoute
 from starlette.types import Lifespan
 
+from .memo import Memo
+
 
 class AideServer(FastAPI):
     def __init__(
@@ -32,6 +35,7 @@ class AideServer(FastAPI):
         # own
         tags: Optional[List[str]] = None,
         characteristic: Optional[Dict[str, Any]] = None,
+        memo: Memo,
         # from FastAPI
         debug: bool = False,
         routes: Optional[List[BaseRoute]] = None,
@@ -77,6 +81,8 @@ class AideServer(FastAPI):
         separate_input_output_schemas: bool = True,
         **extra: Any,
     ):
+        self.memo = memo
+
         additional_tags = [
             {
                 "name": "tags",
@@ -126,6 +132,49 @@ class AideServer(FastAPI):
             separate_input_output_schemas=separate_input_output_schemas,
             extra=extra,
         )
+
+        # context router
+        contextRouter = APIRouter()
+
+        @contextRouter.get("/context")
+        def context():
+            return memo.context
+
+        @contextRouter.get("/schema")
+        def schema():
+            return json.loads(memo.context.schema_json())
+
+        @contextRouter.get("/context/{hid}")
+        def value(hid: str):
+            return getattr(memo.context, hid)
+
+        # See [schema].
+        @contextRouter.put("/context/{hid}/{value}")
+        def put_inline_hid_value(hid: str, value: str):
+            setattr(memo.context, hid, value)
+            return True
+
+        # See [schema].
+        @contextRouter.put("/context/{hid}")
+        def put_inline_hid_json_value(
+            hid: str,
+            value: str = Body(embed=True),
+        ):
+            setattr(memo.context, hid, value)
+            return True
+
+        # See [schema].
+        @contextRouter.put("/context")
+        def put_json_hid_value(
+            hid: str = Body(embed=True),
+            value: str = Body(embed=True),
+        ):
+            setattr(memo.context, hid, value)
+            return True
+
+        self.include_router(contextRouter)
+
+    memo: Memo = None
 
 
 # TODO Move to separate library. See `base_server`.

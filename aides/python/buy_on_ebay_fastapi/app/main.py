@@ -1,6 +1,14 @@
-from .routers import about, context, products_today
+from .internal import context
+from .internal.context import Context, test_context_smarthone
+from .internal.config import use_test_context
+from .routers import about, products_today
 
-from .packages.aide_server.src.aide_server.server import *
+from .packages.aide_server.src.aide_server.server import (
+    AideServer,
+    Memo,
+    check_routes,
+    use_route_names_as_operation_ids,
+)
 
 # ! See conventions in ../README.md.
 
@@ -31,19 +39,20 @@ app = AideServer(
             "Knowledgeable": "Well-versed in market trends and product values.",
         },
     },
+    memo=Memo(test_context_smarthone() if use_test_context else Context()),
 )
 
+
 app.include_router(about.router)
-app.include_router(context.router)
 app.include_router(products_today.router)
+
+
+# the context section
+# See `internal/context.py` and [memo] in [AideServer].
 
 
 # the aide character section
 # See `routers/about.py`.
-
-
-# the context section
-# See `routers/context.py`.
 
 
 # the abilities section

@@ -20,7 +20,7 @@ GET http://{{host}}/context/location
 
 ###
 
-GET http://{{host}}/query
+GET http://{{host}}/context/query
 
 ###
 

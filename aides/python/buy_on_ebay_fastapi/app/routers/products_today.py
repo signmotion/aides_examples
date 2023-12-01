@@ -3,7 +3,6 @@ import httpx
 import traceback
 
 from ..internal.config import *
-from .context import context
 
 
 router = APIRouter()
@@ -29,7 +28,7 @@ def products_today(
     }
 
     params = {
-        "q": context().query,
+        # TODO "q": app.memo.context.query,
         "sort": "newlyListed",
         "limit": "2",
     }
@@ -84,7 +83,7 @@ def products_today(
 
     return {
         "result": o,
-        "context": context(),
+        # TODO "context": app.memo.context,
     }
 
 
