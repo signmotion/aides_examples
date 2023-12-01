@@ -1,5 +1,6 @@
-from app.dependencies import *
 from .routers import about, context, products_today
+
+from .packages.aide_server.src.aide_server.server import *
 
 # ! See conventions in ../README.md.
 
