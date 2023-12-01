@@ -1,2 +1,3 @@
 __pycache__
 *.env
+/aides/python/buy_on_ebay_fastapi/.vscode/settings.json
