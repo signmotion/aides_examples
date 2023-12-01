@@ -56,23 +56,31 @@ def schema():
 
 @router.get("/context/{hid}")
 def value(hid: str):
-    return _ctx[hid] if hid in _ctx else None
+    return getattr(_ctx, hid)
 
 
-# the context's setters section
 # See [schema].
+@router.put("/context/{hid}/{value}")
+def put_inline_hid_value(hid: str, value: str):
+    setattr(_ctx, hid, value)
+    return True
 
 
-@router.put("/hours")
-def hours(value: int = Body(embed=True)):
-    _ctx.hours = value
+# See [schema].
+@router.put("/context/{hid}")
+def put_inline_hid_json_value(
+    hid: str,
+    value: str = Body(embed=True),
+):
+    setattr(_ctx, hid, value)
+    return True
 
 
-@router.put("/location")
-def location(value: str = Body(embed=True)):
-    _ctx.location = value
-
-
-@router.put("/query")
-def query(value: str = Body(embed=True)):
-    _ctx.query = value
+# See [schema].
+@router.put("/context")
+def put_json_hid_value(
+    hid: str = Body(embed=True),
+    value: str = Body(embed=True),
+):
+    setattr(_ctx, hid, value)
+    return True

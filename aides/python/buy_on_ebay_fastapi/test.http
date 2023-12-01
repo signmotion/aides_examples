@@ -4,18 +4,49 @@
 
 ###
 
-GET http://{{host}}/
+GET http://{{host}}/face
 
 ###
 
-GET http://{{host}}/context/languages
+GET http://{{host}}/context
 
 ###
 
-GET http://{{host}}/context/text
+GET http://{{host}}/context/hours
 
 ###
 
-GET http://{{host}}/translate-caption
+GET http://{{host}}/context/location
+
+###
+
+GET http://{{host}}/query
+
+###
+
+GET http://{{host}}/products_today
+
+###
+
+PUT http://{{host}}/context/hours/7
+
+###
+
+PUT http://{{host}}/context/hours
+content-type: application/json
+
+{
+    "value": 11
+}
+
+###
+
+PUT http://{{host}}/context
+content-type: application/json
+
+{
+    "hid": "hours",
+    "value": 12
+}
 
 ###
