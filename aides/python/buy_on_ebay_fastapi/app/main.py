@@ -39,19 +39,16 @@ app = AideServer(
             "Knowledgeable": "Well-versed in market trends and product values.",
         },
     },
+    externalRouters=[about.router, products_today.router],
     memo=Memo(test_context_smarthone() if use_test_context else Context()),
 )
-
-
-app.include_router(about.router)
-app.include_router(products_today.router)
 
 
 # the context section
 # See `internal/context.py` and [memo] in [AideServer].
 
 
-# the aide character section
+# the aide about section
 # See `routers/about.py`.
 
 

@@ -35,6 +35,7 @@ class AideServer(FastAPI):
         # own
         tags: Optional[List[str]] = None,
         characteristic: Optional[Dict[str, Any]] = None,
+        externalRouters: Optional[List[APIRouter]] = [],
         memo: Memo,
         # from FastAPI
         debug: bool = False,
@@ -83,16 +84,18 @@ class AideServer(FastAPI):
     ):
         self.memo = memo
 
-        additional_tags = [
-            {
-                "name": "tags",
-                "value": tags,
-            },
-            {
-                "name": "characteristic",
-                "value": characteristic,
-            },
-        ]
+        additional_tags = []
+        if characteristic:
+            additional_tags = [
+                {
+                    "name": "tags",
+                    "value": tags,
+                },
+                {
+                    "name": "characteristic",
+                    "value": characteristic,
+                },
+            ]
 
         super().__init__(
             debug=debug,
@@ -173,6 +176,12 @@ class AideServer(FastAPI):
             return True
 
         self.include_router(contextRouter)
+
+        # external routers
+        print(externalRouters)
+        for router in externalRouters:
+            
+            self.include_router(router)
 
     memo: Memo = None
 
