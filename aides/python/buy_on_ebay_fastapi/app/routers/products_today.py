@@ -2,6 +2,7 @@ from fastapi import APIRouter
 import httpx
 import traceback
 
+import app
 from ..internal.config import *
 
 
@@ -28,7 +29,7 @@ def products_today(
     }
 
     params = {
-        # TODO "q": app.memo.context.query,
+        "q": app().memo.context.query,
         "sort": "newlyListed",
         "limit": "2",
     }
@@ -83,7 +84,7 @@ def products_today(
 
     return {
         "result": o,
-        # TODO "context": app.memo.context,
+        "context": app().memo.context,
     }
 
 

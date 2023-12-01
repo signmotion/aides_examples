@@ -24,7 +24,7 @@ GET http://{{host}}/context/query
 
 ###
 
-GET http://{{host}}/products_today
+GET http://{{host}}/products-today
 
 ###
 

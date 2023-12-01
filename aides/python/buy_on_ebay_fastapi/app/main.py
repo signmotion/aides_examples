@@ -10,7 +10,7 @@ from .packages.aide_server.src.aide_server.server import (
 # ! See conventions in ../README.md.
 
 
-app = AideServer(
+_app = AideServer(
     title="Auction eBay Aide",
     summary="The aide for work with the eBay's auction.",
     description="Appraise purchases items from eBay's auction.",
@@ -19,6 +19,7 @@ app = AideServer(
     characteristic={
         "age": 19,
         # link to face: http://127.0.0.1:8000/face
+        # see `routers/about.py` how declare that
         "face": "/face",
         "constitution": {
             "Posture": "Upright and alert, demonstrating attentiveness.",
@@ -39,6 +40,10 @@ app = AideServer(
     external_routers=[about.router, products_today.router],
     memo=Memo(test_context_smarthone() if use_test_context else Context()),
 )
+
+
+def app():
+    return _app
 
 
 # the context section
