@@ -1,8 +1,11 @@
+import json
 from fastapi import APIRouter
 import traceback
+from fastapi.encoders import jsonable_encoder
 import pycaption
 import re
 from pydantic import BaseModel, Field
+from googletrans import Translator
 
 
 from ..internal.config import *
@@ -32,53 +35,72 @@ def translate_caption():
     # webvtt = pycaption.WebVTTWriter().write(captions)
     languages = captions.get_languages()
 
-    r = harvestSentences(captions)
+    sentences = harvestSentences(captions)
+    # targetLanguage = context().languages.target
+    targetLanguage = "de"
+    for sentence in sentences:
+        sentence.text[targetLanguage] = translate_text(
+            list(sentence.text.values())[0],
+            targetLanguage=targetLanguage,
+        )
+        print(sentence)
 
     r = {
-        "r_count": len(r),
-        "r": r,
+        "sentences_count": len(sentences),
+        "sentences": jsonable_encoder(sentences),
         "languages": languages,
-        "raw": captions,
+        # "raw": captions,
     }
 
-    # TBD
+    with open("app/data/translated.json", "w", encoding="utf-8") as file:
+        # json.dump(r, file)
+        json.dump(r, file, ensure_ascii=False)
 
     return construct_answer(r)
 
 
 class Sentence(BaseModel):
-    # whole sentence
-    text: str = Field(default="")
+    # whole sentence (value) on the language (key)
+    text: dict = Field(default={})
     # node start (key) and count of chunks this harvested sentence in the node (value)
     chunks: dict = Field(default={})
 
 
+def translate_text(text: str, targetLanguage: str):
+    translator = Translator()
+    translated = translator.translate(text, dest=targetLanguage)
+
+    return translated.text
+
+
 def harvestSentences(captions):
     languages = captions.get_languages()
-    captions = captions.get_captions(languages[0])
+    language = languages[0]
 
+    cl = captions.get_captions(language)
     sentences = []
-    sentence = Sentence()
-    for caption in captions:
+    sentence = Sentence(text={language: ""})
+    for caption in cl:
         start = caption.start
         for node in caption.nodes:
             prepared = prepare_line(node.content)
             if prepared:
-                sentence.text += f" {prepared}"
+                sentence.text[language] += f" {prepared}"
                 sentence.chunks[start] = (
                     sentence.chunks[start] + 1 if start in sentence.chunks else 1
                 )
                 if prepared.endswith((".", "!", "?")):
-                    if sentence.text:
-                        sentence.text = sentence.text.strip()
+                    if sentence.text[language]:
+                        sentence.text[language] = sentence.text[language].strip()
                         sentences.append(sentence)
-                    sentence = Sentence()
+                    sentence = Sentence(text={language: ""})
+
+    # if the recent sentence without ".", "!" or "?"
+    if sentence.text[language]:
+        sentence.text[language] = sentence.text[language].strip()
+        sentences.append(sentence)
 
     return sentences
-
-
-def prepare_line(s: str):
-    None
 
 
 def prepare_line(s: str):
