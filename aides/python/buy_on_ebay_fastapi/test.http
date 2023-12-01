@@ -1,0 +1,21 @@
+@hostname = 127.0.0.1
+@port = 8000
+@host = {{hostname}}:{{port}}
+
+###
+
+GET http://{{host}}/
+
+###
+
+GET http://{{host}}/context/languages
+
+###
+
+GET http://{{host}}/context/text
+
+###
+
+GET http://{{host}}/translate-caption
+
+###
