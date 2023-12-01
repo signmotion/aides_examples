@@ -1,11 +1,36 @@
-from fastapi import FastAPI
-from fastapi.routing import APIRoute
+from app.dependencies import *
 from .routers import about, context, products_today
-
 
 # ! See conventions in ../README.md.
 
-app = FastAPI(title="Auction eBay Aide")
+
+app = AideServer(
+    title="Auction eBay Aide",
+    summary="The aide for work with the eBay's auction.",
+    description="Appraise purchases items from eBay's auction.",
+    version="0.1.1",
+    tags=["auction", "eBay"],
+    characteristic={
+        "age": 19,
+        # link to face: http://127.0.0.1:8000/face
+        "face": "/face",
+        "constitution": {
+            "Posture": "Upright and alert, demonstrating attentiveness.",
+            "Build": "Average, portraying approachability and practicality.",
+        },
+        "clothing": {
+            "Business casual attire": "A blend of professionalism and comfort.",
+            "Essential accessories": "A wristwatch for timekeeping and possibly glasses for detailed examination of items.",
+        },
+        "traits": {
+            "Analytical": "Able to assess value and condition efficiently.",
+            "Decisive": "Confident in making quick purchase decisions.",
+            "Detail-Oriented": "Attentive to the specifics and potential flaws of items.",
+            "Patient": "Willing to wait for the right item and the right price.",
+            "Knowledgeable": "Well-versed in market trends and product values.",
+        },
+    },
+)
 
 app.include_router(about.router)
 app.include_router(context.router)
@@ -23,36 +48,6 @@ app.include_router(products_today.router)
 # the abilities section
 # See `routers/*.py`.
 
-
-# TODO Move to separate library. See `base_server`.
-# TODO Add to other FastApi-projects into the same folder.
-# Check the declared routes.
-def check_routes(app: FastAPI) -> None:
-    for route in app.routes:
-        if isinstance(route, APIRoute):
-            print(f"\n\n{route}")
-
-            if route.path.lower() != route.path:
-                raise Exception("The route API should be declared in lowercase.")
-
-            if route.name != "root" and "{" not in route.path:
-                tpath = route.path[1:].replace("_", "-").replace("/", "-").lower()
-                if tpath != route.name.replace("_", "-"):
-                    raise Exception(
-                        "The route API should be declared with `-` instead of `_`"
-                        " and it should have the same names for path and name."
-                        f" Have: `{tpath}` != `{route.name}`."
-                    )
-
-
-# Simplify operation IDs into the routes.
-def use_route_names_as_operation_ids(app: FastAPI) -> None:
-    for route in app.routes:
-        if isinstance(route, APIRoute):
-            print(f"{route.operation_id} -> {route.name}")
-            route.operation_id = route.name
-
-
-# !) call the functions after adding all your path operations
+# !) call this functions after adding all your path operations
 check_routes(app)
 use_route_names_as_operation_ids(app)

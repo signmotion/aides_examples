@@ -9,22 +9,17 @@ from .context import context
 router = APIRouter()
 
 
-@router.get("/products-today-about")
-# Description of the function.
-def products_today_about():
-    return "Returns a list of auction products no later than the last 24 hours."
-
-
-@router.get("/products-today-tags")
-# Tags for fast detect the function in the Aide's context.
-def products_today_tags():
-    return ["hours", "items", "now", "products", "today"]
-
-
 @router.get("/products-today")
 # See [products_today_about], [products_today_tags].
 # See [context].
-def products_today():
+def products_today(
+    summary="Returns a list of recent products from auction.",
+    description="Returns a list of auction products no later than the last 24 hours.",
+    tags=["hours", "items", "now", "products", "today"],
+):
+    if use_fake_response:
+        return products_today_demo_json()
+
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
 
     headers = {
