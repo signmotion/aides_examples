@@ -1,4 +1,4 @@
-# Buy on eBay FastAPI
+# Buy on eBay
 
 The server for appraise purchase the items on eBay.
 
