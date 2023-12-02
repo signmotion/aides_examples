@@ -7,7 +7,7 @@ Powered by FastAPI.
 ## Run
 
 ```cmd
-uvicorn app.main:app --reload
+uvicorn app.main:app --factory --reload
 ```
 
 ## Structure
