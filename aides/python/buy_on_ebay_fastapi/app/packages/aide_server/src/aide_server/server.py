@@ -40,7 +40,7 @@ class AideServer(FastAPI):
         # from FastAPI
         debug: bool = False,
         routes: Optional[List[BaseRoute]] = None,
-        title: str = "FastAPI",
+        title: str = "AideServer",
         summary: Optional[str] = None,
         description: str = "",
         version: str = "0.1.0",
@@ -195,10 +195,8 @@ def _init_external_routers(server, external_routers):
         server.include_router(router)
 
 
-# TODO Move to separate library. See `base_server`.
-# TODO Add to other FastApi-projects into the same folder.
 # Check the declared routes.
-def _check_routes(server: AideServer) -> None:
+def _check_routes(server: AideServer):
     for route in server.routes:
         if isinstance(route, routing.APIRoute):
             print(f"\n{route}")
@@ -221,7 +219,7 @@ def _check_routes(server: AideServer) -> None:
 
 
 # Simplify operation IDs into the routes.
-def _use_route_names_as_operation_ids(app: FastAPI) -> None:
+def _use_route_names_as_operation_ids(app: FastAPI):
     for route in app.routes:
         if isinstance(route, routing.APIRoute):
             print(f"{route.operation_id} -> {route.name}")
