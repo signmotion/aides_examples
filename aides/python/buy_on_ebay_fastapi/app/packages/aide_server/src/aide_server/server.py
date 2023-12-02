@@ -180,8 +180,16 @@ def _init_context_routers(server: FastAPI):
     # See [schema].
     @router.put("/context")
     def put_json_hid_value(
-        hid: str = Body(embed=True),
-        value: str = Body(embed=True),
+        hid: str = Body(
+            embed=True,
+            title="HID",
+            description="ID for human perception.",
+        ),
+        value: str = Body(
+            embed=True,
+            title="Value",
+            description="Value for set by HID.",
+        ),
     ):
         setattr(server.memo.context, hid, value)
         return True

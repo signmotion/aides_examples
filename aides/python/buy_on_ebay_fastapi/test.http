@@ -8,6 +8,14 @@ GET http://{{host}}/face
 
 ###
 
+GET http://{{host}}/schema
+
+###
+
+GET http://{{host}}/openapi.json
+
+###
+
 GET http://{{host}}/context
 
 ###
