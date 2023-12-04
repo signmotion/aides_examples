@@ -1,7 +1,10 @@
 import pika
 
+# python send.py
+
 connection = pika.BlockingConnection(pika.ConnectionParameters("localhost"))
 channel = connection.channel()
+
 channel.queue_declare(queue="hello")
 
 channel.basic_publish(
@@ -9,6 +12,6 @@ channel.basic_publish(
     routing_key="hello",
     body="Hello World!",
 )
-print(" [x] Sent 'Hello World!'")
+print("[x] Sent 'Hello World!'")
 
 connection.close()
