@@ -1,5 +1,4 @@
-import pika
-import sys
+import pika, sys
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host="localhost"))
 channel = connection.channel()
