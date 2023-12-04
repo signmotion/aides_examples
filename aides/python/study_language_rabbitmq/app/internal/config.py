@@ -28,4 +28,12 @@ print(g4f.version)
 print(g4f.Provider.Ails.params)
 
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+# override defaults with values
+_default_envs = {
+    "OPENAI_API_KEY": os.getenv("OPENAI_API_KEY"),
+}
+for key, value in _default_envs.items():
+    os.environ[key] = value
+
+open_api_key = os.environ["OPENAI_API_KEY"]

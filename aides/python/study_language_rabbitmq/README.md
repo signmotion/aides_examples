@@ -36,14 +36,6 @@ python -m venv venv
 .\venv\Scripts\activate
 ```
 
-##### Upgrade `pip`
-
-Run into the global CMD:
-
-```cmd
-pip install --upgrade pip
-```
-
 ### Install Requirements
 
 ```cmd
@@ -64,10 +56,16 @@ pip list
 
 Add the package name with version to `requirements.txt`.
 
+##### Upgrade `pip`
+
+```cmd
+pip install --upgrade pip
+```
+
 ### Start Server
 
 ```cmd
-TBD
+uvicorn app.main:app --factory --reload
 ```
 
 For work these commands correctly you need to run the Docker image. See above.

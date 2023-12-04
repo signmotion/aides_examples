@@ -1,25 +1,41 @@
-from fastapi import FastAPI
-from .routers import about, context, phrasal_verbs, translate_caption
+from .internal.context import Context, test_context_smarthone
+from .internal.config import use_test_context
+from .routers import about, phrasal_verbs, translate_caption
+
+from .packages.aide_server.src.aide_server.server import (
+    AideServer,
+    Memo,
+)
 
 # ! See conventions in ../README.md.
-# See the descriptions for the functions in the project `buy_on_ebay_fast_api`.
 
 
-app = FastAPI(title="Study Language Aide")
+_app = AideServer(
+    title="Study Language Aide",
+    summary="The aide for studying language.",
+    description="The aide for learning languages. For example, English.",
+    version="0.1.1",
+    tags=[
+        "english",
+        "language",
+        "learning",
+        "study",
+        "teach",
+        "ukrainian",
+    ],
+    external_routers=[
+        about.router,
+        phrasal_verbs.router,
+        translate_caption.router,
+    ],
+    memo=Memo(test_context_smarthone() if use_test_context else Context()),
+)
 
-app.include_router(about.router)
-app.include_router(context.router)
-app.include_router(phrasal_verbs.router)
-app.include_router(translate_caption.router)
+
+def app():
+    return _app
 
 
-# the aide character section
+# See `internal/context.py` and [memo] in [AideServer].
 # See `routers/about.py`.
-
-
-# the context section
-# See `routers/context.py`.
-
-
-# the abilities section
 # See `routers/*.py`.

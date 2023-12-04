@@ -7,8 +7,8 @@ import re
 from pydantic import BaseModel, Field
 from googletrans import Translator
 
+import app
 from ..internal.config import *
-from .context import context
 
 
 router = APIRouter()
@@ -17,19 +17,13 @@ router = APIRouter()
 # pycaption JSON format - see `data/a.json`
 
 
-@router.get("translate-caption-about")
-def translate_caption_about():
-    return "Translates the caption and subtitle to other language."
-
-
-@router.get("translate-caption-tags")
-def translate_caption_tags():
-    return ["caption", "subtitle", "translate"]
-
-
 @router.get("/translate-caption")
-def translate_caption():
-    srt = context()["text"]
+def translate_caption(
+    summary="Translates the caption and subtitle to other language.",
+    description="Return the translated caption and subtitle to other language.",
+    tags=["caption", "subtitle", "translate"],
+):
+    srt = app().memo.context()["text"]
     captions = pycaption.SRTReader().read(srt)
     # webvtt = pycaption.WebVTTWriter().write(captions)
     languages = captions.get_languages()
@@ -150,6 +144,6 @@ def construct_answer(
         }
 
     if include_context_in_answer:
-        o["context"] = context()
+        o["context"] = app().memo.context()
 
     return o

@@ -1,25 +1,15 @@
 from fastapi import APIRouter
+from fastapi.responses import FileResponse
+
 
 router = APIRouter()
 
 
-@router.get("/about")
-def root_about():
-    return "The aide for studying language."
+# the aide character
+
+# See all characteristics when FastAPI instantiating.
 
 
-@router.get("/tags")
-def tags():
-    return [
-        "english",
-        "language",
-        "learning",
-        "study",
-        "teach",
-        "ukrainian",
-    ]
-
-
-@router.get("/")
-def root():
-    return root_about()
+@router.get("/face", include_in_schema=False)
+def face():
+    return FileResponse("app/data/face.webp")

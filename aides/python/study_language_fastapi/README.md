@@ -1,6 +1,6 @@
 # Study Language FastAPI
 
-The server for learning English.
+The server for learning language.
 
 Powered by FastAPI.
 

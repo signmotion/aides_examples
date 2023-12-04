@@ -1,12 +1,4 @@
-from fastapi import APIRouter, Body
 from pydantic import BaseModel, Field
-import json
-import textwrap
-
-from ..internal.config import *
-
-
-router = APIRouter()
 
 
 class Languages(BaseModel):
@@ -35,13 +27,11 @@ class Context(BaseModel):
     )
 
 
-_ctx: Context = Context()
-
-
 def test_context_article():
-    return {
-        "languages": {"native": "en", "target": "uk"},
-        "text": """
+    return Context.model_validate(
+        {
+            "languages": {"native": "en", "target": "uk"},
+            "text": """
 When plans are overrated
 
 Benjamin Keep
@@ -75,7 +65,8 @@ From time to time, Youtubers ask me to help them come up with a study plan for s
 
 The whole point of learning something is that you don't know what will happen next – what you will find, what you will forget, what you will struggle with. It's far more important to make good decisions about studying in the moment. If you're three weeks into studying for a big test, what use is the study plan? The most relevant information is what you understand right now.
 """,
-    }
+        }
+    )
 
 
 def test_context_caption():
@@ -83,49 +74,9 @@ def test_context_caption():
         # with open("app/data/a.srt", "r") as file:
         data = file.read()
 
-    return {
-        "languages": {"target": "uk"},
-        "text": data,
-    }
-
-
-if use_test_context:
-    # _ctx = test_context_article()
-    _ctx = test_context_caption()
-    print("Initialized with the test context.")
-
-
-@router.get("/context")
-def context():
-    return _ctx
-
-
-@router.get("/schema")
-def schema():
-    return json.loads(Context.schema_json())
-
-
-@router.get("/context/{hid}")
-def value(hid: str):
-    return getattr(_ctx, hid)
-
-
-# the context's setters section
-
-
-@router.put("/languages/native", status_code=201)
-def languages_native(value: str = Body(embed=True)):
-    print(f"set native language {value}")
-    _ctx.languages.native = value
-
-
-@router.put("/languages/target", status_code=201)
-def languages_target(value: str = Body(embed=True)):
-    print(f"set native language {value}")
-    _ctx.languages.target = value
-
-
-@router.put("/text", status_code=201)
-def text(value: str = Body(embed=True)):
-    print(f"set text {textwrap.shorten(value, 60)}")
-    _ctx.text = value
+    return Context.model_validate(
+        {
+            "languages": {"target": "uk"},
+            "text": data,
+        }
+    )
