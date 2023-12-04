@@ -6,7 +6,7 @@ Powered by [Celery & FastAPI](https://testdriven.io/courses/fastapi-celery/getti
 
 ## Current state
 
-!) Stopped. Reason: Have the error on the stage https://testdriven.io/courses/fastapi-celery/app-factory/#H-10-manual-test
+!) Stopped. Reason: Have the error on the stage <https://testdriven.io/courses/fastapi-celery/app-factory/#H-10-manual-test>.
 
 Celery is not officially supported on Windows, and some features may not work as expected.
 
@@ -16,15 +16,27 @@ Work into the Bash terminal. In VSCode bottom pane: open `Git Bash`.
 
 Run the commands below in the root foolder.
 
+### Install
+
+See <https://testdriven.io/courses/fastapi-celery/getting-started>.
+
 ### Activate the virtual environment
 
 #### Activate on Windows
+
+```cmd
+python -m venv venv
+```
 
 ```cmd
 .\venv\Scripts\activate
 ```
 
 #### Linux
+
+```cmd
+source venv/bin/activate
+```
 
 ### Install requirements
 
