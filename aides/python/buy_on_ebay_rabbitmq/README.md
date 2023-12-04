@@ -65,3 +65,5 @@ Add the package name with version to `requirements.txt`.
 ```cmd
 python main.py
 ```
+
+For work this program you need run Docker image. See above.
