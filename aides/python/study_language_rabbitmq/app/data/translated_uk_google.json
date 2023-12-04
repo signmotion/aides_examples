@@ -1,0 +1,5892 @@
+{
+  "sentences_count": 1022,
+  "sentences": [
+    {
+      "text": { "en-US": "Abs, you ready?", "uk": "Абс, ти готовий?" },
+      "chunks": { "346388000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby...", "uk": "Еббі ..." },
+      "chunks": { "347472000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Come on. I know you're in there.",
+        "uk": "Давай.Я знаю, що ти там."
+      },
+      "chunks": { "358066000": 1 }
+    },
+    {
+      "text": { "en-US": "Let's go.", "uk": "Ходімо." },
+      "chunks": { "358066000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, come on.", "uk": "Еббі, давай." },
+      "chunks": { "361695000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay, okay.", "uk": "Добре-добре." },
+      "chunks": { "363279000": 1 }
+    },
+    {
+      "text": { "en-US": "You're being a jerk.", "uk": "Ти є ривком." },
+      "chunks": { "366616000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You know I have somewhere I have to be.",
+        "uk": "Ви знаєте, що я десь маю бути."
+      },
+      "chunks": { "367867000": 2 }
+    },
+    {
+      "text": { "en-US": "Come on, let's go.", "uk": "Давай, підемо." },
+      "chunks": { "369077000": 1 }
+    },
+    {
+      "text": { "en-US": "Five minutes.", "uk": "П'ять хвилин." },
+      "chunks": { "369077000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I need you dressed.",
+        "uk": "Мені потрібно, щоб ти одягався."
+      },
+      "chunks": { "370620000": 1 }
+    },
+    {
+      "text": { "en-US": "Five minutes.", "uk": "П'ять хвилин." },
+      "chunks": { "376001000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "\"And though the dreamer remains asleep, \"he walks through memory as if experiencing it \"for the first time anew, no longer a passenger but an active participant.\" This stuff for real?",
+        "uk": "\"І хоча мрійник залишається спить\", він проходить через пам'ять, ніби переживає її \"вперше заново, вже не пасажир, а активного учасника\".Цей матеріал по -справжньому?"
+      },
+      "chunks": {
+        "380755000": 2,
+        "383258000": 2,
+        "386594000": 1,
+        "388304000": 2,
+        "397480000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "Some people think so.",
+        "uk": "Деякі люди так думають."
+      },
+      "chunks": { "400275000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Guess it depends on what you believe.",
+        "uk": "Думаю, це залежить від того, у що ви вірите."
+      },
+      "chunks": { "402068000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Summer of '82, I traded a mint condition Cal Ripken Jr. rookie for a used copy of \"Missile Command.\" That card's probably worth 800 bucks now.",
+        "uk": "Літо 82 року я торгував умовою монетного двору Cal Ripken Jr. Rookie для використаної копії \"ракетної команди\".Ця карта, мабуть, коштує 800 баксів зараз."
+      },
+      "chunks": {
+        "405238000": 1,
+        "406656000": 2,
+        "408575000": 1,
+        "410618000": 2
+      }
+    },
+    {
+      "text": {
+        "en-US": "I wish I could participate in that memory and actively kick my own ass.",
+        "uk": "Я б хотів, щоб я міг брати участь у цій пам’яті і активно бити власну дупу."
+      },
+      "chunks": { "414789000": 2, "416916000": 1 }
+    },
+    {
+      "text": { "en-US": "Can I keep it?", "uk": "Чи можу я це зберегти?" },
+      "chunks": { "419461000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I would like the walnut fudge, but I want the fudge on the side because I don't want it to melt the ice cream.",
+        "uk": "Мені б хотілося, щоб волоський горіх, але я хочу, щоб витівка збоку, тому що я не хочу, щоб він розтопив морозиво."
+      },
+      "chunks": { "422964000": 1, "424632000": 1, "426217000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And can I get some whipped cream on top and three cherries?",
+        "uk": "І чи можу я отримати трохи збитих вершків зверху та три вишні?"
+      },
+      "chunks": { "428678000": 1, "430555000": 1 }
+    },
+    {
+      "text": { "en-US": "Coming right up.", "uk": "Підходить прямо." },
+      "chunks": { "432807000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You want your usual, right?",
+        "uk": "Ви хочете своє звичайне, правда?"
+      },
+      "chunks": { "437979000": 1 }
+    },
+    {
+      "text": { "en-US": "Uh, yeah.", "uk": "Ага, так." },
+      "chunks": { "439522000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So, when are you gonna bring your sister by?",
+        "uk": "Отже, коли ти збираєшся принести свою сестру?"
+      },
+      "chunks": { "442776000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "We got this new flavor, Rainbow Explosion.",
+        "uk": "Ми отримали цей новий аромат, вибух веселки."
+      },
+      "chunks": { "446821000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I bet she'll go crazy for it.",
+        "uk": "Б'юсь об заклад, вона зійде з розуму за це."
+      },
+      "chunks": { "450867000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike?", "uk": "Майк?" },
+      "chunks": { "453495000": 1 }
+    },
+    {
+      "text": { "en-US": "Number 27?", "uk": "Номер 27?" },
+      "chunks": { "477477000": 1 }
+    },
+    {
+      "text": { "en-US": "Number 27?", "uk": "Номер 27?" },
+      "chunks": { "482273000": 1 }
+    },
+    {
+      "text": { "en-US": "Number 27?", "uk": "Номер 27?" },
+      "chunks": { "485360000": 1 }
+    },
+    {
+      "text": { "en-US": "Follow me.", "uk": "Слідуй за мною." },
+      "chunks": { "488655000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "What is your deal, Mike?",
+        "uk": "Яка ваша угода, Майк?"
+      },
+      "chunks": { "510468000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "What are you, some kind of...",
+        "uk": "Що ти, якісь ..."
+      },
+      "chunks": { "513555000": 1 }
+    },
+    {
+      "text": { "en-US": "...head case?", "uk": "... Головний випадок?" },
+      "chunks": { "517225000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You beat up a man in broad daylight.",
+        "uk": "Ви побили чоловіка серед денного світла."
+      },
+      "chunks": { "519894000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "In front of his child.",
+        "uk": "Перед його дитиною."
+      },
+      "chunks": { "523314000": 1 }
+    },
+    {
+      "text": { "en-US": "Daddy!", "uk": "Тато!" },
+      "chunks": { "525525000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "That was a mistake. Um...",
+        "uk": "Це була помилка.Гм ..."
+      },
+      "chunks": { "530363000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It was a misunderstanding.",
+        "uk": "Це було непорозуміння."
+      },
+      "chunks": { "532782000": 1 }
+    },
+    {
+      "text": { "en-US": "I-I thought...", "uk": "Я-я думав ..." },
+      "chunks": { "532782000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Just look at your employment record.",
+        "uk": "Подивіться на свій запис про роботу."
+      },
+      "chunks": { "534367000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Tire Zone, sales associate, two months, terminated.",
+        "uk": "Зона шин, торговий співробітник, два місяці, припинена."
+      },
+      "chunks": { "536578000": 2 }
+    },
+    {
+      "text": { "en-US": "Insubordination.", "uk": "Неухильна." },
+      "chunks": { "540123000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Media World, custodial staff, one week.",
+        "uk": "Світ медіа, персонал опіки, один тиждень."
+      },
+      "chunks": { "541916000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "It's like you're not even trying here, yet you sit before me asking for help.",
+        "uk": "Це як ти навіть не пробуєш тут, але ти сидиш перед мною просити допомоги."
+      },
+      "chunks": { "545003000": 1, "547255000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I am just trying to figure out who you are, Mr. Michael Sh...",
+        "uk": "Я просто намагаюся розібратися, хто ти, містер Майкл Ш ..."
+      },
+      "chunks": { "552844000": 2, "555347000": 1 }
+    },
+    {
+      "text": { "en-US": "Coffee?", "uk": "Кава?" },
+      "chunks": { "569235000": 1 }
+    },
+    {
+      "text": { "en-US": "Sorry?", "uk": "Вибачте?" },
+      "chunks": { "570278000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Uh, would you, would you like some...",
+        "uk": "Е, чи не хотіли б ви трохи ..."
+      },
+      "chunks": { "571321000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "some coffee? I made some coffee.",
+        "uk": "якась кава?Я приготував каву."
+      },
+      "chunks": { "573782000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'm-I'm gonna be brutally honest with you here, Mike.",
+        "uk": "Я-я буду жорстоко чесним з тобою тут, Майк."
+      },
+      "chunks": { "579954000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Given your track record, your options...",
+        "uk": "Враховуючи свій досвід, ваші параметри ..."
+      },
+      "chunks": { "582248000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "are gonna be extremely limited.",
+        "uk": "буде надзвичайно обмеженим."
+      },
+      "chunks": { "585126000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'll take anything, okay? Any-any job you got.",
+        "uk": "Я щось візьму, добре?Будь-яка робота, яку ви отримали."
+      },
+      "chunks": { "587629000": 1 }
+    },
+    {
+      "text": { "en-US": "No. No.", "uk": "Ні ні." },
+      "chunks": { "587629000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Look, I-I-I get that part.",
+        "uk": "Подивіться, i-i-i отримую цю частину."
+      },
+      "chunks": { "590382000": 1 }
+    },
+    {
+      "text": { "en-US": "Um, it's just...", "uk": "Гм, це просто ..." },
+      "chunks": { "590382000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You know, it's not that easy.",
+        "uk": "Знаєте, це не так просто."
+      },
+      "chunks": { "595595000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah. Thank you.", "uk": "Так.Дякую тобі." },
+      "chunks": { "600308000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I have a job for you.",
+        "uk": "У мене є робота для вас."
+      },
+      "chunks": { "602602000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on, sit down.", "uk": "Давай, сідайте." },
+      "chunks": { "606981000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Sit, sit, sit, sit, sit.",
+        "uk": "Травень, це так, це є."
+      },
+      "chunks": { "609567000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay, uh, well, what is it?",
+        "uk": "Гаразд, е, ну, що це?"
+      },
+      "chunks": { "612946000": 1 }
+    },
+    {
+      "text": { "en-US": "It's a security gig.", "uk": "Це концерт безпеки." },
+      "chunks": { "615990000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Full disclosure. It's not great.",
+        "uk": "Повне розкриття.Це не чудово."
+      },
+      "chunks": { "618993000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Right? High turnover.",
+        "uk": "Правда?Високий оборот."
+      },
+      "chunks": { "621830000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "That's what we call it in the business, but you get to be your own boss. Sort of.",
+        "uk": "Це те, що ми називаємо це в бізнесі, але ви повинні бути власним начальником.Різновид."
+      },
+      "chunks": { "623164000": 2, "624749000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And you only have to worry about one thing.",
+        "uk": "І вам потрібно лише турбуватися про одне."
+      },
+      "chunks": { "627168000": 2 }
+    },
+    {
+      "text": { "en-US": "Keeping people out.", "uk": "Утримуючи людей." },
+      "chunks": { "629546000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And-and, you know, and keep the place tidy.",
+        "uk": "І і, ви знаєте, і тримайте місце охайно."
+      },
+      "chunks": { "631923000": 2 }
+    },
+    {
+      "text": { "en-US": "That's two things.", "uk": "Це дві речі." },
+      "chunks": { "633675000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You want the job or not?",
+        "uk": "Ви хочете роботу чи ні?"
+      },
+      "chunks": { "636636000": 1 }
+    },
+    {
+      "text": { "en-US": "How's the pay?", "uk": "Як зарплата?" },
+      "chunks": { "638888000": 1 }
+    },
+    {
+      "text": { "en-US": "Not great.", "uk": "Не велике." },
+      "chunks": { "638888000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But the hours are worse.",
+        "uk": "Але години гірші."
+      },
+      "chunks": { "640932000": 1 }
+    },
+    {
+      "text": { "en-US": "I can't do nights.", "uk": "Я не можу робити ночі." },
+      "chunks": { "645770000": 1 }
+    },
+    {
+      "text": { "en-US": "Excuse me?", "uk": "Вибачте?" },
+      "chunks": { "647689000": 1 }
+    },
+    {
+      "text": { "en-US": "I can't do nights.", "uk": "Я не можу робити ночі." },
+      "chunks": { "650525000": 1 }
+    },
+    {
+      "text": { "en-US": "That's such a shame.", "uk": "Це така ганьба." },
+      "chunks": { "655905000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "657657000": 1 }
+    },
+    {
+      "text": { "en-US": "Thank you.", "uk": "Дякую тобі." },
+      "chunks": { "660744000": 1 }
+    },
+    {
+      "text": { "en-US": "Wait, uh...", "uk": "Зачекайте, е ..." },
+      "chunks": { "662662000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "In case you have a change of heart.",
+        "uk": "Якщо у вас зміниться серце."
+      },
+      "chunks": { "665623000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey, Max.", "uk": "Гей, Макс." },
+      "chunks": { "698448000": 1 }
+    },
+    {
+      "text": { "en-US": "Thanks for babysitting.", "uk": "Дякую за няню." },
+      "chunks": { "699699000": 1 }
+    },
+    {
+      "text": { "en-US": "There's Stouffer's.", "uk": "Там є Stouffer's." },
+      "chunks": { "702410000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Should still be warm if you're hungry.",
+        "uk": "Все одно повинен бути теплим, якщо ти голодний."
+      },
+      "chunks": { "704329000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I have to tell you, there is something magical about these rings, and you can have it within...",
+        "uk": "Я мушу сказати вам, що в цих кільцях є щось магічне, і ви можете мати його всередині ..."
+      },
+      "chunks": { "706247000": 2, "707957000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I wish someone would buy me a ring.",
+        "uk": "Я хотів би, щоб хтось купив мені кільце."
+      },
+      "chunks": { "710293000": 2 }
+    },
+    {
+      "text": { "en-US": "Did Abby eat?", "uk": "Чи їв Еббі?" },
+      "chunks": { "712962000": 1 }
+    },
+    {
+      "text": { "en-US": "What do you think?", "uk": "Що ти думаєш?" },
+      "chunks": { "715590000": 1 }
+    },
+    {
+      "text": { "en-US": "Same time tomorrow?", "uk": "Той же час завтра?" },
+      "chunks": { "719052000": 1 }
+    },
+    {
+      "text": { "en-US": "What do we got?", "uk": "Що ми отримали?" },
+      "chunks": { "731898000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "733525000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, that good-looking guy I recognize.",
+        "uk": "Ну, той гарний хлопець, якого я впізнаю."
+      },
+      "chunks": { "735110000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Who are all these other punks?",
+        "uk": "Хто всі ці інші панки?"
+      },
+      "chunks": { "737779000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "My friends. It's not done yet.",
+        "uk": "Мої друзі.Це ще не зроблено."
+      },
+      "chunks": { "740240000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, look, you can finish up after we eat, all right?",
+        "uk": "Ну, подивіться, ви можете закінчити після того, як ми їмо, все гаразд?"
+      },
+      "chunks": { "742784000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Come get some food.",
+        "uk": "Приходьте отримати трохи їжі."
+      },
+      "chunks": { "745161000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm not hungry.", "uk": "Я не голодний." },
+      "chunks": { "746663000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Abby, please, come eat.",
+        "uk": "Еббі, будь ласка, приходь їсти."
+      },
+      "chunks": { "747872000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Come on. Here. Please come.",
+        "uk": "Давай.Ось.Будь ласка, приходьте."
+      },
+      "chunks": { "752293000": 1 }
+    },
+    {
+      "text": { "en-US": "Come and...", "uk": "Прийти і ..." },
+      "chunks": { "754629000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Abs, with the day that I'm having, can you just eat some food?",
+        "uk": "ABS, з днем, який я маю, чи можете ви просто з'їсти їжу?"
+      },
+      "chunks": { "759968000": 1, "762554000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You're sitting on my friend.",
+        "uk": "Ти сидиш на моєму друзі."
+      },
+      "chunks": { "765932000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You know what? I don't care.",
+        "uk": "Знаєш, що?Мені все одно."
+      },
+      "chunks": { "771021000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Do whatever you want.",
+        "uk": "Робити все, що ви хочете."
+      },
+      "chunks": { "773565000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But you should know what happens to little kids who don't eat their dinners.",
+        "uk": "Але ви повинні знати, що відбувається з маленькими дітьми, які не їдять свої вечері."
+      },
+      "chunks": { "777152000": 2, "778862000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Their bodies stay the same size forever.",
+        "uk": "Їх тіла залишаються однаковими розміром назавжди."
+      },
+      "chunks": { "781364000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And they never get to ride the adult rides at the amusement park.",
+        "uk": "І вони ніколи не можуть їздити на дорослих атракціонах у парку розваг."
+      },
+      "chunks": { "784159000": 1, "785952000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "My friend says you're an idiot.",
+        "uk": "Мій друг каже, що ти ідіот."
+      },
+      "chunks": { "792000000": 1 }
+    },
+    {
+      "text": { "en-US": "At least I'm real.", "uk": "Принаймні я справжній." },
+      "chunks": { "796588000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "How about some burger with that ketchup, hon?",
+        "uk": "Як щодо того, що якийсь гамбургер з цим кетчупом, честь?"
+      },
+      "chunks": { "859901000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Everything's better swimming in ketchup.",
+        "uk": "Все краще плавати в кетчупі."
+      },
+      "chunks": { "864072000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Right, Mike? Whoop.",
+        "uk": "Правильно, Майк?Whoop."
+      },
+      "chunks": { "866199000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'm gonna go grab a towel.",
+        "uk": "Я піду схопити рушник."
+      },
+      "chunks": { "869994000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Go watch your brother, okay?",
+        "uk": "Іди спостерігайте за своїм братом, добре?"
+      },
+      "chunks": { "871621000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "871621000": 1 }
+    },
+    {
+      "text": { "en-US": "Garrett.", "uk": "Гаррет." },
+      "chunks": { "875166000": 1 }
+    },
+    {
+      "text": { "en-US": "Garrett?", "uk": "Гаррет?" },
+      "chunks": { "893435000": 1 }
+    },
+    {
+      "text": { "en-US": "Garrett! Garrett!", "uk": "Гаррет!Гаррет!" },
+      "chunks": { "909743000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Just look at my nephew.",
+        "uk": "Подивіться на мого племінника."
+      },
+      "chunks": { "937645000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's not even 10:00 and he-he can barely keep his eyes open.",
+        "uk": "Це навіть не 10:00, і він ледве тримає очі відкритими."
+      },
+      "chunks": { "939773000": 1, "941149000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And this degenerate is who they entrust with the well-being of a mentally ill child.",
+        "uk": "І це вироджено, хто вони довіряють добробуту психічно хворої дитини."
+      },
+      "chunks": { "942776000": 2, "946654000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Jane, like I've said before, Abby is not mentally ill.",
+        "uk": "Джейн, як я вже говорив, Еббі не психічно хвора."
+      },
+      "chunks": { "948823000": 2 }
+    },
+    {
+      "text": { "en-US": "Oh, right.", "uk": "Авжеж." },
+      "chunks": { "951826000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Perfectly normal to sit around drawing pictures all day and-and talking to magical creatures who do not exist.",
+        "uk": "Цілком нормально сидіти навколо малювання малюнків цілий день і-і розмовляє з магічними істотами, які не існують."
+      },
+      "chunks": { "953370000": 2, "954996000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Listen, I think we all just need to calm...",
+        "uk": "Слухай, я думаю, що всім нам просто потрібно заспокоїти ..."
+      },
+      "chunks": { "959334000": 1, "960669000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Don't tell me to calm down.",
+        "uk": "Не кажи мені заспокоїтися."
+      },
+      "chunks": { "960669000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You're the doctor, and you're making me feel like I'm the crazy one?",
+        "uk": "Ти лікар, і ти змушуєш мене відчувати, що я божевільний?"
+      },
+      "chunks": { "962921000": 2, "965048000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And after... after what he did to that poor man...",
+        "uk": "А після ... після того, що він зробив з тим бідним чоловіком ..."
+      },
+      "chunks": { "966716000": 2 }
+    },
+    {
+      "text": { "en-US": "I just...", "uk": "Я просто..." },
+      "chunks": { "972681000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I have really tried to play nice.",
+        "uk": "Я справді намагався грати приємно."
+      },
+      "chunks": { "980355000": 1 }
+    },
+    {
+      "text": { "en-US": "I have.", "uk": "У мене є." },
+      "chunks": { "980355000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But I have to think about Abby now.",
+        "uk": "Але я мушу зараз думати про Еббі."
+      },
+      "chunks": { "983191000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Enough is enough. Doug?",
+        "uk": "Гарненького потроху.Дуг?"
+      },
+      "chunks": { "986736000": 1 }
+    },
+    {
+      "text": { "en-US": "Doug.", "uk": "Дуг." },
+      "chunks": { "989322000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "In your heart, you know that this is the right thing to do.",
+        "uk": "У своєму серці ви знаєте, що це правильно зробити."
+      },
+      "chunks": { "994035000": 1, "995829000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I hope that you will sign.",
+        "uk": "Я сподіваюся, що ви підпишете."
+      },
+      "chunks": { "998039000": 1 }
+    },
+    {
+      "text": { "en-US": "And if I don't?", "uk": "А якщо я цього не роблю?" },
+      "chunks": { "1000625000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, then, my lawyer and I will have to take you to court, where any judge with an ounce of sanity will see to it that you never see your sister again.",
+        "uk": "Ну, тоді, ми з моїм адвокатом доведеться взяти вас до суду, де будь -який суддя з унцією розуму погляне на це, щоб ви більше ніколи не бачили свою сестру."
+      },
+      "chunks": {
+        "1000625000": 1,
+        "1002544000": 2,
+        "1004504000": 2,
+        "1007048000": 2
+      }
+    },
+    {
+      "text": { "en-US": "That what you want?", "uk": "Що ти хочеш?" },
+      "chunks": { "1011344000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "She-she doesn't even care about Abby.",
+        "uk": "Вона навіть не піклується про Еббі."
+      },
+      "chunks": { "1013388000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "All she wants is the monthly check from the state.",
+        "uk": "Все, що вона хоче - це щомісячна перевірка штату."
+      },
+      "chunks": { "1015432000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "But, I mean, she-she has some good points, though.",
+        "uk": "Але, я маю на увазі, у неї є кілька хороших моментів."
+      },
+      "chunks": { "1020895000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I'm hardly fit to be raising a kid.",
+        "uk": "Я навряд чи підходить для виховання дитини."
+      },
+      "chunks": { "1022564000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I know a little girl who would strongly disagree.",
+        "uk": "Я знаю маленьку дівчинку, яка сильно не погодилася б."
+      },
+      "chunks": { "1025442000": 2 }
+    },
+    {
+      "text": { "en-US": "Come on.", "uk": "Давай." },
+      "chunks": { "1027902000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "She talks to air more than she talks to me.",
+        "uk": "Вона розмовляє з ефіром більше, ніж розмовляє зі мною."
+      },
+      "chunks": { "1029404000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I could drop dead tomorrow, and she'd be too busy drawing to even notice.",
+        "uk": "Завтра я міг би кинути мертві, і вона буде занадто зайнята малюванням, щоб навіть помітити."
+      },
+      "chunks": { "1031239000": 1, "1032741000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "You know, pictures hold tremendous power for children.",
+        "uk": "Ви знаєте, фотографії мають величезну силу для дітей."
+      },
+      "chunks": { "1035577000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Before we learn to speak, images are the most important tool we have for understanding the world around us.",
+        "uk": "Перш ніж ми навчимося говорити, зображення - це найважливіший інструмент, який ми маємо для розуміння навколишнього світу."
+      },
+      "chunks": { "1039247000": 1, "1041249000": 2, "1043752000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "What's real, what matters to us most.",
+        "uk": "Що реально, що для нас важливо."
+      },
+      "chunks": { "1046296000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "These are things children learn to communicate almost exclusively through pictures.",
+        "uk": "Це речі, які діти вчаться спілкуватися майже виключно за допомогою фотографій."
+      },
+      "chunks": { "1049466000": 2, "1052344000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Yeah, her pictures mean something.",
+        "uk": "Так, її фотографії щось означають."
+      },
+      "chunks": { "1054763000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And who is at the center of nine out of ten of them?",
+        "uk": "А хто в центрі дев'яти з десяти з них?"
+      },
+      "chunks": { "1056765000": 2 }
+    },
+    {
+      "text": { "en-US": "Mm-hmm.", "uk": "Мм-хм." },
+      "chunks": { "1061686000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Like it or not, you're her world.",
+        "uk": "Подобається це чи ні, ти її світ."
+      },
+      "chunks": { "1063021000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "But what if it's not up to me?",
+        "uk": "Але що робити, якщо це не залежить від мене?"
+      },
+      "chunks": { "1066608000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "My aunt, she's an idiot, but she's right.",
+        "uk": "Моя тітка, вона ідіот, але вона права."
+      },
+      "chunks": { "1069110000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "No judge in their right mind is ever gonna side with me.",
+        "uk": "Жоден суддя в їхньому розумі ніколи не збирається зі мною."
+      },
+      "chunks": { "1070779000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Did you find a job yet?",
+        "uk": "Ви вже знайшли роботу?"
+      },
+      "chunks": { "1073823000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "1077035000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "That would be a good place to start.",
+        "uk": "Це було б гарним місцем для початку."
+      },
+      "chunks": { "1078828000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello.", "uk": "Привіт." },
+      "chunks": { "1094678000": 1 }
+    },
+    {
+      "text": { "en-US": "Uh, hi.", "uk": "А, привіт." },
+      "chunks": { "1094678000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Mr. Raglan, this is Mike.",
+        "uk": "Містер Раглан, це Майк."
+      },
+      "chunks": { "1096388000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Mr. \"I can't work nights.\" Right.",
+        "uk": "Містер \"Я не можу працювати ночами\".Правильно."
+      },
+      "chunks": { "1098306000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Uh, yeah, I was just calling to see if that job that you offered was, uh, was still available.",
+        "uk": "Ага, так, я просто дзвонив, щоб побачити, чи була ця робота, яку ви запропонували, е -е, все ще доступна."
+      },
+      "chunks": { "1101976000": 2, "1104312000": 2 }
+    },
+    {
+      "text": { "en-US": "Oh, it absolutely is.", "uk": "О, це абсолютно є." },
+      "chunks": { "1107190000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Why? Have you had a change of heart?",
+        "uk": "Чому?У вас змінилася серце?"
+      },
+      "chunks": { "1109192000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "How soon could I start?",
+        "uk": "Як швидко я міг почати?"
+      },
+      "chunks": { "1116157000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Let me give you a little backstory.",
+        "uk": "Дозвольте мені трохи дати вам історію."
+      },
+      "chunks": { "1128420000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "This place was huge in the '80s with the kids.",
+        "uk": "Це місце було величезним у 80 -х з дітьми."
+      },
+      "chunks": { "1130714000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "It's been shut down for years.",
+        "uk": "Це закрито роками."
+      },
+      "chunks": { "1139431000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "The only reason they haven't given it the old wrecking ball treatment is the owner's a bit of a...",
+        "uk": "Єдина причина, по якій вони не дали, стара обробка балу, що розбивається, - це трохи власника ..."
+      },
+      "chunks": { "1141057000": 2, "1142976000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Well, he's kind of a sentimental guy, I guess.",
+        "uk": "Ну, він, мабуть, сентиментальний хлопець."
+      },
+      "chunks": { "1146021000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Just can't bring himself to let it go yet.",
+        "uk": "Просто не можу принести себе, щоб його покинути."
+      },
+      "chunks": { "1152777000": 2 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "1157115000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Had some trouble with break-ins over the years.",
+        "uk": "Протягом багатьох років були проблеми з розривами."
+      },
+      "chunks": { "1160785000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Drunks and vagrants, mostly.",
+        "uk": "Пізні та бродяги, в основному."
+      },
+      "chunks": { "1163455000": 1 }
+    },
+    {
+      "text": { "en-US": "Not ideal.", "uk": "Не ідеально." },
+      "chunks": { "1163455000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Security system's dated but fully functional.",
+        "uk": "Система безпеки датована, але повністю функціональна."
+      },
+      "chunks": { "1169669000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Floodlights on the outside, cameras inside and outside.",
+        "uk": "Просвітки зовні, камери всередині та зовні."
+      },
+      "chunks": { "1175383000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Fair warning: the electricity is a bit...",
+        "uk": "Справедливе попередження: електроенергія трохи ..."
+      },
+      "chunks": { "1178845000": 2 }
+    },
+    {
+      "text": { "en-US": "iffy.", "uk": "iffy." },
+      "chunks": { "1183099000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Anything happens, there is a breaker in the main office.",
+        "uk": "Все, що відбувається, в головному офісі є вимикач."
+      },
+      "chunks": { "1204329000": 2 }
+    },
+    {
+      "text": { "en-US": "Just flip it.", "uk": "Просто переверніть його." },
+      "chunks": { "1208500000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Uh, I guess that's about it.",
+        "uk": "А, я думаю, це про це."
+      },
+      "chunks": { "1224432000": 1 }
+    },
+    {
+      "text": { "en-US": "You know...", "uk": "Ти знаєш..." },
+      "chunks": { "1227977000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "the rest is pretty easy.",
+        "uk": "Решта досить просто."
+      },
+      "chunks": { "1230146000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Just keep your eyes on the monitors and...",
+        "uk": "Просто стежте за моніторами і ..."
+      },
+      "chunks": { "1231940000": 2 }
+    },
+    {
+      "text": { "en-US": "and keep people out.", "uk": "І утримуйте людей." },
+      "chunks": { "1235610000": 1 }
+    },
+    {
+      "text": { "en-US": "Piece of cake.", "uk": "Шматок пирога." },
+      "chunks": { "1237529000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So, I will catch you on the flip side.",
+        "uk": "Отже, я спіймаю вас на фліп -стороні."
+      },
+      "chunks": { "1266266000": 2 }
+    },
+    {
+      "text": { "en-US": "Hopefully.", "uk": "Сподіваємось." },
+      "chunks": { "1270770000": 1 }
+    },
+    {
+      "text": { "en-US": "The hell?", "uk": "Пекло?" },
+      "chunks": { "1295837000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Welcome to Freddy Fazbear's Pizzeria, a magical place for kids and grown-ups alike, where fantasy and fun come to life.",
+        "uk": "Ласкаво просимо до піцерії Фредді Фазбера, чарівного місця для дітей, і дорослих, де фантазія та веселощі оживають."
+      },
+      "chunks": { "1308099000": 1, "1311436000": 2, "1314064000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "If you're watching this video, it means you've been selected as Freddy's newest security guard.",
+        "uk": "Якщо ви переглядаєте це відео, це означає, що вас обрали як найновіший охоронець Фредді."
+      },
+      "chunks": { "1317525000": 2, "1320737000": 1 }
+    },
+    {
+      "text": { "en-US": "Congratulations.", "uk": "Вітаємо." },
+      "chunks": { "1323281000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "We're going to have so much fun together.",
+        "uk": "Ми будемо так весело разом."
+      },
+      "chunks": { "1324949000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "The genius who created Fazbear Entertainment opened Freddy Fazbear's Pizzeria to indulge in his two greatest passions...",
+        "uk": "Геній, який створив Fazbear Entertainment, відкрив піцерію Фредді Фазбера, щоб побалувати його два найбільші пристрасті ..."
+      },
+      "chunks": { "1329037000": 2, "1331873000": 1, "1333875000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "family-friendly fun and cutting-edge animatronic technology.",
+        "uk": "Сімейні розваги та передові аніматронічні технології."
+      },
+      "chunks": { "1337045000": 1, "1338713000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "State-of-the-art robotic engineering enables our characters to interact with guests in truly lifelike fashion, while cleverly concealed rechargeable lithium cells give them limited range to roam free.",
+        "uk": "Сучасна робототехнічна інженерія дозволяє нашим героям взаємодіяти з гостями по-справжньому реалістично, в той час як спритно приховані акумуляторні літієві клітини дають їм обмежений діапазон, щоб блукати."
+      },
+      "chunks": {
+        "1341591000": 1,
+        "1344302000": 2,
+        "1346805000": 1,
+        "1348807000": 2,
+        "1351768000": 2
+      }
+    },
+    {
+      "text": {
+        "en-US": "Let's introduce you to the stars of the show.",
+        "uk": "Давайте познайомимо вас із зірками шоу."
+      },
+      "chunks": { "1354938000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Adorable, aren't they?",
+        "uk": "Чарівно, чи не так?"
+      },
+      "chunks": { "1363571000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Protecting these cuddly critters, and the proprietary technology that brings them to life, is now your sacred duty.",
+        "uk": "Захист цих примхливих критиків та власна технологія, яка їх оживляє, тепер є вашим священним обов'язком."
+      },
+      "chunks": { "1366783000": 1, "1369077000": 2, "1371746000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Keep them safe, and help ensure that Freddy Fazbear's Pizzeria is here to delight, dazzle and entertain for years to...",
+        "uk": "Зберігайте їх у безпеці та допоможуть гарантувати, що піцерія Фредді Фазбера тут, щоб насолодитися, засліплювати та розважати роками, щоб ..."
+      },
+      "chunks": { "1373498000": 2, "1377919000": 2, "1380755000": 1 }
+    },
+    {
+      "text": { "en-US": "All right.", "uk": "Гаразд." },
+      "chunks": { "1386261000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello?", "uk": "Привіт?" },
+      "chunks": { "1479354000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Everything's better swimming in ketchup.",
+        "uk": "Все краще плавати в кетчупі."
+      },
+      "chunks": { "1554429000": 2 }
+    },
+    {
+      "text": { "en-US": "Right, Mike?", "uk": "Правильно, Майк?" },
+      "chunks": { "1556389000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Go watch your brother, okay?",
+        "uk": "Іди спостерігайте за своїм братом, добре?"
+      },
+      "chunks": { "1560935000": 1 }
+    },
+    {
+      "text": { "en-US": "Garrett?", "uk": "Гаррет?" },
+      "chunks": { "1565148000": 1 }
+    },
+    {
+      "text": { "en-US": "Garrett!", "uk": "Гаррет!" },
+      "chunks": { "1570153000": 1 }
+    },
+    {
+      "text": { "en-US": "What is this?", "uk": "Що це?" },
+      "chunks": { "1588672000": 1 }
+    },
+    {
+      "text": { "en-US": "Who are you?", "uk": "Хто ти?" },
+      "chunks": { "1592550000": 1 }
+    },
+    {
+      "text": { "en-US": "That car.", "uk": "Що машина." },
+      "chunks": { "1595387000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Did you see that car?",
+        "uk": "Ви бачили цю машину?"
+      },
+      "chunks": { "1597180000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You see what happened?",
+        "uk": "Ви бачите, що сталося?"
+      },
+      "chunks": { "1597180000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Did you see who took my brother?",
+        "uk": "Ви бачили, хто взяв мого брата?"
+      },
+      "chunks": { "1606231000": 1 }
+    },
+    {
+      "text": { "en-US": "Wait! No.", "uk": "Зачекай!Немає." },
+      "chunks": { "1610735000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey, Max.", "uk": "Гей, Макс." },
+      "chunks": { "1647689000": 1 }
+    },
+    {
+      "text": { "en-US": "So? How'd it go?", "uk": "Так?Як це пішло?" },
+      "chunks": { "1656531000": 1 }
+    },
+    {
+      "text": { "en-US": "it was interesting.", "uk": "це було цікаво." },
+      "chunks": { "1663038000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I should probably get out of here.",
+        "uk": "Я, мабуть, повинен вийти звідси."
+      },
+      "chunks": { "1665331000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, by the way, I-I do intend on-on paying you, eventually.",
+        "uk": "Гей, до речі, я-я маю намір заплатити вам, врешті-решт."
+      },
+      "chunks": { "1668793000": 2 }
+    },
+    {
+      "text": { "en-US": "It's okay.", "uk": "Все добре." },
+      "chunks": { "1673882000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I know where you live.",
+        "uk": "Я знаю, де ти живеш."
+      },
+      "chunks": { "1675884000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Hey. Welcome to Sparky's.",
+        "uk": "Гей.Ласкаво просимо до Sparky's."
+      },
+      "chunks": { "1701951000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Could I set you folks up with some appetizers?",
+        "uk": "Чи можу я встановити вас, люди з деякими закусками?"
+      },
+      "chunks": { "1703453000": 2 }
+    },
+    {
+      "text": { "en-US": "We are not eating.", "uk": "Ми не їмо." },
+      "chunks": { "1707624000": 1 }
+    },
+    {
+      "text": { "en-US": "Well, that's no fun.", "uk": "Ну, це не весело." },
+      "chunks": { "1709084000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You do realize that lunch is the most important meal of the day?",
+        "uk": "Ви усвідомлюєте, що обід - це найважливіша страва дня?"
+      },
+      "chunks": { "1710794000": 1, "1712128000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I thought it was breakfast.",
+        "uk": "Я думав, що це сніданок."
+      },
+      "chunks": { "1713505000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Some people say that, but, you know, it's just a theory.",
+        "uk": "Деякі люди кажуть це, але, знаєте, це просто теорія."
+      },
+      "chunks": { "1715674000": 1, "1717258000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Are you being paid by the word, or could we have a minute?",
+        "uk": "Вам платять слово, чи ми могли мати хвилину?"
+      },
+      "chunks": { "1717258000": 1, "1719094000": 2 }
+    },
+    {
+      "text": { "en-US": "All right.", "uk": "Гаразд." },
+      "chunks": { "1721096000": 1 }
+    },
+    {
+      "text": { "en-US": "Thank you.", "uk": "Дякую тобі." },
+      "chunks": { "1721096000": 1 }
+    },
+    {
+      "text": { "en-US": "Ah, where were we?", "uk": "Ах, де ми були?" },
+      "chunks": { "1723848000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Oh, you were about to tell me what a miserable failure you are.",
+        "uk": "О, ти збирався сказати мені, яка ти жалюгідна невдача."
+      },
+      "chunks": { "1725600000": 1, "1727185000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, screw you, lady.",
+        "uk": "Гей, накрутіть, леді."
+      },
+      "chunks": { "1728353000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "My sister went over every inch of that dump a thousand times.",
+        "uk": "Моя сестра переглянула кожен сантиметр цього сміттєвого сміттєвого часу тисячі разів."
+      },
+      "chunks": { "1730605000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "If there was something to find, she would have found it.",
+        "uk": "Якби щось було знайти, вона знайшла б це."
+      },
+      "chunks": { "1733233000": 2 }
+    },
+    {
+      "text": { "en-US": "Now pay up.", "uk": "Тепер платіть." },
+      "chunks": { "1736611000": 1 }
+    },
+    {
+      "text": { "en-US": "Uh, I'm sorry?", "uk": "А, вибачте?" },
+      "chunks": { "1738071000": 1 }
+    },
+    {
+      "text": { "en-US": "You said 200.", "uk": "Ви сказали 200." },
+      "chunks": { "1738071000": 1 }
+    },
+    {
+      "text": { "en-US": "We had a deal.", "uk": "У нас була угода." },
+      "chunks": { "1740448000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Yeah, that you were gonna find me hard proof of criminal endangerment.",
+        "uk": "Так, ти знайдеш мені важким доказом кримінальної небезпеки."
+      },
+      "chunks": { "1742200000": 1, "1744285000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Instead, you've told me what a nice kid my niece is and that my nephew sleeps a lot.",
+        "uk": "Натомість ви сказали мені, яка гарна дитина моя племінниця і що мій племінник багато спить."
+      },
+      "chunks": { "1747080000": 2, "1750083000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "He really does, though.",
+        "uk": "Він справді робить, хоча."
+      },
+      "chunks": { "1752085000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Sleeping is not a crime.",
+        "uk": "Сон - це не злочин."
+      },
+      "chunks": { "1753461000": 1 }
+    },
+    {
+      "text": { "en-US": "Is that guy okay?", "uk": "Це хлопець добре?" },
+      "chunks": { "1756673000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I just realized I shouldn't be hearing any of this.",
+        "uk": "Я просто зрозумів, що не повинен нічого не чути."
+      },
+      "chunks": { "1758258000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "As a matter of fact, I shouldn't be here at all.",
+        "uk": "Власне кажучи, я взагалі не повинен бути тут."
+      },
+      "chunks": { "1761553000": 2 }
+    },
+    {
+      "text": { "en-US": "Sit down, Doug.", "uk": "Сядь, Дуг." },
+      "chunks": { "1764431000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So, I guess we're finished here, unless either one of you has a brilliant idea, which I realize is highly unlikely.",
+        "uk": "Отже, я думаю, що ми закінчили тут, якщо ніхто з вас не має геніальної ідеї, що, я розумію, дуже малоймовірно."
+      },
+      "chunks": { "1767017000": 1, "1768643000": 2, "1771271000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Why don't we just kill him?",
+        "uk": "Чому б нам просто не вбити його?"
+      },
+      "chunks": { "1773690000": 1 }
+    },
+    {
+      "text": { "en-US": "Tempting. But no.", "uk": "Спокусливо.Але не." },
+      "chunks": { "1778820000": 1 }
+    },
+    {
+      "text": { "en-US": "What else?", "uk": "Що ще?" },
+      "chunks": { "1781322000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Mike was saying that...",
+        "uk": "Майк говорив це ..."
+      },
+      "chunks": { "1781322000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "he really needs this new job to, like, look good on paper for the judge or something.",
+        "uk": "Йому справді потрібна ця нова робота, як, наприклад, добре виглядати на папері для судді чи чогось іншого."
+      },
+      "chunks": { "1784659000": 2, "1788997000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, that's all very fascinating, honey, but I am not hearing a plan.",
+        "uk": "Ну, це все дуже захоплююче, милий, але я не чую план."
+      },
+      "chunks": { "1791207000": 2, "1792751000": 1 }
+    },
+    {
+      "text": { "en-US": "We toss the place.", "uk": "Ми кидаємо місце." },
+      "chunks": { "1795837000": 1 }
+    },
+    {
+      "text": { "en-US": "Go on.", "uk": "Продовжувати." },
+      "chunks": { "1798340000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, he's a security guard, right?",
+        "uk": "Ну, він охоронець, правда?"
+      },
+      "chunks": { "1798340000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "His job is to make sure nobody gets in.",
+        "uk": "Його робота - переконатися, що ніхто не потрапляє."
+      },
+      "chunks": { "1801092000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "So, we get in, and we mess up the place good.",
+        "uk": "Отже, ми заходимо, і ми зіпсуємо місце добре."
+      },
+      "chunks": { "1803970000": 1, "1807223000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "We help ourselves to whatever we find along the way.",
+        "uk": "Ми допомагаємо собі все, що знайдемо по дорозі."
+      },
+      "chunks": { "1809184000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Your nephew gets canned.",
+        "uk": "Ваш племінник отримує консерви."
+      },
+      "chunks": { "1811644000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Judge gives you the kid, and you give us...",
+        "uk": "Суддя дає вам дитину, і ви даєте нам ..."
+      },
+      "chunks": { "1813521000": 2 }
+    },
+    {
+      "text": { "en-US": "One thousand.", "uk": "Одна тисяча." },
+      "chunks": { "1820362000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But do it fast, and don't mess it up.",
+        "uk": "Але робіть це швидко і не зіпсуйте це."
+      },
+      "chunks": { "1822906000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I mean, you know, mess it up, but don't...",
+        "uk": "Я маю на увазі, знаєте, зіпсувати це, але не ..."
+      },
+      "chunks": { "1826076000": 1, "1827577000": 1 }
+    },
+    {
+      "text": { "en-US": "don't mess this up.", "uk": "Не зіпсуйте це." },
+      "chunks": { "1827577000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on.", "uk": "Давай." },
+      "chunks": { "1837587000": 1 }
+    },
+    {
+      "text": { "en-US": "What are you doing?", "uk": "Що ви робите?" },
+      "chunks": { "1840173000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Abby, do you need something?",
+        "uk": "Еббі, тобі щось потрібно?"
+      },
+      "chunks": { "1846054000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "All right, quit playing and take that off.",
+        "uk": "Гаразд, киньте грати і зняти це."
+      },
+      "chunks": { "1847472000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I have to go to work.",
+        "uk": "Я повинен йти на роботу."
+      },
+      "chunks": { "1849182000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I know. I'm coming with you.",
+        "uk": "Я знаю.Я йду з тобою."
+      },
+      "chunks": { "1850350000": 1 }
+    },
+    {
+      "text": { "en-US": "No, you're not.", "uk": "Ні, не ти." },
+      "chunks": { "1852060000": 1 }
+    },
+    {
+      "text": { "en-US": "Give me the vest.", "uk": "Дай мені жилет." },
+      "chunks": { "1853228000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Give me the vest now.",
+        "uk": "Дай мені жилет зараз."
+      },
+      "chunks": { "1855188000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm coming with you.", "uk": "Я йду з тобою." },
+      "chunks": { "1857941000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I want to go with you.",
+        "uk": "Я хочу піти з тобою."
+      },
+      "chunks": { "1860652000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "1860652000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't want to stay here with Max.",
+        "uk": "Я не хочу залишатися тут з Максом."
+      },
+      "chunks": { "1862821000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, stop.", "uk": "Еббі, зупинитися." },
+      "chunks": { "1862821000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello?", "uk": "Привіт?" },
+      "chunks": { "1864656000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, stop.", "uk": "Еббі, зупинитися." },
+      "chunks": { "1864656000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "No! You can't make me.",
+        "uk": "Немає!Ви не можете мене зробити."
+      },
+      "chunks": { "1865449000": 1 }
+    },
+    {
+      "text": { "en-US": "Yes, I can.", "uk": "Так, я можу." },
+      "chunks": { "1866491000": 1 }
+    },
+    {
+      "text": { "en-US": "No, it's mine.", "uk": "Ні, це моє." },
+      "chunks": { "1866491000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello?", "uk": "Привіт?" },
+      "chunks": { "1867867000": 1 }
+    },
+    {
+      "text": { "en-US": "Let go!", "uk": "Відпустіть!" },
+      "chunks": { "1869077000": 1 }
+    },
+    {
+      "text": { "en-US": "Let go. No, no.", "uk": "Відпустіть.Ні ні." },
+      "chunks": { "1870870000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, stop. Abby.", "uk": "Еббі, зупинитися.Еббі." },
+      "chunks": { "1870870000": 1 }
+    },
+    {
+      "text": { "en-US": "He's taking my vest!", "uk": "Він бере мій жилет!" },
+      "chunks": { "1872831000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "1872831000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm keeping it.", "uk": "Я зберігаю це." },
+      "chunks": { "1875291000": 1 }
+    },
+    {
+      "text": { "en-US": "She's all yours.", "uk": "Вона все твоє." },
+      "chunks": { "1879921000": 1 }
+    },
+    {
+      "text": { "en-US": "Garrett!", "uk": "Гаррет!" },
+      "chunks": { "1943151000": 1 }
+    },
+    {
+      "text": { "en-US": "Wait, please.", "uk": "Зачекайте будь-ласка." },
+      "chunks": { "1952994000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Please don't-don't...",
+        "uk": "Будь ласка, не-не ..."
+      },
+      "chunks": { "1954287000": 1 }
+    },
+    {
+      "text": { "en-US": "don't run.", "uk": "Не бігайте." },
+      "chunks": { "1954287000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay? I-I just want to know what you saw.",
+        "uk": "Гаразд?Я просто хочу знати, що ти бачив."
+      },
+      "chunks": { "1957624000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Please. I'm begging you.",
+        "uk": "Будь ласка.Я тебе благаю."
+      },
+      "chunks": { "1965382000": 1 }
+    },
+    {
+      "text": { "en-US": "Help me.", "uk": "Допоможи мені." },
+      "chunks": { "1968510000": 1 }
+    },
+    {
+      "text": { "en-US": "Who took Garrett?!", "uk": "Хто взяв Гаррет?!" },
+      "chunks": { "1974849000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª The secrets that you just can't hide... â™ª â™ª You tell me that you want me... â™ª About time.",
+        "uk": "â ™ ª Секрети, які ви просто не можете приховати ... ™ ª â ™ ª ª Ви скажете мені, що хочете мене ... ™ ª ª Про час."
+      },
+      "chunks": { "2007298000": 1, "2012721000": 1, "2050675000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Starting to think maybe you fell asleep on the job.",
+        "uk": "Починаючи думати, можливо, ти заснув на роботі."
+      },
+      "chunks": { "2052093000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Can I, uh, help you, Officer?",
+        "uk": "Чи можу я, е -е, допомогти вам, офіцер?"
+      },
+      "chunks": { "2056931000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Please, my name's Vanessa.",
+        "uk": "Будь ласка, мене звати Ванеса."
+      },
+      "chunks": { "2059476000": 1 }
+    },
+    {
+      "text": { "en-US": "And you must be?", "uk": "А ти повинен бути?" },
+      "chunks": { "2062145000": 1 }
+    },
+    {
+      "text": { "en-US": "The new security guard.", "uk": "Новий охоронець." },
+      "chunks": { "2066608000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "2066608000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You're bleeding, by the way.",
+        "uk": "Ви, до речі, кровоточите."
+      },
+      "chunks": { "2070862000": 1 }
+    },
+    {
+      "text": { "en-US": "Looks nasty.", "uk": "Виглядає неприємно." },
+      "chunks": { "2076117000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Come on. I know where they keep the first aid kit.",
+        "uk": "Давай.Я знаю, де вони зберігають комплект першої допомоги."
+      },
+      "chunks": { "2078578000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Love what you've done with the place.",
+        "uk": "Любіть те, що ви зробили з місцем."
+      },
+      "chunks": { "2092634000": 2 }
+    },
+    {
+      "text": { "en-US": "Why Nebraska?", "uk": "Чому Небраска?" },
+      "chunks": { "2095220000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Oh, you need a hand?",
+        "uk": "О, вам потрібна рука?"
+      },
+      "chunks": { "2097847000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm fine.", "uk": "Зі мною все гаразд." },
+      "chunks": { "2097847000": 1 }
+    },
+    {
+      "text": { "en-US": "You sure?", "uk": "Ти впевнений?" },
+      "chunks": { "2101810000": 1 }
+    },
+    {
+      "text": { "en-US": "Here.", "uk": "Ось." },
+      "chunks": { "2103019000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'm a certified EMT.",
+        "uk": "Я сертифікований ЕМТ."
+      },
+      "chunks": { "2104312000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So if your heart ever goes out, I'm the one you want to call.",
+        "uk": "Тож якщо ваше серце коли -небудь згасне, я той, кого ви хочете зателефонувати."
+      },
+      "chunks": { "2106147000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "You seem to really know your way around the place.",
+        "uk": "Ви, здається, справді знаєте свій шлях навколо місця."
+      },
+      "chunks": { "2111986000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Well, Freddy's is on my beat.",
+        "uk": "Ну, Фредді на моєму ритмі."
+      },
+      "chunks": { "2114114000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I like to stay well informed.",
+        "uk": "Мені подобається залишатися добре поінформованим."
+      },
+      "chunks": { "2116157000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Also, I really loved this place as a kid.",
+        "uk": "Також я дуже любив це місце ще в дитинстві."
+      },
+      "chunks": { "2120286000": 2 }
+    },
+    {
+      "text": { "en-US": "There.", "uk": "Там." },
+      "chunks": { "2126710000": 1 }
+    },
+    {
+      "text": { "en-US": "That should do it.", "uk": "Це повинно це зробити." },
+      "chunks": { "2128211000": 1 }
+    },
+    {
+      "text": { "en-US": "Vanessa Shelly.", "uk": "Ванеса Шеллі." },
+      "chunks": { "2131381000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike.", "uk": "Майк." },
+      "chunks": { "2134175000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Pleasure to meet you, Mike.",
+        "uk": "Приємно познайомитися, Майк."
+      },
+      "chunks": { "2135635000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You doing all right this evening, Mike?",
+        "uk": "Ви робите все гаразд цього вечора, Майк?"
+      },
+      "chunks": { "2143977000": 1 }
+    },
+    {
+      "text": { "en-US": "What?", "uk": "Що?" },
+      "chunks": { "2148565000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Are you good? Are you okay?",
+        "uk": "З тобою все гаразд? З вами все гаразд?"
+      },
+      "chunks": { "2149691000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Is everything copacetic?",
+        "uk": "Чи все косоцетичне?"
+      },
+      "chunks": { "2151443000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Yeah, I know what \"all right\" means.",
+        "uk": "Так, я знаю, що означає \"все гаразд\"."
+      },
+      "chunks": { "2152986000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Do you also know that your eyes are bloodshot and your heart rate's through the roof?",
+        "uk": "Чи знаєте ви також, що ваші очі - це кров'янисті, а серцебиття через дах?"
+      },
+      "chunks": { "2155989000": 2, "2157574000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And aside from that gash on your arm, which...",
+        "uk": "І окрім того пориву на руці, який ..."
+      },
+      "chunks": { "2158992000": 2, "2161369000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "let's be honest, is pretty frickin' bizarre, you've been acting suspicious since the moment you opened the door.",
+        "uk": "Будемо чесними, досить химерний, ви ділили підозрілі з моменту, коли ви відкрили двері."
+      },
+      "chunks": { "2161369000": 1, "2163038000": 2, "2166166000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Yeah, look, it's been a weird night.",
+        "uk": "Так, подивіться, це була дивна ніч."
+      },
+      "chunks": { "2169919000": 1 }
+    },
+    {
+      "text": { "en-US": "Sounds like Freddy's.", "uk": "Звучить як Фредді." },
+      "chunks": { "2178053000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "This place, it gets to people.",
+        "uk": "Це місце, це потрапляє до людей."
+      },
+      "chunks": { "2184059000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's one of the reasons why you're gonna quit.",
+        "uk": "Це одна з причин, чому ти будеш кинути."
+      },
+      "chunks": { "2186978000": 2 }
+    },
+    {
+      "text": { "en-US": "I'm sorry?", "uk": "Мені шкода?" },
+      "chunks": { "2189147000": 1 }
+    },
+    {
+      "text": { "en-US": "Oh, yeah.", "uk": "О так." },
+      "chunks": { "2190899000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You security hires, you never last.",
+        "uk": "Ви наймаєте безпеку, ви ніколи не триваєте."
+      },
+      "chunks": { "2192025000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Have you met them yet?",
+        "uk": "Ви їх вже зустрічали?"
+      },
+      "chunks": { "2198573000": 1 }
+    },
+    {
+      "text": { "en-US": "Met who?", "uk": "Зустрічав хто?" },
+      "chunks": { "2202077000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So, what are the other reasons?",
+        "uk": "Отже, які інші причини?"
+      },
+      "chunks": { "2209250000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Why you think I'm gonna quit my job?",
+        "uk": "Чому ти думаєш, що я кину свою роботу?"
+      },
+      "chunks": { "2212796000": 1 }
+    },
+    {
+      "text": { "en-US": "Well, you tell me.", "uk": "Ну, ти мені скажи." },
+      "chunks": { "2214255000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Is this somewhere you see yourself 10, 20 years from now?",
+        "uk": "Це десь ти бачиш себе через 10, 20 років?"
+      },
+      "chunks": { "2215548000": 1, "2217592000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I mean, what do I know?",
+        "uk": "Я маю на увазі, що я знаю?"
+      },
+      "chunks": { "2219678000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Maybe the benefits are great.",
+        "uk": "Можливо, переваги чудові."
+      },
+      "chunks": { "2219678000": 1 }
+    },
+    {
+      "text": { "en-US": "I didn't think so.", "uk": "Я не думав так." },
+      "chunks": { "2222263000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Add to that the thing with those kids going missing.",
+        "uk": "Додайте до цього те, що з цими дітьми зникають безвісти."
+      },
+      "chunks": { "2224974000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Wh-What did you just say?",
+        "uk": "Wh-що ти щойно сказав?"
+      },
+      "chunks": { "2230105000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Prepare to have your mind blown.",
+        "uk": "Підготуйтеся до того, щоб ваш розум підірвав."
+      },
+      "chunks": { "2231606000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª When you close your eyes â™ª â™ª And you go to sleep â™ª â™ª Sleep, sleep, sleep â™ª â™ª And it's down to the sound of a heartbeat â™ª This... this is...",
+        "uk": "â ™ ª Коли ви закриваєте очі â ™ ª ™ ™ ª ª, і ви лягаєте спати ™ ª â ™ ª Спи, спите, спите ™ ª â ™ ª ™ ™ ª, і це зводиться до звуку серцебиття ™ ª... це є..."
+      },
+      "chunks": {
+        "2250458000": 1,
+        "2252585000": 1,
+        "2253962000": 1,
+        "2257257000": 2,
+        "2260635000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "The best thing you've seen in your entire life?",
+        "uk": "Найкраще, що ви бачили за все своє життя?"
+      },
+      "chunks": { "2262721000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª I can hear the things that you're dreaming about â™ª â™ª About, about, about â™ª â™ª When you open up your... â™ª Want to dance?",
+        "uk": "â ™ ª Я чую речі, про які ти мрієш про ™ ª â ™ ª ª ª про, про, про â ™ ª â ™ ª ª, коли ви відкриєте свій ... ™ ª ª ª ª ª ª ª ª ª ª ª ª ª ª Хочете танцювати?"
+      },
+      "chunks": { "2265140000": 2, "2268560000": 1, "2272313000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Maybe some other time.",
+        "uk": "Можливо іншим разом."
+      },
+      "chunks": { "2284659000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Wait, y-you said some kids went missing?",
+        "uk": "Зачекайте, Y-ви сказали, що деякі діти пропали безвісти?"
+      },
+      "chunks": { "2288663000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Sure. Back in the '80s.",
+        "uk": "Звичайно.Ще в 80 -х."
+      },
+      "chunks": { "2292334000": 1 }
+    },
+    {
+      "text": { "en-US": "What happened to them?", "uk": "Що з ними сталося?" },
+      "chunks": { "2294627000": 1 }
+    },
+    {
+      "text": { "en-US": "It was big news.", "uk": "Це була велика новина." },
+      "chunks": { "2295962000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "That's why the place shut down.",
+        "uk": "Ось чому місце закрилося."
+      },
+      "chunks": { "2298340000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You really didn't do your homework, did you?",
+        "uk": "Ви справді не робили домашнього завдання, чи не так?"
+      },
+      "chunks": { "2302719000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And you're not even wearing your badge.",
+        "uk": "І ви навіть не носите свій знак."
+      },
+      "chunks": { "2305638000": 2 }
+    },
+    {
+      "text": { "en-US": "Got it.", "uk": "Зрозумів." },
+      "chunks": { "2310352000": 1 }
+    },
+    {
+      "text": { "en-US": "There.", "uk": "Там." },
+      "chunks": { "2318735000": 1 }
+    },
+    {
+      "text": { "en-US": "Now you're official.", "uk": "Тепер ви офіційні." },
+      "chunks": { "2320153000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Some friendly advice?",
+        "uk": "Якісь дружні поради?"
+      },
+      "chunks": { "2330538000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Don't let this place get to you.",
+        "uk": "Не дозволяйте цьому місці дістатися до вас."
+      },
+      "chunks": { "2331873000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Just do your job, and you'll be fine.",
+        "uk": "Просто зробіть свою роботу, і у вас все буде добре."
+      },
+      "chunks": { "2334459000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah, sounds good.", "uk": "Так, звучить добре." },
+      "chunks": { "2340507000": 1 }
+    },
+    {
+      "text": { "en-US": "JEFF It's showtime.", "uk": "Джефф це шоу." },
+      "chunks": { "2365073000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "As soon as he gets back, get the guys and meet me here.",
+        "uk": "Як тільки він повернеться, знайдіть хлопців і зустріньте мене тут."
+      },
+      "chunks": { "2367075000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I think I see a way in.",
+        "uk": "Думаю, я бачу шлях."
+      },
+      "chunks": { "2370704000": 1 }
+    },
+    {
+      "text": { "en-US": "All right.", "uk": "Гаразд." },
+      "chunks": { "2387262000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Now, be quick but thorough.",
+        "uk": "Тепер будьте швидкими, але ретельними."
+      },
+      "chunks": { "2389514000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Maximum damage, minimum time.",
+        "uk": "Максимальна шкода, мінімальний час."
+      },
+      "chunks": { "2391766000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You see anything valuable, grab it, and we'll, uh, settle up after.",
+        "uk": "Ви бачите що -небудь цінне, захопіть його, і ми, е -е, влаштуємось після."
+      },
+      "chunks": { "2395937000": 2, "2397856000": 1 }
+    },
+    {
+      "text": { "en-US": "Good?", "uk": "Добре?" },
+      "chunks": { "2399941000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah. Golden.", "uk": "Так.Золотий." },
+      "chunks": { "2399941000": 1 }
+    },
+    {
+      "text": { "en-US": "Whoo!", "uk": "Вахо!" },
+      "chunks": { "2401776000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah!", "uk": "Так!" },
+      "chunks": { "2401776000": 1 }
+    },
+    {
+      "text": { "en-US": "Let's go, boys!", "uk": "Підемо, хлопці!" },
+      "chunks": { "2403611000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on!", "uk": "Давай!" },
+      "chunks": { "2403611000": 1 }
+    },
+    {
+      "text": { "en-US": "Carl?", "uk": "Карл?" },
+      "chunks": { "2515473000": 1 }
+    },
+    {
+      "text": { "en-US": "Hank?", "uk": "Хенк?" },
+      "chunks": { "2540874000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "What the hell are you doing?",
+        "uk": "Що, чорт візьми, ти робиш?"
+      },
+      "chunks": { "2543084000": 1 }
+    },
+    {
+      "text": { "en-US": "Hank?", "uk": "Хенк?" },
+      "chunks": { "2554012000": 1 }
+    },
+    {
+      "text": { "en-US": "Hank!", "uk": "Хенк!" },
+      "chunks": { "2556306000": 1 }
+    },
+    {
+      "text": { "en-US": "Jeff?", "uk": "Джефф?" },
+      "chunks": { "2556306000": 1 }
+    },
+    {
+      "text": { "en-US": "Jeff!", "uk": "Джефф!" },
+      "chunks": { "2559768000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Come on, you stupid...",
+        "uk": "Давай, ти дурний ..."
+      },
+      "chunks": { "2563563000": 1 }
+    },
+    {
+      "text": { "en-US": "Hank?", "uk": "Хенк?" },
+      "chunks": { "2564689000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on. Come on.", "uk": "Давай. Давай." },
+      "chunks": { "2567025000": 1 }
+    },
+    {
+      "text": { "en-US": "Hank?", "uk": "Хенк?" },
+      "chunks": { "2592258000": 1 }
+    },
+    {
+      "text": { "en-US": "Shit.", "uk": "Лайно." },
+      "chunks": { "2643059000": 1 }
+    },
+    {
+      "text": { "en-US": "No! No! No!", "uk": "Немає!Немає!Немає!" },
+      "chunks": { "2650859000": 1 }
+    },
+    {
+      "text": { "en-US": "Jeff?", "uk": "Джефф?" },
+      "chunks": { "2715757000": 1 }
+    },
+    {
+      "text": { "en-US": "Carl?", "uk": "Карл?" },
+      "chunks": { "2719469000": 1 }
+    },
+    {
+      "text": { "en-US": "Follow me.", "uk": "Слідуй за мною." },
+      "chunks": { "2728895000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey, wait!", "uk": "Гей, почекай!" },
+      "chunks": { "2732857000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on.", "uk": "Давай." },
+      "chunks": { "2733942000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello?", "uk": "Привіт?" },
+      "chunks": { "2739114000": 1 }
+    },
+    {
+      "text": { "en-US": "This way.", "uk": "Сюди." },
+      "chunks": { "2745412000": 1 }
+    },
+    {
+      "text": { "en-US": "Warmer.", "uk": "Тепліше." },
+      "chunks": { "2775483000": 1 }
+    },
+    {
+      "text": { "en-US": "How in the heck?", "uk": "Як у біса?" },
+      "chunks": { "2781614000": 1 }
+    },
+    {
+      "text": { "en-US": "Warmer.", "uk": "Тепліше." },
+      "chunks": { "2789998000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's feeding time for the giraffe.",
+        "uk": "Це час годування для жирафа."
+      },
+      "chunks": { "2823323000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, Abs, what you working on?",
+        "uk": "Гей, абс, над чим ти працюєш?"
+      },
+      "chunks": { "2833958000": 1 }
+    },
+    {
+      "text": { "en-US": "All right.", "uk": "Гаразд." },
+      "chunks": { "2839756000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I guess you don't want this, then.",
+        "uk": "Я думаю, ви цього не хочете."
+      },
+      "chunks": { "2841091000": 1 }
+    },
+    {
+      "text": { "en-US": "It's cool, huh?", "uk": "Це круто, так?" },
+      "chunks": { "2848973000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "2855939000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'm trying my best, Abby, okay?",
+        "uk": "Я намагаюся з усіх сил, Еббі, добре?"
+      },
+      "chunks": { "2864280000": 1 }
+    },
+    {
+      "text": { "en-US": "Can't you read?", "uk": "Ви не можете прочитати?" },
+      "chunks": { "2886219000": 1 }
+    },
+    {
+      "text": { "en-US": "You okay?", "uk": "Ти в порядку?" },
+      "chunks": { "2887762000": 1 }
+    },
+    {
+      "text": { "en-US": "I made a mess.", "uk": "Я зробив безлад." },
+      "chunks": { "2891558000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm sorry.", "uk": "Вибачте." },
+      "chunks": { "2894102000": 1 }
+    },
+    {
+      "text": { "en-US": "They're just...", "uk": "Вони просто ..." },
+      "chunks": { "2896604000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "they're just papers, all right?",
+        "uk": "Вони просто папери, добре?"
+      },
+      "chunks": { "2896604000": 1 }
+    },
+    {
+      "text": { "en-US": "They don't...", "uk": "Вони не ..." },
+      "chunks": { "2899232000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "they don't mean anything.",
+        "uk": "Вони нічого не означають."
+      },
+      "chunks": { "2899232000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Then why do you have them?",
+        "uk": "Тоді чому у вас є?"
+      },
+      "chunks": { "2901151000": 1 }
+    },
+    {
+      "text": { "en-US": "Well, that's complicated.", "uk": "Ну, це складно." },
+      "chunks": { "2903278000": 1 }
+    },
+    {
+      "text": { "en-US": "Aunt Jane...", "uk": "Тітка Джейн ..." },
+      "chunks": { "2903278000": 1 }
+    },
+    {
+      "text": { "en-US": "I hate her.", "uk": "Я ненавиджу її." },
+      "chunks": { "2906072000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "She's mean and she smells like cigarettes.",
+        "uk": "Вона підла, і вона пахне сигаретами."
+      },
+      "chunks": { "2907449000": 2 }
+    },
+    {
+      "text": { "en-US": "It's not funny.", "uk": "Це вже не смішно." },
+      "chunks": { "2911494000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You're right, it's not.",
+        "uk": "Ти маєш рацію, це не так."
+      },
+      "chunks": { "2913038000": 1 }
+    },
+    {
+      "text": { "en-US": "It's just, uh...", "uk": "Це просто, е ..." },
+      "chunks": { "2913038000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't know, it's nice that we can finally agree about something.",
+        "uk": "Не знаю, приємно, що ми можемо нарешті щось погодитися."
+      },
+      "chunks": { "2915290000": 1, "2916916000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Are you gonna give me away?",
+        "uk": "Ти збираєшся віддати мене?"
+      },
+      "chunks": { "2919252000": 2 }
+    },
+    {
+      "text": { "en-US": "Abs, no, I...", "uk": "Абс, ні, я ..." },
+      "chunks": { "2922047000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey. Vanessa.", "uk": "Гей.Ванесса." },
+      "chunks": { "2929179000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey, Mike.", "uk": "Гей, Майк." },
+      "chunks": { "2930513000": 1 }
+    },
+    {
+      "text": { "en-US": "And hello.", "uk": "І привіт." },
+      "chunks": { "2932182000": 1 }
+    },
+    {
+      "text": { "en-US": "Vanessa, this is Abby.", "uk": "Ванесса, це Еббі." },
+      "chunks": { "2934059000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, Vanessa.", "uk": "Еббі, Ванесса." },
+      "chunks": { "2934059000": 1 }
+    },
+    {
+      "text": { "en-US": "Hi, Abby.", "uk": "Привіт, Еббі." },
+      "chunks": { "2936728000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Mike didn't tell me he had a daughter.",
+        "uk": "Майк не сказав мені, що у нього є дочка."
+      },
+      "chunks": { "2939230000": 2 }
+    },
+    {
+      "text": { "en-US": "Gross.", "uk": "Грубо." },
+      "chunks": { "2941691000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "No, uh, Abby's my sister.",
+        "uk": "Ні, е, Еббі моя сестра."
+      },
+      "chunks": { "2941691000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Ah. Well, he didn't tell me he had a sister either.",
+        "uk": "Ах.Ну, він не сказав мені, що у нього є сестра."
+      },
+      "chunks": { "2943610000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Are you here to arrest Mike?",
+        "uk": "Ви тут, щоб заарештувати Майка?"
+      },
+      "chunks": { "2946946000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay, uh, can you go play in your room so me and Vanessa can talk?",
+        "uk": "Гаразд, е -е, чи можете ви піти грати у вашій кімнаті, щоб я та Ванеса могли поговорити?"
+      },
+      "chunks": { "2949491000": 2, "2951743000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's nice to meet you.",
+        "uk": "Приємно познайомитися."
+      },
+      "chunks": { "2953787000": 1 }
+    },
+    {
+      "text": { "en-US": "What, um...", "uk": "Що, гм ..." },
+      "chunks": { "2956998000": 1 }
+    },
+    {
+      "text": { "en-US": "what are you doing here?", "uk": "що ти тут робиш?" },
+      "chunks": { "2956998000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Somebody broke into Freddy's.",
+        "uk": "Хтось увірвався в Фредді."
+      },
+      "chunks": { "2960168000": 1 }
+    },
+    {
+      "text": { "en-US": "What?", "uk": "Що?" },
+      "chunks": { "2960168000": 1 }
+    },
+    {
+      "text": { "en-US": "Wh-What-what happened?", "uk": "Wh-що-що сталося?" },
+      "chunks": { "2963004000": 1 }
+    },
+    {
+      "text": { "en-US": "Recognize these?", "uk": "Визнати їх?" },
+      "chunks": { "2964923000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Look, it's not what you think, okay?",
+        "uk": "Подивіться, це не те, що ви думаєте, добре?"
+      },
+      "chunks": { "2968677000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Th-Those are-- They're sleeping pills.",
+        "uk": "Th-Those є-вони снодійні."
+      },
+      "chunks": { "2970387000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "They help me sleep.",
+        "uk": "Вони допомагають мені спати."
+      },
+      "chunks": { "2972347000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I know what they are, Mike.",
+        "uk": "Я знаю, що вони, Майк."
+      },
+      "chunks": { "2972347000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's written on the bottle.",
+        "uk": "Він написаний на пляшці."
+      },
+      "chunks": { "2974057000": 1 }
+    },
+    {
+      "text": { "en-US": "News flash...", "uk": "Екстрене повідомлення..." },
+      "chunks": { "2976685000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "If you're too whacked out to remember to lock a friggin' door, accident or not, you're liable.",
+        "uk": "Якщо ви занадто вибиті, щоб пам’ятати, щоб зафіксувати двері, випадковість чи ні, ви відповідаєте."
+      },
+      "chunks": { "2976685000": 1, "2978687000": 2, "2980230000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's called criminal negligence.",
+        "uk": "Це називається злочинною недбалістю."
+      },
+      "chunks": { "2982440000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You wouldn't understand.",
+        "uk": "Ви б не зрозуміли."
+      },
+      "chunks": { "2984275000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, then help me.",
+        "uk": "Ну, тоді допоможи мені."
+      },
+      "chunks": { "2986695000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "'Cause the moment I file that report, it's out of my hands.",
+        "uk": "Тому що, коли я подаю цей звіт, це з моїх рук."
+      },
+      "chunks": { "2988238000": 1, "2990281000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You want to take a walk?",
+        "uk": "Ви хочете прогулятися?"
+      },
+      "chunks": { "2997038000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So I used to have a brother.",
+        "uk": "Тож у мене був брат."
+      },
+      "chunks": { "3003044000": 1 }
+    },
+    {
+      "text": { "en-US": "His name was Garrett.", "uk": "Його звали Гаррет." },
+      "chunks": { "3008008000": 1 }
+    },
+    {
+      "text": { "en-US": "And when I was...", "uk": "І коли я був ..." },
+      "chunks": { "3011386000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "about 12, he was, uh, he was taken.",
+        "uk": "Близько 12, він був, е -е, його взяли."
+      },
+      "chunks": { "3013888000": 1, "3016391000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And I was there when it happened.",
+        "uk": "І я був там, коли це сталося."
+      },
+      "chunks": { "3020145000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They never found the guy who did it, and they never found my brother.",
+        "uk": "Вони ніколи не знайшли хлопця, який це зробив, і вони ніколи не знайшли мого брата."
+      },
+      "chunks": { "3024315000": 1, "3026067000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So there's this theory that, uh, we can't forget things.",
+        "uk": "Отже, є ця теорія, що, е, ми не можемо забути речі."
+      },
+      "chunks": { "3032866000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Basically, it says that every single thing that you see in your entire life, down to the tiniest of details, gets stored inside of you.",
+        "uk": "В основному, це говорить про те, що кожна річ, яку ви бачите за все своє життя, аж до найдрібніших деталей, зберігається всередині вас."
+      },
+      "chunks": { "3037037000": 2, "3040040000": 2, "3042834000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You just have to know how to look.",
+        "uk": "Ви просто повинні знати, як виглядати."
+      },
+      "chunks": { "3044753000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Your brother-- you think you saw who took him?",
+        "uk": "Твій брат- ти думаєш, ти бачив, хто його взяв?"
+      },
+      "chunks": { "3048089000": 1, "3050258000": 1 }
+    },
+    {
+      "text": { "en-US": "I know I did.", "uk": "Я знаю, що зробив." },
+      "chunks": { "3052385000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And I know that he's in here, but he's just-- he's-- It's buried.",
+        "uk": "І я знаю, що він тут, але він просто ... він-- це поховано."
+      },
+      "chunks": { "3054387000": 2, "3056890000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So every night, I dream, and I go back to that same memory, and I-I search for details.",
+        "uk": "Тож щовечора я мрію, і повертаюся до тієї самої пам’яті, і я-я шукаю деталі."
+      },
+      "chunks": { "3058099000": 1, "3060101000": 1, "3061519000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "For any little thing that got overlooked.",
+        "uk": "Для будь -якої дрібниці, яка не помітила."
+      },
+      "chunks": { "3063772000": 2 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "3072489000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And that's usually the part where people tell me I'm crazy.",
+        "uk": "І це зазвичай частина, де люди кажуть мені, що я божевільний."
+      },
+      "chunks": { "3074074000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I know what crazy looks like, Mike.",
+        "uk": "Я знаю, як виглядає божевільне, Майк."
+      },
+      "chunks": { "3078745000": 1 }
+    },
+    {
+      "text": { "en-US": "This isn't it.", "uk": "Це не все." },
+      "chunks": { "3080830000": 1 }
+    },
+    {
+      "text": { "en-US": "Not even close.", "uk": "Навіть близько не." },
+      "chunks": { "3082791000": 1 }
+    },
+    {
+      "text": { "en-US": "And these?", "uk": "А ці?" },
+      "chunks": { "3085794000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I mean, going back to the same dream, the same place night after night, it's not easy, so the-the pills help.",
+        "uk": "Я маю на увазі, повертаючись до тієї ж мрії, того ж місця вночі за ніч, це непросто, тому таблетки допомагають."
+      },
+      "chunks": { "3088380000": 1, "3090757000": 1, "3092467000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Some other things, like familiar sights, familiar sounds.",
+        "uk": "Деякі інші речі, як знайомі пам’ятки, знайомі звуки."
+      },
+      "chunks": { "3095136000": 1, "3096388000": 2 }
+    },
+    {
+      "text": { "en-US": "Pining for fun?", "uk": "Пінінг для розваги?" },
+      "chunks": { "3098306000": 1 }
+    },
+    {
+      "text": { "en-US": "Visit Nebraska.", "uk": "Відвідайте Небраску." },
+      "chunks": { "3101518000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Your sister seems cool.",
+        "uk": "Ваша сестра здається крутою."
+      },
+      "chunks": { "3103937000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So it's just the two of you?",
+        "uk": "Так що це просто двоє?"
+      },
+      "chunks": { "3106523000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "3109067000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah, it's just us.", "uk": "Так, це просто ми." },
+      "chunks": { "3110944000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Our mom died a little while back.",
+        "uk": "Наша мама померла трохи назад."
+      },
+      "chunks": { "3113488000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And Dad, he couldn't handle it, You know what's crazy is, uh, when... when Garrett and I were kids, they were like those perfect parents you'd see on old TV shows.",
+        "uk": "І тато, він не міг впоратися з цим, ти знаєш, що божевільно, а, коли ... коли ми з Гарреттом були дітьми, вони були як ті ідеальні батьки, яких ти бачив у старих телевізійних шоу."
+      },
+      "chunks": {
+        "3117701000": 1,
+        "3123164000": 1,
+        "3124624000": 2,
+        "3126668000": 2,
+        "3129337000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "Yeah, ev-every night, we would sit down together, we'd have family dinner, and we'd hold hands and say grace, and...",
+        "uk": "Так, EV-за кожну ніч, ми б сідали разом, нам пообідали сімейні, і ми тримаємо руки і скажи благодать, і ..."
+      },
+      "chunks": { "3133008000": 2, "3136344000": 1, "3137887000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "That actually sounds really nice.",
+        "uk": "Це насправді звучить дуже приємно."
+      },
+      "chunks": { "3141599000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Yeah, at the time, I thought it was really cheesy.",
+        "uk": "Так, у той час я думав, що це справді сирно."
+      },
+      "chunks": { "3143435000": 2 }
+    },
+    {
+      "text": { "en-US": "But then it's gone.", "uk": "Але тоді його немає." },
+      "chunks": { "3151026000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You and Abby, you still have each other.",
+        "uk": "Ви і Еббі, у вас все ще є один одного."
+      },
+      "chunks": { "3156573000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "From where I sit, I'd say you're lucky.",
+        "uk": "Звідки я сиджу, я б сказав, що тобі пощастило."
+      },
+      "chunks": { "3162454000": 2 }
+    },
+    {
+      "text": { "en-US": "I should go.", "uk": "Я повинен йти." },
+      "chunks": { "3170545000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "No more sleeping on the job.",
+        "uk": "Більше не спати на роботі."
+      },
+      "chunks": { "3176968000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "When you're at Freddy's, you stay alert.",
+        "uk": "Коли ви перебуваєте у Фредді, ви залишаєтесь настороженими."
+      },
+      "chunks": { "3179512000": 2 }
+    },
+    {
+      "text": { "en-US": "Hey, it's Max.", "uk": "Гей, це Макс." },
+      "chunks": { "3185602000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Leave a message. Or don't.",
+        "uk": "Залишити повідомлення.Чи ні."
+      },
+      "chunks": { "3187062000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on, Max. Come on.", "uk": "Давай, Макс.Давай." },
+      "chunks": { "3193985000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, it's Max. Leave a mes...",
+        "uk": "Гей, це Макс.Залиште ME ..."
+      },
+      "chunks": { "3197739000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I will work, and you will sleep, and under no circumstances are you gonna come out of my office.",
+        "uk": "Я буду працювати, і ти будеш спати, і ні за яких обставин ти не вийдеш з мого кабінету."
+      },
+      "chunks": { "3210168000": 1, "3211711000": 2, "3213630000": 2 }
+    },
+    {
+      "text": { "en-US": "Do you understand?", "uk": "Ти розумієш?" },
+      "chunks": { "3214964000": 1 }
+    },
+    {
+      "text": { "en-US": "I understand.", "uk": "Я розумію." },
+      "chunks": { "3214964000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "This is not a vacation, okay?",
+        "uk": "Це не відпустка, добре?"
+      },
+      "chunks": { "3216841000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You're not here to have fun.",
+        "uk": "Ви не тут, щоб розважитися."
+      },
+      "chunks": { "3216841000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "3220178000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Whoa, slow down, slow down, slow down.",
+        "uk": "Ого, уповільнюйте, уповільнюйте, уповільнюйте."
+      },
+      "chunks": { "3221763000": 1 }
+    },
+    {
+      "text": { "en-US": "No, no, no.", "uk": "Ні-ні-ні." },
+      "chunks": { "3221763000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "3223807000": 1 }
+    },
+    {
+      "text": { "en-US": "Whoa.", "uk": "Ого." },
+      "chunks": { "3231022000": 1 }
+    },
+    {
+      "text": { "en-US": "What happened?", "uk": "Що сталося?" },
+      "chunks": { "3232982000": 1 }
+    },
+    {
+      "text": { "en-US": "Give me your hand.", "uk": "Дайте мені вашу руку." },
+      "chunks": { "3238196000": 1 }
+    },
+    {
+      "text": { "en-US": "Watch out.", "uk": "Стережись." },
+      "chunks": { "3239906000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Do you want me to turn the light off?",
+        "uk": "Ви хочете, щоб я вимкнув світло?"
+      },
+      "chunks": { "3243034000": 2 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "3247956000": 1 }
+    },
+    {
+      "text": { "en-US": "Good night.", "uk": "Надобраніч." },
+      "chunks": { "3249332000": 1 }
+    },
+    {
+      "text": { "en-US": "It's like camping.", "uk": "Це як кемпінг." },
+      "chunks": { "3252544000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "3372914000": 1 }
+    },
+    {
+      "text": { "en-US": "I'll be right back.", "uk": "Я повернусь назад." },
+      "chunks": { "3390098000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello?", "uk": "Привіт?" },
+      "chunks": { "3405572000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I know you're back there.",
+        "uk": "Я знаю, що ти там повернувся."
+      },
+      "chunks": { "3413121000": 1 }
+    },
+    {
+      "text": { "en-US": "Might as well come out.", "uk": "Може також вийти." },
+      "chunks": { "3415498000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You're those kids, right?",
+        "uk": "Ви ті діти, правда?"
+      },
+      "chunks": { "3445653000": 1 }
+    },
+    {
+      "text": { "en-US": "The ones who disappeared?", "uk": "Ті, хто зник?" },
+      "chunks": { "3452160000": 1 }
+    },
+    {
+      "text": { "en-US": "Look.", "uk": "Подивіться." },
+      "chunks": { "3458667000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't know how it's possible that you're here like this in my dream, but...",
+        "uk": "Я не знаю, як можливо, що ти тут уві сні, але ..."
+      },
+      "chunks": { "3462671000": 2, "3467300000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "...I need your help.",
+        "uk": "...Мені потрібна твоя допомога."
+      },
+      "chunks": { "3472389000": 1 }
+    },
+    {
+      "text": { "en-US": "Please.", "uk": "Будь ласка." },
+      "chunks": { "3474224000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Help me remember the man who took my brother.",
+        "uk": "Допоможіть мені запам'ятати чоловіка, який взяв мого брата."
+      },
+      "chunks": { "3477727000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "If we show you, what will you give us?",
+        "uk": "Якщо ми покажемо вам, що ви нам дасте?"
+      },
+      "chunks": { "3484859000": 1, "3487362000": 1 }
+    },
+    {
+      "text": { "en-US": "Anything.", "uk": "Що -небудь." },
+      "chunks": { "3490198000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'll give you anything you want.",
+        "uk": "Я дам тобі все, що ти хочеш."
+      },
+      "chunks": { "3491991000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "3514180000": 1 }
+    },
+    {
+      "text": { "en-US": "Stop! Stop! Stop!", "uk": "СТІЙ!СТІЙ!СТІЙ!" },
+      "chunks": { "3519060000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "3521688000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike.", "uk": "Майк." },
+      "chunks": { "3534868000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They wouldn't stop tickling me.",
+        "uk": "Вони не перестали б мене лоскотати."
+      },
+      "chunks": { "3538163000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I thought I was gonna die.",
+        "uk": "Я думав, що збираюся помру."
+      },
+      "chunks": { "3539873000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Freddy, this is my brother, Mike.",
+        "uk": "Фредді, це мій брат, Майк."
+      },
+      "chunks": { "3541958000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, what is this?", "uk": "Еббі, що це?" },
+      "chunks": { "3548840000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on.", "uk": "Давай." },
+      "chunks": { "3548840000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I want you to meet the others.",
+        "uk": "Я хочу, щоб ти познайомився з іншими."
+      },
+      "chunks": { "3550759000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Mike, this is Bonnie, Foxy and Chica.",
+        "uk": "Майк, це Бонні, Фоксі та Чіка."
+      },
+      "chunks": { "3564606000": 1, "3566941000": 1 }
+    },
+    {
+      "text": { "en-US": "Everyone, this is Mike.", "uk": "Усі, це Майк." },
+      "chunks": { "3570320000": 1, "3573114000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "This-this is a joke, right?",
+        "uk": "Це-це жарт, правда?"
+      },
+      "chunks": { "3578870000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I mean, th-there's someone here.",
+        "uk": "Я маю на увазі, тут є хтось."
+      },
+      "chunks": { "3580580000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "There's probably somebody controlling them, right?",
+        "uk": "Напевно, хтось з ними контролює, правда?"
+      },
+      "chunks": { "3582957000": 2 }
+    },
+    {
+      "text": { "en-US": "I mean...", "uk": "Я маю на увазі..." },
+      "chunks": { "3585752000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay, good joke!", "uk": "Гаразд, хороший жарт!" },
+      "chunks": { "3589464000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Congratulations! You got me!",
+        "uk": "Вітаємо!Ти мене зрозумів!"
+      },
+      "chunks": { "3591466000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You can come out now!",
+        "uk": "Ви можете вийти зараз!"
+      },
+      "chunks": { "3593551000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello?", "uk": "Привіт?" },
+      "chunks": { "3598306000": 1 }
+    },
+    {
+      "text": { "en-US": "It's okay, Mike.", "uk": "Нічого страшного, Майк." },
+      "chunks": { "3605772000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They just want to play.",
+        "uk": "Вони просто хочуть грати."
+      },
+      "chunks": { "3607399000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "We have to go home now. Come on.",
+        "uk": "Зараз ми повинні йти додому.Давай."
+      },
+      "chunks": { "3612153000": 1 }
+    },
+    {
+      "text": { "en-US": "Hold on.", "uk": "Зачекай." },
+      "chunks": { "3612153000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They really like pictures.",
+        "uk": "Вони дуже люблять фотографії."
+      },
+      "chunks": { "3618660000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I had a lot of fun tonight.",
+        "uk": "Сьогодні мені було дуже весело."
+      },
+      "chunks": { "3633591000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Thank you for playing with me.",
+        "uk": "Дякую, що грали зі мною."
+      },
+      "chunks": { "3637012000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay, okay, Abby, come on.",
+        "uk": "Гаразд, гаразд, Еббі, давай."
+      },
+      "chunks": { "3638847000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "3642142000": 1 }
+    },
+    {
+      "text": { "en-US": "There you go.", "uk": "Ось так." },
+      "chunks": { "3677093000": 1 }
+    },
+    {
+      "text": { "en-US": "It's them.", "uk": "Це вони." },
+      "chunks": { "3713505000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, Abby, um, we need to talk about last night, okay?",
+        "uk": "Гей, Еббі, гм, нам потрібно поговорити вчора ввечері, добре?"
+      },
+      "chunks": { "3733900000": 1, "3735443000": 2 }
+    },
+    {
+      "text": { "en-US": "So those, uh, those...", "uk": "Отже, ті, ті ..." },
+      "chunks": { "3743993000": 1 }
+    },
+    {
+      "text": { "en-US": "machines...", "uk": "машини ..." },
+      "chunks": { "3743993000": 1 }
+    },
+    {
+      "text": { "en-US": "My friends?", "uk": "Мої друзі?" },
+      "chunks": { "3746955000": 1 }
+    },
+    {
+      "text": { "en-US": "Your friends?", "uk": "Ваші друзі?" },
+      "chunks": { "3749374000": 1 }
+    },
+    {
+      "text": { "en-US": "are they...?", "uk": "чи вони...?" },
+      "chunks": { "3754462000": 1 }
+    },
+    {
+      "text": { "en-US": "Ghosts?", "uk": "Привиди?" },
+      "chunks": { "3756297000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "3758550000": 1 }
+    },
+    {
+      "text": { "en-US": "Of course.", "uk": "Звичайно." },
+      "chunks": { "3758550000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "How else could they make the robots move?",
+        "uk": "Як інакше вони могли змусити роботів рухатися?"
+      },
+      "chunks": { "3761177000": 2 }
+    },
+    {
+      "text": { "en-US": "Right.", "uk": "Правильно." },
+      "chunks": { "3766516000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Can I have some more soup?",
+        "uk": "Чи можу я отримати ще трохи супу?"
+      },
+      "chunks": { "3768643000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah, sure.", "uk": "Так, звичайно." },
+      "chunks": { "3772022000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey, Abs.", "uk": "Гей, абс." },
+      "chunks": { "3777861000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You know we used to have a brother, right?",
+        "uk": "Ви знаєте, що ми мали брата, правда?"
+      },
+      "chunks": { "3780989000": 2 }
+    },
+    {
+      "text": { "en-US": "Garrett.", "uk": "Гаррет." },
+      "chunks": { "3784659000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't... I don't really talk about him very much.",
+        "uk": "Я не ... Я насправді не дуже говорю про нього."
+      },
+      "chunks": { "3788580000": 2 }
+    },
+    {
+      "text": { "en-US": "Neither did Mom or Dad.", "uk": "Ні мама, ні тато." },
+      "chunks": { "3792000000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Yeah, it was hard for them.",
+        "uk": "Так, їм було важко."
+      },
+      "chunks": { "3794586000": 1 }
+    },
+    {
+      "text": { "en-US": "It's hard for me, too.", "uk": "Мені теж важко." },
+      "chunks": { "3797130000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "C-Can you explain this to me?",
+        "uk": "C-Can, ти мені це пояснюєш?"
+      },
+      "chunks": { "3812270000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You-you drew that, right?",
+        "uk": "Ти намалював це, правда?"
+      },
+      "chunks": { "3816524000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay, and... and-and you know what that is?",
+        "uk": "Гаразд, і ... і і ти знаєш, що це?"
+      },
+      "chunks": { "3821488000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, hey, it's okay.",
+        "uk": "Гей, гей, це нормально."
+      },
+      "chunks": { "3827619000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay, I'm not, I'm not mad.",
+        "uk": "Гаразд, я ні, я не злий."
+      },
+      "chunks": { "3828995000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I won't get angry at you.",
+        "uk": "Я не злюсь на вас."
+      },
+      "chunks": { "3830538000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But I really need you to help me understand, please.",
+        "uk": "Але мені справді потрібно, щоб ви допомогли мені зрозуміти, будь ласка."
+      },
+      "chunks": { "3832207000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "That's when Garrett got taken.",
+        "uk": "Ось тоді Гарретта взяли."
+      },
+      "chunks": { "3837837000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Abby, who told you about that?",
+        "uk": "Еббі, хто про це розповів?"
+      },
+      "chunks": { "3841675000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "W-Was it a-a boy with blonde hair?",
+        "uk": "W-це хлопчик із світлим волоссям?"
+      },
+      "chunks": { "3846513000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Did that boy ever tell you anything about the man driving that car?",
+        "uk": "Це хлопчик коли -небудь розповідав вам щось про чоловіка, який керував цією машиною?"
+      },
+      "chunks": { "3851393000": 2, "3854938000": 1 }
+    },
+    {
+      "text": { "en-US": "Anything at all?", "uk": "Щось взагалі?" },
+      "chunks": { "3857524000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay, just think, think really hard, okay?",
+        "uk": "Гаразд, подумайте, подумайте справді важко, добре?"
+      },
+      "chunks": { "3859067000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "All they talk about is a yellow rabbit.",
+        "uk": "Все, про що вони говорять, - це жовтий кролик."
+      },
+      "chunks": { "3869619000": 2 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "3873790000": 1 }
+    },
+    {
+      "text": { "en-US": "I can ask.", "uk": "Я можу запитати." },
+      "chunks": { "3878545000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I would really appreciate that.",
+        "uk": "Я б дуже цінував це."
+      },
+      "chunks": { "3881464000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª We love the yellow rabbit â™ª â™ª We love the yellow rabbit â™ª Vanessa's here.",
+        "uk": "â ™ ª Ми любимо жовтого кролика ™ ª â ™ ª"
+      },
+      "chunks": { "3909784000": 1, "3913288000": 1, "3926259000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "3927886000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "My friends talk about her sometimes.",
+        "uk": "Мої друзі іноді говорять про неї."
+      },
+      "chunks": { "3929220000": 1 }
+    },
+    {
+      "text": { "en-US": "What do they say?", "uk": "Що вони говорять?" },
+      "chunks": { "3931473000": 1 }
+    },
+    {
+      "text": { "en-US": "That she's nice.", "uk": "Що вона приємна." },
+      "chunks": { "3931473000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Abby, if I asked you to wait in the car, would you?",
+        "uk": "Еббі, якби я попросив вас чекати в машині, чи не так?"
+      },
+      "chunks": { "3934351000": 2 }
+    },
+    {
+      "text": { "en-US": "Abby, wait.", "uk": "Еббі, чекай." },
+      "chunks": { "3939522000": 1 }
+    },
+    {
+      "text": { "en-US": "Guys, I'm back.", "uk": "Хлопці, я повернувся." },
+      "chunks": { "3940857000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "3940857000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey, Vanessa.", "uk": "Гей, Ванесса." },
+      "chunks": { "3942359000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "3942359000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike.", "uk": "Майк." },
+      "chunks": { "3947322000": 1 }
+    },
+    {
+      "text": { "en-US": "Vanessa.", "uk": "Ванесса." },
+      "chunks": { "3947322000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I missed you guys.",
+        "uk": "Я сумував за вами, хлопці."
+      },
+      "chunks": { "3950450000": 1 }
+    },
+    {
+      "text": { "en-US": "You knew about this.", "uk": "Ви про це знали." },
+      "chunks": { "3955163000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Guess you figured it out.",
+        "uk": "Думаю, ви це зрозуміли."
+      },
+      "chunks": { "3960418000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Ghost children possessing giant robots?",
+        "uk": "Діти -привиди, що володіють гігантськими роботами?"
+      },
+      "chunks": { "3961753000": 1 }
+    },
+    {
+      "text": { "en-US": "Thanks for the heads-up.", "uk": "Дякую за голову." },
+      "chunks": { "3965006000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Guys, we need help.",
+        "uk": "Хлопці, нам потрібна допомога."
+      },
+      "chunks": { "3967008000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It needs to be big so we can all fit inside.",
+        "uk": "Він повинен бути великим, щоб ми могли всім вміститися всередині."
+      },
+      "chunks": { "3972347000": 1, "3974099000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, look.", "uk": "Еббі, дивіться." },
+      "chunks": { "3980689000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Now, this is all really fun and exciting, but these things are big, and they could be dangerous, so I think we need to lay some ground rules, all right?",
+        "uk": "Тепер це все справді весело і захоплююче, але ці речі великі, і вони можуть бути небезпечними, тому я думаю, що нам потрібно встановити деякі основні правила, все в порядку?"
+      },
+      "chunks": { "3982899000": 2, "3985360000": 2, "3987570000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Vanessa, what do you think?",
+        "uk": "Ванесса, що ти думаєш?"
+      },
+      "chunks": { "3989864000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I think we could use the tables for the fort.",
+        "uk": "Я думаю, що ми могли б використовувати таблиці для форту."
+      },
+      "chunks": { "3992992000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Everyone, follow me.",
+        "uk": "Всі, слідкуйте за мною."
+      },
+      "chunks": { "3996371000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on.", "uk": "Давай." },
+      "chunks": { "3999708000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª Riding on any wave â™ª â™ª That is the luck you crave â™ª â™ª They don't believe it now â™ª â™ª They just think it's stupid â™ª â™ª So got anything? â™ª â™ª Anyone could have done â™ª â™ª Who would've cared at all... â™ª It needs to be higher.",
+        "uk": "â ™ ª їзда на будь -якій хвилі â ™ ª ™ ™ ª ª Це удача, яку ти прагнеш â ™ ª ™ ™ ª ª ª ª ª ª ª ª ª ª ª ™ ™ ª ™ ª ™ ª ™ ™ ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª.Є щось?â ™ ª ™ ™ ª ª будь -хто міг зробити â ™ ª ™ ™ ª, хто б взагалі піклувався ... ™ ™ ª це повинно бути вищим."
+      },
+      "chunks": {
+        "4012137000": 1,
+        "4014139000": 1,
+        "4015390000": 1,
+        "4017559000": 1,
+        "4019436000": 1,
+        "4021896000": 1,
+        "4023982000": 1,
+        "4025108000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "â™ª I don't understand â™ª â™ª How a heart is a spade â™ª â™ª But somehow the vital â™ª You did it!",
+        "uk": "â ™ ª Я не розумію ™ ª â ™ ª Як серце - лопата ™ ª â ™ ª ª, але якось життєво важливий â ™ ª ª ª ª ª ª ª ª ª ви це зробили!"
+      },
+      "chunks": {
+        "4026943000": 1,
+        "4029070000": 1,
+        "4031531000": 1,
+        "4032824000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "â™ª Connection is made... â™ª Are you okay?",
+        "uk": "â ™ ª Зв'язок зроблений ... â ™ ª ª ª ª ª ª ª ª ª ª добре?"
+      },
+      "chunks": { "4034284000": 1, "4037620000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I like it in here.",
+        "uk": "Мені це подобається тут."
+      },
+      "chunks": { "4043126000": 1 }
+    },
+    {
+      "text": { "en-US": "Me, too.", "uk": "Я також." },
+      "chunks": { "4045337000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But I think it's gonna rain soon.",
+        "uk": "Але я думаю, що скоро буде дощ."
+      },
+      "chunks": { "4048340000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Sounds like we need a roof.",
+        "uk": "Здається, нам потрібен дах."
+      },
+      "chunks": { "4053428000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'll go see what I can find.",
+        "uk": "Я піду подивитися, що я можу знайти."
+      },
+      "chunks": { "4056222000": 1 }
+    },
+    {
+      "text": { "en-US": "I'll, uh...", "uk": "Я, е ..." },
+      "chunks": { "4060352000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I'll-I'll come with you.",
+        "uk": "Я-я піду з тобою."
+      },
+      "chunks": { "4060352000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Abby, don't forget to ask.",
+        "uk": "Еббі, не забудьте запитати."
+      },
+      "chunks": { "4063938000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "4066232000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "4066232000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "What are you looking for, exactly?",
+        "uk": "Що саме ви шукаєте?"
+      },
+      "chunks": { "4070111000": 1 }
+    },
+    {
+      "text": { "en-US": "Tablecloths.", "uk": "Скатертини." },
+      "chunks": { "4072113000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They used to keep 'em back here for big events.",
+        "uk": "Вони звикли утримувати їх тут для великих подій."
+      },
+      "chunks": { "4073907000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Right. And remind me how you know that.",
+        "uk": "Правильно.І нагадайте, як ви це знаєте."
+      },
+      "chunks": { "4076701000": 2 }
+    },
+    {
+      "text": { "en-US": "Found 'em.", "uk": "Знайдено їх." },
+      "chunks": { "4082791000": 1 }
+    },
+    {
+      "text": { "en-US": "Don't.", "uk": "Не робіть." },
+      "chunks": { "4095387000": 1 }
+    },
+    {
+      "text": { "en-US": "I wouldn't do that.", "uk": "Я б цього не робив." },
+      "chunks": { "4096471000": 1 }
+    },
+    {
+      "text": { "en-US": "They're spring locks.", "uk": "Вони весняні замки." },
+      "chunks": { "4098306000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They're on all the older models.",
+        "uk": "Вони на всіх старих моделях."
+      },
+      "chunks": { "4099766000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They were designed to keep the animatronic parts in place so that, uh, a person could safely wear the suit.",
+        "uk": "Вони були розроблені, щоб утримати аніматронічні частини на місці, щоб, е -е, людина могла безпечно носити костюм."
+      },
+      "chunks": { "4101810000": 2, "4103728000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "They tend to be pretty unstable.",
+        "uk": "Вони, як правило, досить нестабільні."
+      },
+      "chunks": { "4107691000": 1 }
+    },
+    {
+      "text": { "en-US": "Let's see.", "uk": "Подивимось." },
+      "chunks": { "4110735000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Like I said, unstable.",
+        "uk": "Як я вже сказав, нестабільний."
+      },
+      "chunks": { "4116241000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Is there anything else that you want to tell me about, Vanessa?",
+        "uk": "Чи є ще щось, про що ти хочеш сказати мені, Ванесса?"
+      },
+      "chunks": { "4122288000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "'Cause you seem to know everything about this place.",
+        "uk": "Тому що ви, здається, знаєте все про це місце."
+      },
+      "chunks": { "4125000000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And what if Abby'd come in here?",
+        "uk": "А що, якби Еббі завітав сюди?"
+      },
+      "chunks": { "4128128000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "What if she'd found that thing?",
+        "uk": "Що робити, якби вона знайшла цю річ?"
+      },
+      "chunks": { "4129212000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You're the one who brought her, Mike, not me.",
+        "uk": "Ти той, хто її приніс, Майк, а не я."
+      },
+      "chunks": { "4130672000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "What I can't wrap my head around is why.",
+        "uk": "Те, що я не можу обернути голову, - це чому."
+      },
+      "chunks": { "4133508000": 2 }
+    },
+    {
+      "text": { "en-US": "All right, look.", "uk": "Гаразд, дивіться." },
+      "chunks": { "4139347000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I think that they know who took my little brother.",
+        "uk": "Я думаю, що вони знають, хто взяв мого маленького брата."
+      },
+      "chunks": { "4141558000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I can't explain it, but when I'm here, I feel closer to Garrett.",
+        "uk": "Я не можу це пояснити, але коли я тут, я відчуваю себе ближче до Гарретта."
+      },
+      "chunks": { "4145687000": 2, "4147856000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "My dreams are more vivid, and it...",
+        "uk": "Мої мрії яскравіші, і це ..."
+      },
+      "chunks": { "4149315000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "it's like I can almost...",
+        "uk": "це як я можу майже ..."
+      },
+      "chunks": { "4150859000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Change what happened?",
+        "uk": "Змінити, що сталося?"
+      },
+      "chunks": { "4152861000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Did you ask them about this?",
+        "uk": "Ви запитували їх про це?"
+      },
+      "chunks": { "4161202000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah, I tried.", "uk": "Так, я спробував." },
+      "chunks": { "4163079000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't think they like me very much.",
+        "uk": "Я не думаю, що вони мені дуже подобаються."
+      },
+      "chunks": { "4164497000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "...they do like Abby.",
+        "uk": "... Вони люблять Еббі."
+      },
+      "chunks": { "4171296000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Mike, you need to drop this.",
+        "uk": "Майку, вам потрібно це кинути."
+      },
+      "chunks": { "4173715000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't really see how that's any of your business.",
+        "uk": "Я насправді не бачу, як це будь -яка ваша справа."
+      },
+      "chunks": { "4177052000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I'm telling you, you need to let it go.",
+        "uk": "Я вам кажу, вам потрібно відпустити це."
+      },
+      "chunks": { "4178928000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Who the hell are you?",
+        "uk": "Хто ви, чорт забирай?"
+      },
+      "chunks": { "4182891000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Just someone who's trying to help.",
+        "uk": "Просто хтось, хто намагається допомогти."
+      },
+      "chunks": { "4186436000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª Well, I'm just out of school â™ª â™ª Like I'm real, real cool â™ª â™ª Got to dance like a fool â™ª â™ª Got the message that I got to be a wild one â™ª â™ª Ooh, yeah, I'm a wild one â™ª Vanessa, wait.",
+        "uk": "â ™ ª Ну, я просто поза школою ™ ª â ™ ª ª, як я справжній, справжній крутий ™ ª â ™ ª ª повинен танцювати, як дурень ™ ª â ™ ª ª отримав повідомлення, яке я отримавЩоб бути диким â ™ ª â ™ ª ª ª о, так, я дикий â ™ ª vanessa, чекайте."
+      },
+      "chunks": {
+        "4189064000": 1,
+        "4191399000": 1,
+        "4193109000": 1,
+        "4194652000": 2,
+        "4198573000": 1,
+        "4201743000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "â™ª Gonna break it loose... â™ª Talk to me.",
+        "uk": "â ™ ª Зламатимуть його вільний ... â ™ ª Поговоріть зі мною."
+      },
+      "chunks": { "4203078000": 1, "4204537000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm trying.", "uk": "Я намагаюсь." },
+      "chunks": { "4204537000": 1 }
+    },
+    {
+      "text": { "en-US": "You're not listening.", "uk": "Ви не слухаєте." },
+      "chunks": { "4206373000": 1 }
+    },
+    {
+      "text": { "en-US": "Please.", "uk": "Будь ласка." },
+      "chunks": { "4207707000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Finding the guy that did this is the only thing that matters to me.",
+        "uk": "Пошук хлопця, який це зробив, - це єдине, що для мене важливе."
+      },
+      "chunks": { "4207707000": 1, "4209376000": 2 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "4215215000": 1 }
+    },
+    {
+      "text": { "en-US": "Wait. Abby, don't!", "uk": "Чекати.Еббі, ні!" },
+      "chunks": { "4216299000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "4225558000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby? Abby!", "uk": "Еббі?Еббі!" },
+      "chunks": { "4227310000": 1 }
+    },
+    {
+      "text": { "en-US": "What happened?", "uk": "Що сталося?" },
+      "chunks": { "4234984000": 1 }
+    },
+    {
+      "text": { "en-US": "It's okay, Abby.", "uk": "Нічого страшного, Еббі." },
+      "chunks": { "4234984000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You just had an accident.",
+        "uk": "У вас просто трапилася аварія."
+      },
+      "chunks": { "4238154000": 1 }
+    },
+    {
+      "text": { "en-US": "You're okay.", "uk": "З тобою все гаразд." },
+      "chunks": { "4240115000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm so sorry.", "uk": "Мені дуже шкода." },
+      "chunks": { "4245203000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't know what to say.",
+        "uk": "Я не знаю, що сказати."
+      },
+      "chunks": { "4251626000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Just go home, Mike.",
+        "uk": "Просто йдіть додому, Майк."
+      },
+      "chunks": { "4254462000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Take care of your sister.",
+        "uk": "Бережіть свою сестру."
+      },
+      "chunks": { "4257090000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "What are you so afraid of?",
+        "uk": "Чого ти так боїшся?"
+      },
+      "chunks": { "4260427000": 1 }
+    },
+    {
+      "text": { "en-US": "In the storage room...", "uk": "У сховищі ..." },
+      "chunks": { "4264305000": 1 }
+    },
+    {
+      "text": { "en-US": "I saw your eyes.", "uk": "Я побачив твої очі." },
+      "chunks": { "4266725000": 1 }
+    },
+    {
+      "text": { "en-US": "You were terrified.", "uk": "Ви жахнулися." },
+      "chunks": { "4266725000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You can do whatever you want with your own life, but if you ever bring Abby back here again, I will shoot you.",
+        "uk": "Ви можете робити все, що завгодно, з власним життям, але якщо ви коли -небудь знову повернете Еббі, я застрелю вас."
+      },
+      "chunks": { "4275275000": 2, "4277485000": 2, "4280071000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "She looked so angry.",
+        "uk": "Вона виглядала так розлючена."
+      },
+      "chunks": { "4291666000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Why does everyone always look at you that way?",
+        "uk": "Чому всі так завжди дивляться на вас?"
+      },
+      "chunks": { "4294169000": 2 }
+    },
+    {
+      "text": { "en-US": "Hey, it's Mike.", "uk": "Гей, це Майк." },
+      "chunks": { "4317692000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I need your help.",
+        "uk": "Мені потрібна твоя допомога."
+      },
+      "chunks": { "4320362000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4334334000": 1 }
+    },
+    {
+      "text": { "en-US": "Is that bacon?", "uk": "Це бекон?" },
+      "chunks": { "4336920000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, why don't you, uh, get dressed and then come to the kitchen, okay?",
+        "uk": "Гей, чому ти, а -е, одягнешся, а потім прийти на кухню, добре?"
+      },
+      "chunks": { "4338755000": 1, "4340048000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I want to talk to you about something.",
+        "uk": "Я хочу поговорити з вами про щось."
+      },
+      "chunks": { "4341549000": 2 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "4343009000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Wow, there's my favorite little girl.",
+        "uk": "Ого, там моя улюблена маленька дівчинка."
+      },
+      "chunks": { "4349766000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Come have a seat, all right?",
+        "uk": "Приходьте місце, добре?"
+      },
+      "chunks": { "4354604000": 1 }
+    },
+    {
+      "text": { "en-US": "What did you do?", "uk": "Що ти зробив?" },
+      "chunks": { "4357190000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Abby, look, I think if you just sit down, we can explain it to you, okay?",
+        "uk": "Еббі, дивись, я думаю, якщо ти просто сідаєш, ми можемо пояснити це тобі, добре?"
+      },
+      "chunks": { "4358900000": 2, "4360694000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I promise you, this is not what you think it is.",
+        "uk": "Обіцяю вам, це не те, що ви думаєте, що це є."
+      },
+      "chunks": { "4364239000": 2 }
+    },
+    {
+      "text": { "en-US": "I hate you.", "uk": "Я ненавиджу тебе." },
+      "chunks": { "4366658000": 1 }
+    },
+    {
+      "text": { "en-US": "I hate you, Mike!", "uk": "Я ненавиджу тебе, Майк!" },
+      "chunks": { "4369411000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, I-I think that went well.",
+        "uk": "Ну, я думаю, що це пройшло добре."
+      },
+      "chunks": { "4374958000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "She reminds me of you, you know.",
+        "uk": "Вона нагадує про вас, знаєте."
+      },
+      "chunks": { "4390682000": 1 }
+    },
+    {
+      "text": { "en-US": "Always with the temper.", "uk": "Завжди з вдачею." },
+      "chunks": { "4392726000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, look, when she calms down, can you, um, tell her that I'm sorry and that I'll-I'll be back soon?",
+        "uk": "Ну, подивіться, коли вона заспокоїться, можеш, гм, скажи їй, що мені шкода і що я скоро повернусь?"
+      },
+      "chunks": { "4395437000": 1, "4396730000": 1, "4398523000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, Mike, there's a larger conversation that needs to happen here.",
+        "uk": "Ну, Майк, тут має більша розмова, яка має відбутися."
+      },
+      "chunks": { "4401192000": 2, "4405238000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "So when you do get back, you and me are gonna have a little chat.",
+        "uk": "Тож коли ти все -таки повернешся, ти і я будемо трохи поспілкуватися."
+      },
+      "chunks": { "4407157000": 2, "4409534000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "4411202000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª Celebrate good times, come on â™ª â™ª Let's celebrate â™ª â™ª Celebrate good times... â™ª You know what works for me?",
+        "uk": "â ™ ª Святкуйте добрі часи, давай ™ ª â ™ ª ª Давайте святкувати â ™ ª â ™ ª Святкує добрі часи ... ™ ª ª ª ª ª ª Ви знаєте, що для мене працює?"
+      },
+      "chunks": {
+        "4419294000": 1,
+        "4424924000": 1,
+        "4426968000": 1,
+        "4428803000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "A warm glass of milk with chamomile and honey.",
+        "uk": "Тепла склянка молока з ромашкою та медом."
+      },
+      "chunks": { "4431056000": 2 }
+    },
+    {
+      "text": { "en-US": "I tell you...", "uk": "Я кажу вам..." },
+      "chunks": { "4434100000": 1 }
+    },
+    {
+      "text": { "en-US": "What an asshole.", "uk": "Який мудак." },
+      "chunks": { "4438438000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Okay, enough games, you two.",
+        "uk": "Гаразд, достатньо ігор, ви двоє."
+      },
+      "chunks": { "4494953000": 1 }
+    },
+    {
+      "text": { "en-US": "Emergency landing.", "uk": "Аварійна посадка." },
+      "chunks": { "4497122000": 1 }
+    },
+    {
+      "text": { "en-US": "Coming in.", "uk": "Входить." },
+      "chunks": { "4498790000": 1 }
+    },
+    {
+      "text": { "en-US": "Hey, buddy.", "uk": "Агов, приятель." },
+      "chunks": { "4500625000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Well, don't just stand there.",
+        "uk": "Ну, не просто стояти там."
+      },
+      "chunks": { "4503837000": 1 }
+    },
+    {
+      "text": { "en-US": "Dig in.", "uk": "Обкопуватися." },
+      "chunks": { "4503837000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Sweetheart, what's wrong?",
+        "uk": "Кохана, що не так?"
+      },
+      "chunks": { "4510969000": 1 }
+    },
+    {
+      "text": { "en-US": "This... this isn't...", "uk": "Це ... це не ..." },
+      "chunks": { "4513930000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "this isn't how it happened.",
+        "uk": "Це не так, як це сталося."
+      },
+      "chunks": { "4516766000": 1 }
+    },
+    {
+      "text": { "en-US": "This isn't real.", "uk": "Це не реально." },
+      "chunks": { "4520061000": 1 }
+    },
+    {
+      "text": { "en-US": "But it could be.", "uk": "Але це може бути." },
+      "chunks": { "4521563000": 1 }
+    },
+    {
+      "text": { "en-US": "What is this?", "uk": "Що це?" },
+      "chunks": { "4524315000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "This isn't what I asked for.",
+        "uk": "Це не те, про що я просив."
+      },
+      "chunks": { "4526901000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But it's what you want.",
+        "uk": "Але це те, що ти хочеш."
+      },
+      "chunks": { "4528570000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "No. I just, I just want to find the man that...",
+        "uk": "Ні. Я просто, я просто хочу знайти чоловіка, який ..."
+      },
+      "chunks": { "4530864000": 2 }
+    },
+    {
+      "text": { "en-US": "You're lying.", "uk": "Ти брешеш." },
+      "chunks": { "4534409000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You want to save Garrett.",
+        "uk": "Ви хочете зберегти Гаррет."
+      },
+      "chunks": { "4535744000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "That's why you're really here.",
+        "uk": "Ось чому ти справді тут."
+      },
+      "chunks": { "4537746000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "To change what happened.",
+        "uk": "Змінити те, що сталося."
+      },
+      "chunks": { "4539706000": 1 }
+    },
+    {
+      "text": { "en-US": "To go back.", "uk": "Повертатися." },
+      "chunks": { "4542208000": 1 }
+    },
+    {
+      "text": { "en-US": "But I can't.", "uk": "Але я не можу." },
+      "chunks": { "4543668000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "He's gone. They're all gone.",
+        "uk": "Він зник.Вони всі пішли."
+      },
+      "chunks": { "4546963000": 1 }
+    },
+    {
+      "text": { "en-US": "Really?", "uk": "Справді?" },
+      "chunks": { "4548631000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You can have this dream every night.",
+        "uk": "Ви можете мати цю мрію щовечора."
+      },
+      "chunks": { "4558808000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You can be together with him again.",
+        "uk": "Ви можете знову бути разом з ним."
+      },
+      "chunks": { "4562687000": 2 }
+    },
+    {
+      "text": { "en-US": "Like before.", "uk": "Як і раніше." },
+      "chunks": { "4564689000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You said we could have anything we wanted.",
+        "uk": "Ви сказали, що ми можемо мати все, що хотіли."
+      },
+      "chunks": { "4569027000": 2 }
+    },
+    {
+      "text": { "en-US": "We want Abby.", "uk": "Ми хочемо Еббі." },
+      "chunks": { "4573406000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "4579454000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They love her, Mike, and she loves them.",
+        "uk": "Вони люблять її, Майк, і вона їх любить."
+      },
+      "chunks": { "4585001000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "You've seen her with them.",
+        "uk": "Ви бачили її з ними."
+      },
+      "chunks": { "4591132000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You've seen how happy she is.",
+        "uk": "Ви бачили, як вона щаслива."
+      },
+      "chunks": { "4593468000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's time to let her go, sweetheart.",
+        "uk": "Пора відпустити її, кохана."
+      },
+      "chunks": { "4598890000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You were never the right person to take care of her.",
+        "uk": "Ви ніколи не були правильною людиною, щоб піклуватися про неї."
+      },
+      "chunks": { "4602310000": 2 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "4618326000": 1 }
+    },
+    {
+      "text": { "en-US": "You're home.", "uk": "Ти вдома." },
+      "chunks": { "4631673000": 1 }
+    },
+    {
+      "text": { "en-US": "No, this is wrong.", "uk": "Ні, це неправильно." },
+      "chunks": { "4652736000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't, I don't want this.",
+        "uk": "Я ні, я цього не хочу."
+      },
+      "chunks": { "4654404000": 1 }
+    },
+    {
+      "text": { "en-US": "Listen...", "uk": "Слухай ..." },
+      "chunks": { "4654404000": 1 }
+    },
+    {
+      "text": { "en-US": "I made a mistake!", "uk": "Я зробив помилку!" },
+      "chunks": { "4669794000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Please, I don't want this!",
+        "uk": "Будь ласка, я цього не хочу!"
+      },
+      "chunks": { "4672088000": 1 }
+    },
+    {
+      "text": { "en-US": "Do you hear me?!", "uk": "Ти мене чуєш?!" },
+      "chunks": { "4674632000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You leave Abby alone!",
+        "uk": "Ви залишаєте Еббі в спокої!"
+      },
+      "chunks": { "4679679000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4686644000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4688563000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Stay away from my sister!",
+        "uk": "Тримайтеся подалі від моєї сестри!"
+      },
+      "chunks": { "4690148000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4696821000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4699866000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4699866000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4706122000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby. Abby.", "uk": "Еббі.Еббі." },
+      "chunks": { "4711002000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby. Abby. Abby.", "uk": "Еббі.Еббі.Еббі." },
+      "chunks": { "4713421000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby.", "uk": "Еббі." },
+      "chunks": { "4720095000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "4804137000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You can't stay in there forever, you know.",
+        "uk": "Ви не можете там залишитися назавжди, знаєте."
+      },
+      "chunks": { "4806348000": 2 }
+    },
+    {
+      "text": { "en-US": "Suit yourself.", "uk": "Підстрибувати себе." },
+      "chunks": { "4814397000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "The pottery that grows.",
+        "uk": "Гончарство, що росте."
+      },
+      "chunks": { "4825200000": 1 }
+    },
+    {
+      "text": { "en-US": "It's easy.", "uk": "Це легко." },
+      "chunks": { "4826701000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Soak your Chia overnight, spread the seeds...",
+        "uk": "Намочіть чіа на ніч, розкладіть насіння ..."
+      },
+      "chunks": { "4828119000": 2 }
+    },
+    {
+      "text": { "en-US": "Freddy?", "uk": "Фредді?" },
+      "chunks": { "4848598000": 1 }
+    },
+    {
+      "text": { "en-US": "Not Freddy.", "uk": "Не Фредді." },
+      "chunks": { "4857065000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They're all waiting for you.",
+        "uk": "Вони всі чекають вас."
+      },
+      "chunks": { "4861111000": 1 }
+    },
+    {
+      "text": { "en-US": "It's time to go play.", "uk": "Пора йти грати." },
+      "chunks": { "4863738000": 1 }
+    },
+    {
+      "text": { "en-US": "Silly Aunt Jane.", "uk": "Дурна тітка Джейн." },
+      "chunks": { "4872872000": 1 }
+    },
+    {
+      "text": { "en-US": "She fell asleep.", "uk": "Вона заснула." },
+      "chunks": { "4875083000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "How do we get there?",
+        "uk": "Як ми туди потрапимо?"
+      },
+      "chunks": { "4879087000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª I wanna be down â™ª â™ª With what you're going through â™ª â™ª I wanna be down... â™ª Where to, little lady?",
+        "uk": "â ™ ª Я хочу бути вниз ™ ª â ™ ª ª з тим, що ви переживаєте через ™ ª â ™ ª Я хочу бути вниз ... ™ ª Куди, маленька леді?"
+      },
+      "chunks": {
+        "4882924000": 1,
+        "4884718000": 1,
+        "4887137000": 1,
+        "4889931000": 1
+      }
+    },
+    {
+      "text": { "en-US": "What the...?", "uk": "Що за...?" },
+      "chunks": { "4894811000": 1 }
+    },
+    {
+      "text": { "en-US": "Oh, my goodness!", "uk": "О Боже мій!" },
+      "chunks": { "4896813000": 1 }
+    },
+    {
+      "text": { "en-US": "Not cool.", "uk": "Не круто." },
+      "chunks": { "4902610000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Why do I always get the weirdos?",
+        "uk": "Чому я завжди отримую дивки?"
+      },
+      "chunks": { "4904320000": 1 }
+    },
+    {
+      "text": { "en-US": "Careful.", "uk": "Обережно." },
+      "chunks": { "4921338000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I managed to stop the bleeding, but you're probably gonna need stitches.",
+        "uk": "Мені вдалося зупинити кровотечу, але вам, мабуть, знадобляться стібки."
+      },
+      "chunks": { "4923006000": 1, "4925383000": 2 }
+    },
+    {
+      "text": { "en-US": "Where are we?", "uk": "Де ми?" },
+      "chunks": { "4927469000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Police supply outpost.",
+        "uk": "Поліцейські постачають форпост."
+      },
+      "chunks": { "4929054000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I found you, and, uh, you were...",
+        "uk": "Я знайшов тебе, і, е, ти був ..."
+      },
+      "chunks": { "4931348000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "you were badly hurt.",
+        "uk": "Вам було дуже боляче."
+      },
+      "chunks": { "4935935000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They tried to kill me, Vanessa.",
+        "uk": "Вони намагалися мене вбити, Ванесса."
+      },
+      "chunks": { "4940315000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But I'm guessing you already knew that.",
+        "uk": "Але я здогадуюсь, що ти це вже знав."
+      },
+      "chunks": { "4945320000": 2 }
+    },
+    {
+      "text": { "en-US": "Her brother.", "uk": "Її брат." },
+      "chunks": { "4954829000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You knew about them, too, right?",
+        "uk": "Ви теж знали про них, правда?"
+      },
+      "chunks": { "4956331000": 1 }
+    },
+    {
+      "text": { "en-US": "It's complicated.", "uk": "Це складно." },
+      "chunks": { "4959584000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "4959584000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "4962087000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "More complicated than possessed robots murdering innocent people?",
+        "uk": "Більш складні, ніж володіння роботами, що вбивають невинних людей?"
+      },
+      "chunks": { "4963922000": 1, "4966091000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "They weren't innocent.",
+        "uk": "Вони не були невинними."
+      },
+      "chunks": { "4968051000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah, Abby is!", "uk": "Так, Еббі є!" },
+      "chunks": { "4970011000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike...", "uk": "Майк ..." },
+      "chunks": { "4972305000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You saw Abby playing with them.",
+        "uk": "Ви бачили, як Еббі грає з ними."
+      },
+      "chunks": { "4972305000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And you knew what they were capable of, and you didn't say anything!",
+        "uk": "І ви знали, на що вони здатні, і ви нічого не сказали!"
+      },
+      "chunks": { "4975266000": 2, "4976851000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Mike, please just...",
+        "uk": "Майк, будь ласка, просто ..."
+      },
+      "chunks": { "4976851000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby is in danger!", "uk": "Еббі загрожує!" },
+      "chunks": { "4979020000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Tell me what happened.",
+        "uk": "Скажи мені, що сталося."
+      },
+      "chunks": { "4980730000": 1 }
+    },
+    {
+      "text": { "en-US": "In my dream...", "uk": "Уві сні ..." },
+      "chunks": { "4985568000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "...they asked me for Abby.",
+        "uk": "... Вони попросили мене про Еббі."
+      },
+      "chunks": { "4988905000": 1 }
+    },
+    {
+      "text": { "en-US": "And I said yes.", "uk": "І я сказав так." },
+      "chunks": { "4991783000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It was a mistake, and I-I tried to fix it, but...",
+        "uk": "Це була помилка, і я-я намагався це виправити, але ..."
+      },
+      "chunks": { "4994536000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "What do they want with my sister?",
+        "uk": "Що вони хочуть з моєю сестрою?"
+      },
+      "chunks": { "4999958000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "They want to make her like them.",
+        "uk": "Вони хочуть зробити її подібною."
+      },
+      "chunks": { "5005213000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on, let's go.", "uk": "Давай, підемо." },
+      "chunks": { "5018393000": 1 }
+    },
+    {
+      "text": { "en-US": "Where'd you go?", "uk": "Куди ти пішов?" },
+      "chunks": { "5033992000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "In the '80s, when those kids went missing...",
+        "uk": "У 80 -х, коли ці діти зникли ..."
+      },
+      "chunks": { "5041458000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "...the police searched Freddy's from top to bottom.",
+        "uk": "... Поліція обшукала Фредді зверху вниз."
+      },
+      "chunks": { "5046588000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Every inch was accounted for.",
+        "uk": "Кожен дюйм враховувався."
+      },
+      "chunks": { "5048423000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But they never found them.",
+        "uk": "Але вони ніколи їх не знайшли."
+      },
+      "chunks": { "5053928000": 1 }
+    },
+    {
+      "text": { "en-US": "Hello?", "uk": "Привіт?" },
+      "chunks": { "5062979000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "The man who took them, he was a...",
+        "uk": "Чоловік, який їх взяв, він був ..."
+      },
+      "chunks": { "5069194000": 1, "5070945000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "He was a very bad man.",
+        "uk": "Він був дуже поганою людиною."
+      },
+      "chunks": { "5074449000": 1 }
+    },
+    {
+      "text": { "en-US": "A very cruel man.", "uk": "Дуже жорстока людина." },
+      "chunks": { "5077911000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Also a very clever man.",
+        "uk": "Також дуже розумна людина."
+      },
+      "chunks": { "5081539000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "He knew that parents would cry, and the police would come looking.",
+        "uk": "Він знав, що батьки плакатимуть, і поліція приїде подивитися."
+      },
+      "chunks": { "5084417000": 1, "5086294000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "And he knew there's one place they'd never think to check because...",
+        "uk": "І він знав, що є одне місце, яке вони ніколи не думають перевірити, бо ..."
+      },
+      "chunks": { "5088004000": 1, "5089839000": 1 }
+    },
+    {
+      "text": { "en-US": "...why would they?", "uk": "... чому вони б?" },
+      "chunks": { "5094344000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I mean, why would anyone?",
+        "uk": "Я маю на увазі, чому б хтось?"
+      },
+      "chunks": { "5099474000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's not just their ghosts that are inside of those machines.",
+        "uk": "Це не лише їх привиди, які знаходяться всередині цих машин."
+      },
+      "chunks": { "5109651000": 2 }
+    },
+    {
+      "text": { "en-US": "It's their bodies.", "uk": "Це їхні тіла." },
+      "chunks": { "5120120000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You have to understand, the...",
+        "uk": "Ви повинні зрозуміти, ..."
+      },
+      "chunks": { "5124249000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "the kids, they don't want to hurt anyone.",
+        "uk": "Діти, вони не хочуть нікому нашкодити."
+      },
+      "chunks": { "5127335000": 2 }
+    },
+    {
+      "text": { "en-US": "It's-it's him.", "uk": "Це він." },
+      "chunks": { "5130171000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "He influences them somehow.",
+        "uk": "Він якось впливає на них."
+      },
+      "chunks": { "5131423000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "He took everything from them, but they don't remember.",
+        "uk": "Він взяв у них все, але вони не пам’ятають."
+      },
+      "chunks": { "5134634000": 2 }
+    },
+    {
+      "text": { "en-US": "Who, Vanessa?", "uk": "Хто, Ванесса?" },
+      "chunks": { "5138888000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I tried to warn you.",
+        "uk": "Я намагався попередити вас."
+      },
+      "chunks": { "5141433000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I really did try in my own way.",
+        "uk": "Я справді намагався по -своєму."
+      },
+      "chunks": { "5144269000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But it's too late now.",
+        "uk": "Але зараз вже пізно."
+      },
+      "chunks": { "5148273000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "He knows that you're looking for him.",
+        "uk": "Він знає, що ви шукаєте його."
+      },
+      "chunks": { "5149649000": 2 }
+    },
+    {
+      "text": { "en-US": "He'll be coming.", "uk": "Він прийде." },
+      "chunks": { "5153903000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You need to tell me who he is.",
+        "uk": "Вам потрібно сказати мені, хто він."
+      },
+      "chunks": { "5156114000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "His name is William Afton.",
+        "uk": "Його звуть Вільям Афтон."
+      },
+      "chunks": { "5168209000": 1 }
+    },
+    {
+      "text": { "en-US": "He's my father.", "uk": "Він мій батько." },
+      "chunks": { "5175383000": 1 }
+    },
+    {
+      "text": { "en-US": "You knew?", "uk": "Ти знав?" },
+      "chunks": { "5196738000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike...", "uk": "Майк ..." },
+      "chunks": { "5198990000": 1 }
+    },
+    {
+      "text": { "en-US": "This whole time.", "uk": "Це весь час." },
+      "chunks": { "5200408000": 1 }
+    },
+    {
+      "text": { "en-US": "My brother, you knew.", "uk": "Мій брате, ти знав." },
+      "chunks": { "5202243000": 1 }
+    },
+    {
+      "text": { "en-US": "Not about Garrett, no.", "uk": "Не про Гаррет, ні." },
+      "chunks": { "5204120000": 1 }
+    },
+    {
+      "text": { "en-US": "A-At least...", "uk": "A-at at it…" },
+      "chunks": { "5206247000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "not when we met.",
+        "uk": "Не тоді, коли ми зустрілися."
+      },
+      "chunks": { "5208917000": 1 }
+    },
+    {
+      "text": { "en-US": "I'm so, so sorry.", "uk": "Я так, так шкода." },
+      "chunks": { "5214964000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Tell me how to stop them.",
+        "uk": "Скажи мені, як їх зупинити."
+      },
+      "chunks": { "5217092000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Tell me how to save my sister!",
+        "uk": "Скажи мені, як врятувати сестру!"
+      },
+      "chunks": { "5219052000": 1 }
+    },
+    {
+      "text": { "en-US": "Electricity.", "uk": "Електрика." },
+      "chunks": { "5236027000": 1 }
+    },
+    {
+      "text": { "en-US": "Electricity is the key.", "uk": "Електрика - ключ." },
+      "chunks": { "5236027000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "We use these for animal control.",
+        "uk": "Ми використовуємо їх для контролю над тваринами."
+      },
+      "chunks": { "5240115000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "There's a Taser on your belt.",
+        "uk": "На поясі є тазер."
+      },
+      "chunks": { "5245120000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It won't do permanent damage, but it'll mess with the animatronic circuitry.",
+        "uk": "Він не завдає постійних пошкоджень, але воно буде зіпсувати з аніматронічною схемою."
+      },
+      "chunks": { "5246705000": 1, "5248790000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Hopefully buy you some time.",
+        "uk": "Сподіваємось, купуйте вам деякий час."
+      },
+      "chunks": { "5251292000": 1 }
+    },
+    {
+      "text": { "en-US": "Come with me.", "uk": "Пішли зі мною." },
+      "chunks": { "5254295000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Vanessa, you owe it to me, and you owe it to them.",
+        "uk": "Ванесса, ти мені це зобов'язаний, і ти їм зобов'язаний."
+      },
+      "chunks": { "5259134000": 2 }
+    },
+    {
+      "text": { "en-US": "No, I can't.", "uk": "Ні, я не можу." },
+      "chunks": { "5262846000": 1 }
+    },
+    {
+      "text": { "en-US": "If he's there, I...", "uk": "Якщо він там, я ..." },
+      "chunks": { "5264472000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "...I won't be any use to you, believe me.",
+        "uk": "... Я не буду для вас жодної користі, повірте."
+      },
+      "chunks": { "5267475000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "He really messed you up, didn't he?",
+        "uk": "Він справді заплутав вас, чи не так?"
+      },
+      "chunks": { "5272981000": 2 }
+    },
+    {
+      "text": { "en-US": "Take these.", "uk": "Візьміть це." },
+      "chunks": { "5280947000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You need to avoid the front entrance.",
+        "uk": "Потрібно уникати переднього входу."
+      },
+      "chunks": { "5294044000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "There's an outlet vent on the east side of the building.",
+        "uk": "На східній стороні будівлі є випускний отвір."
+      },
+      "chunks": { "5304596000": 1, "5306014000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "That's the best way inside.",
+        "uk": "Це найкращий шлях всередині."
+      },
+      "chunks": { "5307432000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª You tell me that you want me â™ª â™ª You tell me that you need me â™ª â™ª You tell me that you love me â™ª â™ª And I know that I'm right â™ª â™ª 'Cause I hear it in the night â™ª â™ª I hear the secrets that you keep... â™ª â™ª I hear the secrets that you keep... â™ª â™ª Don't you know you're sleeping... â™ª Abby.",
+        "uk": "â ™ ª ти кажеш мені, що ти хочеш мене ™ ª â ™ ª ª ª ти кажеш мені, що ти мені потрібен â ™ ª ™ ™ ª ª ти кажеш мені, що ти любиш мене ™ ª ™ ™ ª ª, і я знаю, що я маю раціюâ ™ ª ™ ª ª, тому що я чую це вночі â ™ ª ™ ™ ª ª я чую секрети, які ви зберігаєте ... ™ ª â ™ ª ª Я чую секрети, які ви зберігаєте ... ™ ª â â™ ª Чи не знаєте, що спите ... ™ ª Еббі."
+      },
+      "chunks": {
+        "5325200000": 1,
+        "5328620000": 1,
+        "5332624000": 1,
+        "5335877000": 1,
+        "5338129000": 1,
+        "5339923000": 1,
+        "5347889000": 1,
+        "5362028000": 1,
+        "5375333000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "Chica, where are we going?",
+        "uk": "Чіка, куди ми йдемо?"
+      },
+      "chunks": { "5385927000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª And I know that I'm right â™ª â™ª 'Cause I hear it in the night â™ª â™ª I hear the secrets that you keep â™ª â™ª When you're talking in your sleep â™ª Chica, I don't like this.",
+        "uk": "â ™ ª І я знаю, що я маю рацію ™ ª â ™ ª ', бо я чую це вночі â ™ ª ™ ª ª ª я чую секрети, які ви зберігаєте ™ ª â ™ ª, коли ви говорите вВаш сон ™ ª Чіка, мені це не подобається."
+      },
+      "chunks": {
+        "5396604000": 1,
+        "5398064000": 1,
+        "5400942000": 1,
+        "5405071000": 1,
+        "5420295000": 1
+      }
+    },
+    {
+      "text": { "en-US": "Let go of me!", "uk": "Відпусти мене!" },
+      "chunks": { "5429471000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?!", "uk": "Еббі?!" },
+      "chunks": { "5431598000": 1 }
+    },
+    {
+      "text": { "en-US": "Chica, let me go.", "uk": "Чіка, відпустіть мене." },
+      "chunks": { "5436478000": 1 }
+    },
+    {
+      "text": { "en-US": "Leave her alone!", "uk": "Залиште її в спокої!" },
+      "chunks": { "5442692000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike.", "uk": "Майк." },
+      "chunks": { "5455288000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Are you okay? Are you hurt?",
+        "uk": "З вами все гаразд?Вам боляче?"
+      },
+      "chunks": { "5457832000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't know what's wrong with her.",
+        "uk": "Я не знаю, що з нею не так."
+      },
+      "chunks": { "5459167000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I don't know why she was trying to hurt me.",
+        "uk": "Я не знаю, чому вона намагалася мені нашкодити."
+      },
+      "chunks": { "5460960000": 2 }
+    },
+    {
+      "text": { "en-US": "I know. I know.", "uk": "Я знаю. Я знаю." },
+      "chunks": { "5463046000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Hey, Abby, listen to me.",
+        "uk": "Гей, Еббі, слухайте мене."
+      },
+      "chunks": { "5465215000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I've been an idiot about so many things.",
+        "uk": "Я був ідіотом про стільки речей."
+      },
+      "chunks": { "5467676000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I've been stuck trying to fix the past, but you are the most important thing in the world to me, and I promise you I'm gonna do better.",
+        "uk": "Я застряг, намагаючись виправити минуле, але ти для мене найважливіше, і я обіцяю тобі, що я буду робити краще."
+      },
+      "chunks": { "5470929000": 2, "5473181000": 2, "5475975000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "I love you, too, Mike.",
+        "uk": "Я теж тебе люблю, Майк."
+      },
+      "chunks": { "5477686000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But we should probably go now.",
+        "uk": "Але ми, мабуть, повинні піти зараз."
+      },
+      "chunks": { "5479604000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Right, okay. Come on.",
+        "uk": "Правильно, добре.Давай."
+      },
+      "chunks": { "5481356000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike!", "uk": "Майк!" },
+      "chunks": { "5501292000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Run! Hide! Abby, go!",
+        "uk": "Біг!Сховай!Еббі, йди!"
+      },
+      "chunks": { "5504504000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "5605772000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby, where are you?", "uk": "Еббі, де ти?" },
+      "chunks": { "5607649000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby?", "uk": "Еббі?" },
+      "chunks": { "5612821000": 1 }
+    },
+    {
+      "text": { "en-US": "Vanessa.", "uk": "Ванесса." },
+      "chunks": { "5676593000": 1 }
+    },
+    {
+      "text": { "en-US": "It's okay.", "uk": "Все добре." },
+      "chunks": { "5676593000": 1 }
+    },
+    {
+      "text": { "en-US": "Foxy.", "uk": "Фоксі." },
+      "chunks": { "5677761000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I need to get you somewhere safe so I can go help your brother, okay?",
+        "uk": "Мені потрібно підібрати вас кудись у безпеці, щоб я міг піти на допомогу вашому братові, добре?"
+      },
+      "chunks": { "5682223000": 1, "5683683000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "You couldn't just leave it alone, could you?",
+        "uk": "Ви не могли просто залишити це в спокої, чи не так?"
+      },
+      "chunks": { "5687103000": 2 }
+    },
+    {
+      "text": { "en-US": "Lucky me.", "uk": "Мені пощастило." },
+      "chunks": { "5690482000": 1 }
+    },
+    {
+      "text": { "en-US": "This is perfect.", "uk": "Це прекрасно." },
+      "chunks": { "5695737000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "First I killed your brother.",
+        "uk": "Спочатку я вбив твого брата."
+      },
+      "chunks": { "5696988000": 1 }
+    },
+    {
+      "text": { "en-US": "Now I kill you.", "uk": "Тепер я тебе вбиваю." },
+      "chunks": { "5701284000": 1 }
+    },
+    {
+      "text": { "en-US": "Symmetry, my friend.", "uk": "Симетрія, мій друже." },
+      "chunks": { "5703078000": 1 }
+    },
+    {
+      "text": { "en-US": "Go to hell.", "uk": "Йди до біса." },
+      "chunks": { "5705497000": 1 }
+    },
+    {
+      "text": { "en-US": "Wake up, children.", "uk": "Прокидайся, діти." },
+      "chunks": { "5715131000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I have something for you to play with.",
+        "uk": "У мене є щось для вас, з яким можна грати."
+      },
+      "chunks": { "5719928000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "This is gonna be so much fun.",
+        "uk": "Це буде так весело."
+      },
+      "chunks": { "5727102000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Little ones tell me you have a sister.",
+        "uk": "Маленькі кажуть, що у вас є сестра."
+      },
+      "chunks": { "5732482000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "She will love it here.",
+        "uk": "Їй це сподобається тут."
+      },
+      "chunks": { "5737028000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You, however, are finished.",
+        "uk": "Ви, однак, закінчені."
+      },
+      "chunks": { "5740615000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Farewell, Michael Schmidt.",
+        "uk": "Прощання, Майкл Шмідт."
+      },
+      "chunks": { "5743618000": 1 }
+    },
+    {
+      "text": { "en-US": "That's enough!", "uk": "Цього достатньо!" },
+      "chunks": { "5746538000": 1 }
+    },
+    {
+      "text": { "en-US": "Drop the knife.", "uk": "Скинути ніж." },
+      "chunks": { "5749457000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "A little old for temper tantrums, aren't we, Vanessa?",
+        "uk": "Трохи старі для істерики, чи не ми, Ванеса?"
+      },
+      "chunks": { "5751710000": 2 }
+    },
+    {
+      "text": { "en-US": "I'm not kidding, Dad.", "uk": "Я не жартую, тато." },
+      "chunks": { "5755964000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You may have forgotten your loyalties, but I assure you, they have not.",
+        "uk": "Можливо, ви забули свої вірності, але я запевняю вас, вони цього не зробили."
+      },
+      "chunks": { "5766224000": 2, "5768935000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike!", "uk": "Майк!" },
+      "chunks": { "5772814000": 1 }
+    },
+    {
+      "text": { "en-US": "Please wake up.", "uk": "Будь ласка, прокинься." },
+      "chunks": { "5776776000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Now, put that thing away and help me clean up the mess that you created!",
+        "uk": "Тепер покладіть цю річ і допоможіть мені очистити безлад, який ви створили!"
+      },
+      "chunks": { "5778737000": 1, "5780655000": 2 }
+    },
+    {
+      "text": { "en-US": "Please.", "uk": "Будь ласка." },
+      "chunks": { "5784492000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Please, Mike. Please. No!",
+        "uk": "Будь ласка, Майк.Будь ласка.Немає!"
+      },
+      "chunks": { "5785535000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on.", "uk": "Давай." },
+      "chunks": { "5787829000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "We both know you're not gonna use a...",
+        "uk": "Ми обоє знаємо, що ти не збираєшся використовувати ..."
+      },
+      "chunks": { "5791541000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike. Mike.", "uk": "Майк.Майк." },
+      "chunks": { "5802052000": 1 }
+    },
+    {
+      "text": { "en-US": "Abby. Abby.", "uk": "Еббі.Еббі." },
+      "chunks": { "5803720000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "The Yellow Rabbit, he controls them.",
+        "uk": "Жовтий кролик, він контролює їх."
+      },
+      "chunks": { "5809726000": 2 }
+    },
+    {
+      "text": { "en-US": "The drawings.", "uk": "Малюнки." },
+      "chunks": { "5813104000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "The Yellow Rabbit hurt your friends.",
+        "uk": "Жовтий кролик поранив вашим друзям."
+      },
+      "chunks": { "5816900000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Show them what really happened.",
+        "uk": "Покажіть їм, що насправді сталося."
+      },
+      "chunks": { "5819861000": 1 }
+    },
+    {
+      "text": { "en-US": "You had one job.", "uk": "У вас була одна робота." },
+      "chunks": { "5825867000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Keep him in the dark and kill him if he got too close.",
+        "uk": "Тримайте його в темряві і вбийте його, якщо він занадто близько."
+      },
+      "chunks": { "5829829000": 1, "5831122000": 2 }
+    },
+    {
+      "text": { "en-US": "That's two jobs.", "uk": "Це дві роботи." },
+      "chunks": { "5833541000": 1 }
+    },
+    {
+      "text": { "en-US": "Let go!", "uk": "Відпустіть!" },
+      "chunks": { "5858900000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I won't let you hurt her, too.",
+        "uk": "Я теж не дозволяю тобі шкодити їй."
+      },
+      "chunks": { "5860735000": 1 }
+    },
+    {
+      "text": { "en-US": "What have you done?", "uk": "Що ти зробив?" },
+      "chunks": { "5891850000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They can see you now.",
+        "uk": "Вони можуть бачити вас зараз."
+      },
+      "chunks": { "5924132000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "They know what you did.",
+        "uk": "Вони знають, що ти зробив."
+      },
+      "chunks": { "5926426000": 1 }
+    },
+    {
+      "text": { "en-US": "Move.", "uk": "Рухатися." },
+      "chunks": { "5929763000": 1 }
+    },
+    {
+      "text": { "en-US": "Move!", "uk": "Рухай!" },
+      "chunks": { "5931556000": 1 }
+    },
+    {
+      "text": { "en-US": "Mike!", "uk": "Майк!" },
+      "chunks": { "5940440000": 1 }
+    },
+    {
+      "text": { "en-US": "Look at you.", "uk": "Дивитися на тебе." },
+      "chunks": { "5947072000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Look at the nasty things that you have become.",
+        "uk": "Подивіться на неприємні речі, якими ви стали."
+      },
+      "chunks": { "5949324000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Look how small you are, how worthless you are.",
+        "uk": "Подивіться, наскільки ви маленькі, наскільки ви нікчемні."
+      },
+      "chunks": { "5952702000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "You are wretched, rotten little beasts.",
+        "uk": "Ви жалюгідні, гнилі маленькі звірі."
+      },
+      "chunks": { "5955622000": 2 }
+    },
+    {
+      "text": { "en-US": "I made you!", "uk": "Я зробив тебе!" },
+      "chunks": { "5958208000": 1 }
+    },
+    {
+      "text": { "en-US": "I always come back.", "uk": "Я завжди повертаюся." },
+      "chunks": { "5994369000": 1 }
+    },
+    {
+      "text": { "en-US": "What is happening?", "uk": "Що відбувається?" },
+      "chunks": { "6010051000": 1 }
+    },
+    {
+      "text": { "en-US": "The spring locks.", "uk": "Пружинні замки." },
+      "chunks": { "6011261000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay.", "uk": "Гаразд." },
+      "chunks": { "6022355000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on. Come on.", "uk": "Давай. Давай." },
+      "chunks": { "6028069000": 1 }
+    },
+    {
+      "text": { "en-US": "Come on.", "uk": "Давай." },
+      "chunks": { "6029946000": 1 }
+    },
+    {
+      "text": { "en-US": "Okay, one more.", "uk": "Гаразд, ще один." },
+      "chunks": { "6064606000": 1 }
+    },
+    {
+      "text": { "en-US": "Oh, wait, one more?", "uk": "О, почекай, ще один?" },
+      "chunks": { "6064606000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Put one more? One more block?",
+        "uk": "Покладіть ще один?Ще один блок?"
+      },
+      "chunks": { "6066191000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah.", "uk": "Так." },
+      "chunks": { "6066191000": 1 }
+    },
+    {
+      "text": { "en-US": "One more block?", "uk": "Ще один блок?" },
+      "chunks": { "6067942000": 1 }
+    },
+    {
+      "text": { "en-US": "Yeah. Yeah.", "uk": "Так.Так." },
+      "chunks": { "6067942000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Yeah. Yeah. Let's do one more.",
+        "uk": "Так.Так.Давайте зробимо ще один."
+      },
+      "chunks": { "6068570000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "It's really extraordinary, the turn she's taken these past few weeks.",
+        "uk": "Це дійсно надзвичайне, черга, яку вона взяла за останні кілька тижнів."
+      },
+      "chunks": { "6070111000": 1, "6071529000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Whatever you're doing, keep doing it.",
+        "uk": "Що б ви не робили, продовжуйте це робити."
+      },
+      "chunks": { "6074366000": 2 }
+    },
+    {
+      "text": { "en-US": "Yeah, I will.", "uk": "Так, я буду." },
+      "chunks": { "6079746000": 1 }
+    },
+    {
+      "text": { "en-US": "It's not that hard.", "uk": "Це не так важко." },
+      "chunks": { "6084084000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "What do you want for dinner?",
+        "uk": "Що ти хочеш на вечерю?"
+      },
+      "chunks": { "6085335000": 1 }
+    },
+    {
+      "text": { "en-US": "Pizza or spaghetti?", "uk": "Піца чи спагетті?" },
+      "chunks": { "6087295000": 1 }
+    },
+    {
+      "text": { "en-US": "Both.", "uk": "Обидва." },
+      "chunks": { "6090965000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You got to choose. Which is it?",
+        "uk": "Ви повинні вибрати.Що це?"
+      },
+      "chunks": { "6092509000": 1 }
+    },
+    {
+      "text": { "en-US": "But I want both.", "uk": "Але я хочу і те, і інше." },
+      "chunks": { "6095637000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You can't have both.",
+        "uk": "Ви не можете мати обох."
+      },
+      "chunks": { "6096846000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Spaghetti with meatballs.",
+        "uk": "Спагетті з фрикадельками."
+      },
+      "chunks": { "6100392000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "All right, with meatballs.",
+        "uk": "Гаразд, з фрикадельками."
+      },
+      "chunks": { "6103144000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Um, we're gonna make a quick stop, okay?",
+        "uk": "Гм, ми зробимо швидку зупинку, добре?"
+      },
+      "chunks": { "6106731000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Vanessa, I don't know if...",
+        "uk": "Ванесса, я не знаю, чи ..."
+      },
+      "chunks": { "6120370000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "you can hear any of this, but, um...",
+        "uk": "Ви можете почути щось із цього, але, гм ..."
+      },
+      "chunks": { "6123665000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "...I'm having a hard time just processing everything that happened.",
+        "uk": "... Мені важко просто обробляти все, що сталося."
+      },
+      "chunks": { "6129004000": 1, "6131673000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "But you were there for me and Abby when it mattered the most.",
+        "uk": "Але ти був там для мене і Еббі, коли це найбільше мало значення."
+      },
+      "chunks": { "6133800000": 1, "6137220000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And I don't think that either of us would be here today if it weren't for you.",
+        "uk": "І я не думаю, що жоден з нас був би сьогодні тут, якби не для вас."
+      },
+      "chunks": { "6139222000": 2, "6141933000": 1 }
+    },
+    {
+      "text": { "en-US": "So get better.", "uk": "Тож станьте краще." },
+      "chunks": { "6151151000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "And we'll be here when you wake up.",
+        "uk": "І ми будемо тут, коли прокинешся."
+      },
+      "chunks": { "6155238000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "Did you tell her I said hi?",
+        "uk": "Ви сказали їй, що я сказав привіт?"
+      },
+      "chunks": { "6162871000": 1 }
+    },
+    {
+      "text": { "en-US": "I did.", "uk": "Я зробив." },
+      "chunks": { "6164873000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "All right, let's get out of here.",
+        "uk": "Гаразд, давайте підемо звідси."
+      },
+      "chunks": { "6166583000": 1 }
+    },
+    {
+      "text": { "en-US": "You okay?", "uk": "Ти в порядку?" },
+      "chunks": { "6173506000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "I was just thinking about my friends.",
+        "uk": "Я просто думав про своїх друзів."
+      },
+      "chunks": { "6176384000": 1, "6177886000": 1 }
+    },
+    {
+      "text": { "en-US": "They're all alone.", "uk": "Вони самі поодинці." },
+      "chunks": { "6180305000": 1 }
+    },
+    {
+      "text": { "en-US": "Right.", "uk": "Правильно." },
+      "chunks": { "6183224000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "No one takes care of them anymore.",
+        "uk": "Більше ніхто не піклується про них."
+      },
+      "chunks": { "6184434000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Can we visit them sometime?",
+        "uk": "Чи можемо ми колись відвідати їх?"
+      },
+      "chunks": { "6188396000": 1 }
+    },
+    {
+      "text": { "en-US": "You know what?", "uk": "Знаєш, що?" },
+      "chunks": { "6199824000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "You never know what can happen.",
+        "uk": "Ніколи не знаєш, що може статися."
+      },
+      "chunks": { "6202327000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Do you think if you drink enough milk, you just turn into a cow?",
+        "uk": "Ви думаєте, якщо ви п'єте достатньо молока, ви просто перетворюєте на корову?"
+      },
+      "chunks": { "6205914000": 2, "6208333000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "Would you start, like, getting, like, spots on you like a cow?",
+        "uk": "Ви б почали, як, як, як, як би, плями на вас, як корова?"
+      },
+      "chunks": { "6210627000": 1, "6212587000": 2 }
+    },
+    {
+      "text": {
+        "en-US": "What would happen? Just...",
+        "uk": "Що буде?Просто ..."
+      },
+      "chunks": { "6214673000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª We're waiting every night â™ª â™ª To finally roam and invite â™ª â™ª Newcomers to play with us â™ª â™ª For many years, we've been all alone â™ª â™ª We're forced to be still and play â™ª â™ª The same songs we've known since that day â™ª â™ª An impostor took our life away â™ª â™ª Now we're stuck here to decay â™ª â™ª Please let us get in, don't lock us away â™ª â™ª We're not like what you're thinking â™ª â™ª We're poor little souls who have lost all control â™ª â™ª And we're forced here to take that role â™ª â™ª We've been all alone, stuck in our little zone â™ª â™ª Since 1987 â™ª â™ª Join us, be our friend or just be stuck and defend â™ª â™ª After all, you only got five nights at... â™ª Uh-uh. No, not today. Sorry.",
+        "uk": "\"â ™ ª Ми змушені бути нерухомими і грати ™ ª â ™ ™ ª ª ª ª ª ті самі пісні, про які ми знали з того дня ™ ª â ™ ª ª самозвіст забрав наше життя Â ™ ª ™ ª ª ª Тепер миЗакриті тут, щоб розпадати ™ ª â ™ ª ª ª Будь ласкаякі втратили весь контроль ™ ª â ™ ª ª, і ми змушені тут взяти цю роль ™ ª â ™ ªâ ™ ª Приєднуйтесь до нас, будь нашим другом або просто застрягти і захищати ™ ª â ™ ™ ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª ª uh-uh.Ні, не сьогодні.Вибачте."
+      },
+      "chunks": {
+        "6268685000": 1,
+        "6270645000": 1,
+        "6273398000": 1,
+        "6275525000": 2,
+        "6278153000": 2,
+        "6279988000": 2,
+        "6282157000": 2,
+        "6284868000": 1,
+        "6287287000": 2,
+        "6289831000": 2,
+        "6292083000": 2,
+        "6294294000": 2,
+        "6296838000": 2,
+        "6299299000": 1,
+        "6301301000": 2,
+        "6303678000": 2,
+        "6311853000": 1
+      }
+    },
+    {
+      "text": {
+        "en-US": "I said, read the s...",
+        "uk": "Я сказав, прочитайте S ..."
+      },
+      "chunks": { "6318693000": 1 }
+    },
+    {
+      "text": {
+        "en-US": "â™ª Five nights at Freddy's â™ª â™ª Oh â™ª â™ª We're really quite surprised â™ª â™ª We get to see you another night â™ª â™ª You should have looked for another job â™ª â™ª You should have said to this place goodbye â™ª â™ª It's like there's so much more â™ª â™ª Maybe you've been in this place before â™ª â™ª We remember a face like yours â™ª â™ª You seem acquainted with those doors â™ª â™ª Please let us get in, don't lock us away â™ª â™ª We're not like what you're thinking â™ª â™ª We're poor little souls who have lost all control â™ª â™ª And we're forced here to take that role â™ª â™ª We've been all alone, stuck in our little zone â™ª â™ª Since 1987 â™ª â™ª Join us, be our friend or just be stuck and defend â™ª â™ª After all, you only got five nights at Freddy's â™ª â™ª Is this where you want to be? â™ª â™ª I just don't get it â™ª â™ª Why do you want to stay? â™ª â™ª Five nights at Freddy's â™ª â™ª Is this where you want to be? â™ª â™ª I just don't get it â™ª â™ª Why do you want to stay? â™ª â™ª Five nights at Freddy's â™ª â™ª Oh. â™ª",
+        "uk": "â ™ ª П'ять ночей у Фредді ™ ª ™ ™ ª ª ™ ™ â ™ ™ ™ ª ª ª ª ª ª ª ªЩе одна робота â ™ ª ™ ™ ª ª ª ª ª ª Ви повинні сказати цьому місці прощання â ™ ª â ™ ™ ª ™ ™ ª ™ ™ ª ™ ª ™ ª ™, можливо, ви були в цьому місці до цього місця ™ ª ™ ™Пам'ятайте на обличчі, як ваше ™ ª â ™ ª ª ª ª ª ª ª ª ª ª ª ª ª ™ ™ ™ ª ™ ª, будь ласкаДумаючи про ™ ª ™ ™Little Zone â ™ ª ™ ™ ª ª ª ª з 1987 р. ™ ª â ™ ª ª Приєднуйтесь до нас, будьте нашим другом або просто застрягти і захищати ™ ª â ™ ª ª ª ª ª ™ ™ ™ ™ ™ ™ ™ ™ ™ ™ ™Це де ти хочеш бути?â ™ ª ™ ™ ª Я просто не розумію його ™ ª ™ ™ ª Чому ви хочете залишитися?â ™ ª ™ ™ ª П’ять ночей у Фредді ™ ª â ™ ª ª ª ª ª ª ª ª ª ª ª ™ ™ ™ ™ ™ ™ ™ ™ ª ™ ™ ª ™ ™?â ™ ª ™ ™ ª Я просто не розумію його ™ ª ™ ™ ª Чому ви хочете залишитися?â ™ ª ™ ™ ª П’ять ночей у Фредді ™ ª â ™ ª ª о.â ™ ª"
+      },
+      "chunks": {
+        "6321988000": 1,
+        "6327369000": 1,
+        "6341883000": 1,
+        "6343802000": 1,
+        "6346054000": 2,
+        "6348306000": 2,
+        "6351226000": 1,
+        "6353019000": 2,
+        "6355647000": 1,
+        "6357774000": 1,
+        "6360402000": 2,
+        "6362904000": 1,
+        "6365198000": 2,
+        "6367409000": 2,
+        "6369828000": 2,
+        "6372455000": 1,
+        "6374374000": 2,
+        "6376793000": 2,
+        "6380964000": 2,
+        "6382882000": 1,
+        "6385844000": 1,
+        "6387429000": 1,
+        "6390557000": 1,
+        "6391975000": 1,
+        "6395395000": 1,
+        "6396646000": 1,
+        "6402068000": 1
+      }
+    }
+  ],
+  "languages": ["en-US"]
+}

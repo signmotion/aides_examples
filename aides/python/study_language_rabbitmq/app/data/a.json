@@ -1,0 +1,42 @@
+[
+  {
+    "start": 2949491000,
+    "end": 2951701000,
+    "nodes": [
+      {
+        "type_": 1,
+        "content": "Okay, uh, can you",
+        "start": null,
+        "layout_info": null
+      },
+      {
+        "type_": 3,
+        "content": null,
+        "start": null,
+        "layout_info": null
+      },
+      {
+        "type_": 1,
+        "content": "go play in your room",
+        "start": null,
+        "layout_info": null
+      }
+    ],
+    "style": {},
+    "layout_info": null
+  },
+  {
+    "start": 2951743000,
+    "end": 2953745000,
+    "nodes": [
+      {
+        "type_": 1,
+        "content": "so me and Vanessa can talk?",
+        "start": null,
+        "layout_info": null
+      }
+    ],
+    "style": {},
+    "layout_info": null
+  }
+]
