@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from .routers import about, context, phrasal_verbs, translate_caption
 
-
 # ! See conventions in ../README.md.
-# See the descriptions for the functions in the project `auction_ebay_fast_api`.
+# See the descriptions for the functions in the project `buy_on_ebay_fast_api`.
 
 
 app = FastAPI(title="Study Language Aide")

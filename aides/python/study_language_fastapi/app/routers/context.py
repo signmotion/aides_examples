@@ -107,7 +107,7 @@ def schema():
 
 @router.get("/context/{hid}")
 def value(hid: str):
-    return _ctx[hid] if hid in _ctx else None
+    return getattr(_ctx, hid)
 
 
 # the context's setters section

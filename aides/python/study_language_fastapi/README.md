@@ -9,7 +9,7 @@ The [English Learning Obsidian Plugin](https://github.com/signmotion/english-lea
 ## Run
 
 ```cmd
-uvicorn app.main:app --reload
+uvicorn app.main:app --factory --reload
 ```
 
 ## Structure
