@@ -20,7 +20,7 @@ class Context(BaseModel):
 
 
 def test_context_smarthone():
-    return Context.parse_obj(
+    return Context.model_validate(
         {
             "hours": 24,
             "location": "Canada",
