@@ -63,7 +63,27 @@ Add the package name with version to `requirements.txt`.
 ### Send Message
 
 ```cmd
-python main.py
+python receive.py
 ```
 
-For work this program you need run Docker image. See above.
+In other CMD:
+
+```cmd
+python send.py
+```
+
+For work these programs you need run Docker image. See above.
+
+### Check Queries
+
+Start the commands below directly consider to [doc](https://docs.docker.com/engine/reference/commandline/exec/) or run Docker Shell from own CMD:
+
+```cmd
+docker exec -it rabbitmq sh
+```
+
+Or use `Exec` tab into the Docker Desktop.
+
+```cmd
+rabbitmqctl list_queues
+```
