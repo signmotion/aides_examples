@@ -4,6 +4,12 @@ The server for appraise purchase the items on eBay.
 
 Powered by [Celery & FastAPI](https://testdriven.io/courses/fastapi-celery/getting-started/).
 
+## Current state
+
+!) Stopped. Reason: Have the error on the stage https://testdriven.io/courses/fastapi-celery/app-factory/#H-10-manual-test
+
+Celery is not officially supported on Windows, and some features may not work as expected.
+
 ## Run
 
 Work into the Bash terminal. In VSCode bottom pane: open `Git Bash`.

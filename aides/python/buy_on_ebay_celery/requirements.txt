@@ -3,3 +3,5 @@ uvicorn[standard]==0.18.2
 celery==5.2.7
 redis==4.3.4
 tzdata==2023.3
+SQLAlchemy==1.4.40
+alembic==1.8.1
