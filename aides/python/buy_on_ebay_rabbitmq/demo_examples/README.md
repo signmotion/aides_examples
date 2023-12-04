@@ -1,8 +1,6 @@
-# Buy on eBay
+# Demo Examples for RabbitMQ
 
-The server for appraise purchase the items on eBay.
-
-Powered by [RabbitMQ](https://rabbitmq.com).
+Examples from [RabbitMQ Get Started](https://rabbitmq.com/#getstarted).
 
 ## Run
 
@@ -60,13 +58,19 @@ pip list
 
 Add the package name with version to `requirements.txt`.
 
-### Start Server
+### Run the First Demo
 
 ```cmd
-TBD
+python receive.py
 ```
 
-For work these commands correctly you need to run the Docker image. See above.
+In other CMD:
+
+```cmd
+python send.py
+```
+
+For work these programs you need to run the Docker image. See above.
 
 ### Check Queries
 
