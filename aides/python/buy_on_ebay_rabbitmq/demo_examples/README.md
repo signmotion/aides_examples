@@ -4,7 +4,7 @@ Examples from [RabbitMQ Get Started](https://rabbitmq.com/#getstarted).
 
 ## Run
 
-Work into the PowerShell or Bash terminal. In VSCode bottom pane: open `PowerShell` `Git Bash`.
+Work into the PowerShell or Bash terminal. In VSCode bottom pane: open `PowerShell` or `Git Bash`.
 
 Run the commands below in the root foolder.
 
