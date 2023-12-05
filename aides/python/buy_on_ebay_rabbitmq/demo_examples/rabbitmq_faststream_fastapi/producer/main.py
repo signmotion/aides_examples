@@ -14,7 +14,7 @@ def app():
 
 @router.after_startup
 async def test(app: FastAPI):
-    print(f"FastStream started.\n\tFastAPI server: {app.title}")
+    print(f"FastStream router started.\n\tFastAPI server: {app.title}")
 
 
 def broker():
@@ -26,7 +26,12 @@ async def hello_rabbit(
     broker: Annotated[RabbitBroker, Depends(broker)],
 ):
     message = "Hello, Rabbit!"
-    await broker.publish(message, "test")
+    await broker.publish(
+        message,
+        queue="test",
+        # routing_key="hello_rabbit.test",
+        timeout=5,
+    )
 
     return f"Sent message `{message}` from HTTP."
 
