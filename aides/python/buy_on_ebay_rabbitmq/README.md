@@ -62,7 +62,12 @@ TBD
 
 ### Check Queries
 
-Start the commands below directly consider to [doc](https://docs.docker.com/engine/reference/commandline/exec/) or run Docker Shell from own CMD:
+Use RabbitMQ UI by address <http://localhost:15672>.
+
+Or start the commands below directly consider to [doc](https://docs.docker.com/engine/reference/commandline/exec/).
+
+Or run Docker Shell
+from own CMD:
 
 ```cmd
 docker exec -it rabbitmq sh

@@ -38,20 +38,26 @@ pip install -r requirements.txt
 
 ### Run the Demo
 
-Server (consumer):
+Producer server:
 
 ```cmd
-uvicorn main:app --factory --reload
+uvicorn producer.main:app --reload
 ```
 
-For send messages from Client (producer) use the VSCode plugin `REST Client`.
+Consumer server:
+
+```cmd
+faststream run consumer.main:app --reload
+```
+
+For send messages from producer use the VSCode plugin `REST Client`.
 See `test.http`.
 
 !) For work these programs you need to run the Docker image. See above.
 
 ### Check Queries
 
-Use UI by address <http://localhost:15672>.
+Use RabbitMQ UI by address <http://localhost:15672>.
 
 Or start the commands below directly consider to [doc](https://docs.docker.com/engine/reference/commandline/exec/).
 
