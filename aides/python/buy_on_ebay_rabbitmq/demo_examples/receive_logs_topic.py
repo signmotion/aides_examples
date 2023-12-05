@@ -20,7 +20,7 @@ for binding_key in binding_keys:
         routing_key=binding_key,
     )
 
-print(" [*] Waiting for logs. To exit press CTRL+C")
+print("[*] Waiting for logs. To exit press CTRL+C")
 
 
 def callback(ch, method, properties, body):
