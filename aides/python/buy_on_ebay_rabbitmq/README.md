@@ -32,14 +32,6 @@ python -m venv venv
 .\venv\Scripts\activate
 ```
 
-##### Upgrade `pip`
-
-Run into the global CMD:
-
-```cmd
-pip install --upgrade pip
-```
-
 ### Install Requirements
 
 ```cmd
@@ -66,7 +58,7 @@ Add the package name with version to `requirements.txt`.
 TBD
 ```
 
-For work these commands correctly you need to run the Docker image. See above.
+!) For work these commands correctly you need to run the Docker image. See above.
 
 ### Check Queries
 
