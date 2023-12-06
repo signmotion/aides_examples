@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+import json
 import httpx
 import traceback
 
@@ -18,7 +19,7 @@ def products_today(
     tags=["hours", "items", "now", "products", "today"],
 ):
     if use_fake_response:
-        return products_today_demo_json()
+        return products_today_demo_ebay_json()
 
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
 
@@ -29,7 +30,7 @@ def products_today(
     }
 
     params = {
-        "q": app().memo.context.query,
+        "q": app().memo.context.query,  # type: ignore
         "sort": "newlyListed",
         "limit": "2",
     }
@@ -84,19 +85,13 @@ def products_today(
 
     return {
         "result": o,
-        "context": app().memo.context,
+        "context": app().memo.context,  # type: ignore
     }
 
 
-@router.get("/products-today-demo-json")
-def products_today_demo_json():
-    return {
-        "result": [
-            {"name": "A", "price": 1.23},
-            {"name": "B", "price": 4.56},
-        ],
-        "parameters": {
-            "hours": 24,
-            "location": "Canada",
-        },
-    }
+@router.get("/products-today-demo-ebay-json")
+def products_today_demo_ebay_json():
+    with open("app/data/examples/responses/1.json", "r") as file:
+        data = file.read()
+
+    return json.loads(data)
