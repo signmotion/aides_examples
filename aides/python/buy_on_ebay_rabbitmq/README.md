@@ -15,19 +15,13 @@ They are in the folders:
 
 Work into the PowerShell or Bash terminal. In VSCode bottom pane: open `PowerShell` or `Git Bash`.
 
-Run the commands below from this foolder.
+Run the commands below from **this** foolder.
 
 ### Install
 
 Look at `README.md` into each server folder.
 
 The common starts steps for all servers described below.
-
-Move to the folder `app` for run the commands:
-
-```bash
-cd app
-```
 
 ### Activate the Virtual Environment
 
@@ -44,10 +38,10 @@ python -m venv venv
 ### Install Requirements
 
 ```bash
--pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
-#### Note: Pipeline for Update Requirement
+#### Note: Pipeline for Update Requirements
 
 ```bash
 pip install NAME-PACKAGE

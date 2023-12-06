@@ -3,7 +3,7 @@ import httpx
 import traceback
 
 import app
-from ..internal.config import *
+from ..share.config import *
 
 
 router = APIRouter()

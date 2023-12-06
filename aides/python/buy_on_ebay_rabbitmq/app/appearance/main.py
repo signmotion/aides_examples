@@ -1,25 +1,20 @@
-from .internal.context import Context, test_context_smarthone
-from .internal.config import use_test_context
+from .share.context import Context, test_context_smarthone
+from .share.config import use_test_context
+from .share.packages.aide_server.src.aide_server.server import AideServer, Memo
 from .routers import about, products_today
-
-from .packages.aide_server.src.aide_server.server import (
-    AideServer,
-    Memo,
-)
-
-# ! See conventions in ../README.md.
 
 
 _app = AideServer(
     title="Auction eBay Aide",
     summary="The aide for work with the eBay's auction.",
     description="Appraise purchases items from eBay's auction.",
+    nickname="auction-ebay",
     version="0.1.1",
-    tags=["auction", "eBay"],
+    tags=["auction", "buy", "eBay", "purchase"],
     characteristic={
         "age": 19,
         # link to face: http://127.0.0.1:8000/face
-        # see `routers/about.py` how declare that
+        # see `routers/about.py` how to declare that
         "face": "/face",
         "constitution": {
             "Posture": "Upright and alert, demonstrating attentiveness.",
@@ -44,10 +39,6 @@ _app = AideServer(
 
 def app():
     return _app
-
-
-# the context section
-# See `internal/context.py` and [memo] in [AideServer].
 
 
 # the aide about section

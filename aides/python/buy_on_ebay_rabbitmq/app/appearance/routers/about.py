@@ -7,9 +7,9 @@ router = APIRouter()
 
 # the aide character
 
-# See all characteristics when FastAPI instantiating.
+# See all characteristics when Aide instantiating into `main.py`.
 
 
 @router.get("/face", include_in_schema=False)
 def face():
-    return FileResponse("app/data/face.webp")
+    return FileResponse("app/appearance/data/face.webp")

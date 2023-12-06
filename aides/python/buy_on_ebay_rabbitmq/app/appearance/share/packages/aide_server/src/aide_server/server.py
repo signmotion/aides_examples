@@ -33,6 +33,7 @@ class AideServer(FastAPI):
         self: AppType,
         *,
         # own
+        nickname: str = "",
         tags: Optional[List[str]] = None,
         characteristic: Optional[Dict[str, Any]] = None,
         external_routers: Optional[List[APIRouter]] = [],
@@ -82,6 +83,7 @@ class AideServer(FastAPI):
         separate_input_output_schemas: bool = True,
         **extra: Any,
     ):
+        self.nickname = nickname
         self.memo = memo
 
         additional_tags = []
