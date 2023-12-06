@@ -1,0 +1,91 @@
+{
+  "href": "https://api.ebay.com/buy/browse/v1/item_summary/search?q=iphone&limit=2&filter=buyingOptions%3A%7BAUCTION%7D&sort=newlyListed&offset=0",
+  "total": 13814,
+  "next": "https://api.ebay.com/buy/browse/v1/item_summary/search?q=iphone&limit=2&filter=buyingOptions%3A%7BAUCTION%7D&sort=newlyListed&offset=2",
+  "limit": 2,
+  "offset": 0,
+  "itemSummaries": [
+    {
+      "itemId": "v1|314986883436|0",
+      "title": "Anker Soundcore Bluetooth Stereo Speaker IPX5 Waterproof (iPhone, Samsung, etc)",
+      "leafCategoryIds": ["111694"],
+      "categories": [
+        {
+          "categoryId": "111694",
+          "categoryName": "Audio Docks & Mini Speakers"
+        },
+        {
+          "categoryId": "293",
+          "categoryName": "Consumer Electronics"
+        },
+        {
+          "categoryId": "15052",
+          "categoryName": "Portable Audio & Headphones"
+        }
+      ],
+      "image": {
+        "imageUrl": "https://i.ebayimg.com/thumbs/images/g/1zoAAOSwxW1lYcIp/s-l225.jpg"
+      },
+      "price": {
+        "value": "39.99",
+        "currency": "USD"
+      },
+      "itemHref": "https://api.ebay.com/buy/browse/v1/item/v1%7C314986883436%7C0",
+      "seller": {
+        "username": "gs-goods",
+        "feedbackPercentage": "100.0",
+        "feedbackScore": 71
+      },
+      "condition": "New",
+      "conditionId": "1000",
+      "thumbnailImages": [
+        {
+          "imageUrl": "https://i.ebayimg.com/images/g/1zoAAOSwxW1lYcIp/s-l960.jpg"
+        }
+      ],
+      "shippingOptions": [
+        {
+          "shippingCostType": "CALCULATED"
+        }
+      ],
+      "buyingOptions": ["FIXED_PRICE", "AUCTION"],
+      "bidCount": 0,
+      "currentBidPrice": {
+        "value": "29.99",
+        "currency": "USD"
+      },
+      "epid": "20056962276",
+      "itemAffiliateWebUrl": "https://www.ebay.com/itm/314986883436?hash=item4956ae696c%3Ag%3A1zoAAOSwxW1lYcIp&mkevt=1&mkcid=1&mkrid=711-53200-19255-0&campid=%253CePNCampaignId%253E&customid=%253CreferenceId%253E&toolid=10049",
+      "itemWebUrl": "https://www.ebay.com/itm/314986883436?hash=item4956ae696c:g:1zoAAOSwxW1lYcIp",
+      "itemLocation": {
+        "postalCode": "802**",
+        "country": "US"
+      },
+      "additionalImages": [
+        {
+          "imageUrl": "https://i.ebayimg.com/thumbs/images/g/wskAAOSwfLllYcIR/s-l225.jpg"
+        },
+        {
+          "imageUrl": "https://i.ebayimg.com/thumbs/images/g/ZLYAAOSw5ghlYcIR/s-l225.jpg"
+        },
+        {
+          "imageUrl": "https://i.ebayimg.com/thumbs/images/g/suwAAOSwjERlYcIS/s-l225.jpg"
+        },
+        {
+          "imageUrl": "https://i.ebayimg.com/thumbs/images/g/izgAAOSwTnplYcIS/s-l225.jpg"
+        },
+        {
+          "imageUrl": "https://i.ebayimg.com/thumbs/images/g/faEAAOSwWA5lYcIS/s-l225.jpg"
+        }
+      ],
+      "adultOnly": false,
+      "legacyItemId": "314986883436",
+      "availableCoupons": false,
+      "itemCreationDate": "2023-11-25T09:47:51.000Z",
+      "itemEndDate": "2023-12-02T09:47:51.000Z",
+      "topRatedBuyingExperience": false,
+      "priorityListing": false,
+      "listingMarketplaceId": "EBAY_US"
+    }
+  ]
+}

@@ -15,6 +15,7 @@ _app = AideServer(
     summary="The aide for studying language.",
     description="The aide for learning languages. For example, English.",
     version="0.1.1",
+    nickname="study-language",
     tags=[
         "english",
         "language",

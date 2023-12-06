@@ -1,6 +1,6 @@
-# Demo Examples for RabbitMQ & FastStream & FastAPI
+# Examples & Spikes for RabbitMQ
 
-The example from [there](https://faststream.airt.ai/latest/getting-started/integrations/fastapi).
+Examples from [RabbitMQ Get Started](https://rabbitmq.com/#getstarted).
 
 ## Run
 
@@ -14,7 +14,7 @@ Tested on Docker installation. See <https://rabbitmq.com/download.html>.
 
 #### Run Docker Image
 
-```cmd
+```bash
 docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
 ```
 
@@ -22,54 +22,71 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-ma
 
 #### Activate on Windows
 
-```cmd
+```bash
 python -m venv venv
 ```
 
-```cmd
+```bash
 .\venv\Scripts\activate
+```
+
+##### Upgrade `pip`
+
+Run into the global CMD:
+
+```bash
+pip install --upgrade pip
 ```
 
 ### Install Requirements
 
-```cmd
+```bash
 pip install -r requirements.txt
 ```
 
-### Run the Demo
+#### Pipeline for Update Requirement
 
-Producer server:
-
-```cmd
-uvicorn producer.main:app --reload
+```bash
+pip install NAME-PACKAGE
 ```
 
-Consumer server:
+Look at package version into the console output or run in CMD into the current environment:
 
-```cmd
-faststream run consumer.main:app --reload
+```bash
+pip list
 ```
 
-For send messages from producer use the VSCode plugin `REST Client`.
-See `test.http`.
+Add the package name with version to `requirements.txt`.
 
-!) For work these programs you need to run the Docker image. See above.
+### Run the First Demo
+
+```bash
+python receive.py
+```
+
+In other CMD:
+
+```bash
+python send.py
+```
+
+For work these programs you need to run the Docker image for RabbitMQ. See above.
 
 ### Check Queries
 
-Use RabbitMQ UI by address <http://localhost:15672>.
+Use UI by address <http://localhost:15672>.
 
 Or start the commands below directly consider to [doc](https://docs.docker.com/engine/reference/commandline/exec/).
 
 Or run Docker Shell
 from own CMD:
 
-```cmd
+```bash
 docker exec -it rabbitmq sh
 ```
 
 Or use `Exec` tab into the Docker Desktop.
 
-```cmd
+```bash
 rabbitmqctl list_queues
 ```

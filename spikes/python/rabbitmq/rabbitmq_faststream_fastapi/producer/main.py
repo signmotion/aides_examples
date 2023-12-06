@@ -26,7 +26,7 @@ def broker():
     return router.broker
 
 
-exch = RabbitExchange("exchange", auto_delete=True, type=ExchangeType.TOPIC)
+exchange = RabbitExchange("exchange", auto_delete=True, type=ExchangeType.TOPIC)
 queue_1 = RabbitQueue("test-queue-1", auto_delete=True, routing_key="*.info")
 
 
@@ -44,7 +44,7 @@ async def hello_rabbit(
         message,
         queue=queue_1,
         routing_key="logs.info",
-        exchange=exch,
+        exchange=exchange,
         timeout=5,
     )
 
