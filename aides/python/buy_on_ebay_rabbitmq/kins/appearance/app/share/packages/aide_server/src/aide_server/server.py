@@ -83,8 +83,8 @@ class AideServer(FastAPI):
         separate_input_output_schemas: bool = True,
         **extra: Any,
     ):
-        self.nickname = nickname
-        self.memo = memo
+        self.nickname = nickname  # type: ignore
+        self.memo = memo  # type: ignore
 
         additional_tags = []
         if characteristic:
@@ -107,7 +107,7 @@ class AideServer(FastAPI):
             description=description,
             version=version,
             openapi_url=openapi_url,
-            openapi_tags=additional_tags + openapi_tags,
+            openapi_tags=additional_tags + openapi_tags,  # type: ignore
             servers=servers,
             dependencies=dependencies,
             default_response_class=default_response_class,
@@ -142,11 +142,11 @@ class AideServer(FastAPI):
         _init_external_routers(self, external_routers=external_routers)
 
         # !) call this functions after adding all routers
-        _check_routes(self)
+        _check_routes(self)  # type: ignore
         _use_route_names_as_operation_ids(self)
 
     # Keep a generic context.
-    memo: Memo = None
+    memo: Union[Memo, None] = None
 
 
 def _init_context_routers(server: FastAPI):
@@ -154,20 +154,20 @@ def _init_context_routers(server: FastAPI):
 
     @router.get("/context")
     def context():
-        return server.memo.context
+        return server.memo.context  # type: ignore
 
     @router.get("/schema")
     def schema():
-        return json.loads(server.memo.context.schema_json())
+        return json.loads(server.memo.context.schema_json())  # type: ignore
 
     @router.get("/context/{hid}")
     def value(hid: str):
-        return getattr(server.memo.context, hid)
+        return getattr(server.memo.context, hid)  # type: ignore
 
     # See [schema].
     @router.put("/context/{hid}/{value}")
     def put_inline_hid_value(hid: str, value: str):
-        setattr(server.memo.context, hid, value)
+        setattr(server.memo.context, hid, value)  # type: ignore
         return True
 
     # See [schema].
@@ -176,7 +176,7 @@ def _init_context_routers(server: FastAPI):
         hid: str,
         value: str = Body(embed=True),
     ):
-        setattr(server.memo.context, hid, value)
+        setattr(server.memo.context, hid, value)  # type: ignore
         return True
 
     # See [schema].
@@ -193,7 +193,7 @@ def _init_context_routers(server: FastAPI):
             description="Value for set by HID.",
         ),
     ):
-        setattr(server.memo.context, hid, value)
+        setattr(server.memo.context, hid, value)  # type: ignore
         return True
 
     server.include_router(router)

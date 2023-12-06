@@ -15,7 +15,7 @@ _default_envs = {
     "EBAY_OAUTH_APP_TOKEN": os.getenv("EBAY_OAUTH_APP_TOKEN"),
 }
 for key, value in _default_envs.items():
-    os.environ[key] = value
+    os.environ[key] = value  # type: ignore
 
 api_domain = os.environ["API_DOMAIN"]
 ebay_oauth_app_token = os.environ["EBAY_OAUTH_APP_TOKEN"]
