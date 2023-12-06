@@ -8,7 +8,7 @@ The [English Learning Obsidian Plugin](https://github.com/signmotion/english-lea
 
 ## Run
 
-```cmd
+```bash
 uvicorn app.main:app --factory --reload
 ```
 

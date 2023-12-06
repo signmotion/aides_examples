@@ -6,7 +6,7 @@ Powered by FastAPI.
 
 ## Run
 
-```cmd
+```bash
 uvicorn app.main:app --factory --reload
 ```
 

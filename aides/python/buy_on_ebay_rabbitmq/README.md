@@ -16,7 +16,7 @@ Tested on Docker installation. See <https://rabbitmq.com/download.html>.
 
 #### Run Docker Image
 
-```cmd
+```bash
 docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
 ```
 
@@ -24,29 +24,29 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-ma
 
 #### Activate on Windows
 
-```cmd
+```bash
 python -m venv venv
 ```
 
-```cmd
+```bash
 .\venv\Scripts\activate
 ```
 
 ### Install Requirements
 
-```cmd
+```bash
 pip install -r requirements.txt
 ```
 
 #### Pipeline for Update Requirement
 
-```cmd
+```bash
 pip install NAME-PACKAGE
 ```
 
 Look at package version into the console output or run in CMD into the current environment:
 
-```cmd
+```bash
 pip list
 ```
 
@@ -54,7 +54,7 @@ Add the package name with version to `requirements.txt`.
 
 ### Start Server
 
-```cmd
+```bash
 TBD
 ```
 
@@ -69,12 +69,12 @@ Or start the commands below directly consider to [doc](https://docs.docker.com/e
 Or run Docker Shell
 from own CMD:
 
-```cmd
+```bash
 docker exec -it rabbitmq sh
 ```
 
 Or use `Exec` tab into the Docker Desktop.
 
-```cmd
+```bash
 rabbitmqctl list_queues
 ```

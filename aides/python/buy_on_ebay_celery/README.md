@@ -24,23 +24,23 @@ See <https://testdriven.io/courses/fastapi-celery/getting-started>.
 
 #### Activate on Windows
 
-```cmd
+```bash
 python -m venv venv
 ```
 
-```cmd
+```bash
 .\venv\Scripts\activate
 ```
 
 #### Linux
 
-```cmd
+```bash
 source venv/bin/activate
 ```
 
 ### Install requirements
 
-```cmd
+```bash
 pip install -r requirements.txt
 ```
 
@@ -52,33 +52,33 @@ pip install -r requirements.txt
 
 Start Ubuntu and typing:
 
-```cmd
+```bash
 sudo apt-add-repository ppa:redislabs/redis
 ```
 
-```cmd
+```bash
 sudo apt-get update
 ```
 
-```cmd
+```bash
 sudo apt-get upgrade
 ```
 
-```cmd
+```bash
 sudo apt-get install redis-server
 ```
 
-```cmd
+```bash
 sudo service redis-server restart
 ```
 
 Check installation:
 
-```cmd
+```bash
 set user:1 "Andrii"
 ```
 
-```cmd
+```bash
 get user:1
 ```
 
@@ -86,12 +86,12 @@ get user:1
 
 Start Ubuntu.
 
-```cmd
+```bash
 sudo service redis-server start
 ```
 
 ### Run Celery server
 
-```cmd
+```bash
 celery -A main.celery worker --loglevel=info
 ```
