@@ -1,23 +1,32 @@
 # Buy on eBay
 
-The server for appraise purchase the items on eBay.
+The servers for appraise purchase the items on eBay.
 
-Powered by [RabbitMQ](https://rabbitmq.com).
+Developed for A\*.
+
+They are in the folders:
+
+- appearance
+- brain
+- keeper
+- savant
 
 ## Run
 
 Work into the PowerShell or Bash terminal. In VSCode bottom pane: open `PowerShell` or `Git Bash`.
 
-Run the commands below in the root foolder.
+Run the commands below from this foolder.
 
 ### Install
 
-Tested on Docker installation. See <https://rabbitmq.com/download.html>.
+Look at `README.md` into each server folder.
 
-#### Run Docker Image
+The common starts steps for all servers described below.
+
+Move to the folder `app` for run the commands:
 
 ```bash
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+cd app
 ```
 
 ### Activate the Virtual Environment
@@ -35,10 +44,10 @@ python -m venv venv
 ### Install Requirements
 
 ```bash
-pip install -r requirements.txt
+-pip install -r requirements.txt
 ```
 
-#### Pipeline for Update Requirement
+#### Note: Pipeline for Update Requirement
 
 ```bash
 pip install NAME-PACKAGE
@@ -52,29 +61,6 @@ pip list
 
 Add the package name with version to `requirements.txt`.
 
-### Start Server
+### Run Servers
 
-```bash
-TBD
-```
-
-!) For work these commands correctly you need to run the Docker image. See above.
-
-### Check Queries
-
-Use RabbitMQ UI by address <http://localhost:15672>.
-
-Or start the commands below directly consider to [doc](https://docs.docker.com/engine/reference/commandline/exec/).
-
-Or run Docker Shell
-from own CMD:
-
-```bash
-docker exec -it rabbitmq sh
-```
-
-Or use `Exec` tab into the Docker Desktop.
-
-```bash
-rabbitmqctl list_queues
-```
+See `README.md` into the servers folders.
