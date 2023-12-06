@@ -9,5 +9,5 @@ See `README.md` for prepare environment to run this server.
 ## Run This Server
 
 ```bash
-uvicorn kins.appearance.main:app --factory --reload
+uvicorn app.main:app --factory --reload
 ```

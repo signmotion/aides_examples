@@ -12,4 +12,4 @@ router = APIRouter()
 
 @router.get("/face", include_in_schema=False)
 def face():
-    return FileResponse("app/appearance/data/face.webp")
+    return FileResponse("app/data/face.webp")

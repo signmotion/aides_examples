@@ -15,13 +15,19 @@ They are in the folders:
 
 Work into the PowerShell or Bash terminal. In VSCode bottom pane: open `PowerShell` or `Git Bash`.
 
-Run the commands below from **this** foolder.
+Remember that all servers are independent.
 
 ### Install
 
 Look at `README.md` into each server folder.
 
 The common starts steps for all servers described below.
+
+Move to the server folder and run commands below after that. For example:
+
+```bash
+cd kins/appearance
+```
 
 ### Activate the Virtual Environment
 
