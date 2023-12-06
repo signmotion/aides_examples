@@ -2,6 +2,7 @@ from fastapi import APIRouter
 import json
 import httpx
 import traceback
+from faststream.rabbit import RabbitQueue
 
 import app
 from ..share.config import *
@@ -10,14 +11,15 @@ from ..share.config import *
 router = APIRouter()
 
 
-@router.get("/products-today")
-# See [products_today_about], [products_today_tags].
-# See [context].
-def products_today(
+@router.get(
+    "/products-today",
     summary="Returns a list of recent products from auction.",
     description="Returns a list of auction products no later than the last 24 hours.",
     tags=["hours", "items", "now", "products", "today"],
-):
+)
+# See [products_today_about], [products_today_tags].
+# See [context].
+def products_today():
     if use_fake_response:
         return products_today_demo_ebay_json()
 

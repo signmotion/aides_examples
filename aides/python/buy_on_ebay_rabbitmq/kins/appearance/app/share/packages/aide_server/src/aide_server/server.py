@@ -1,6 +1,12 @@
 import json
-from fastapi import APIRouter, Body, FastAPI
-from fastapi.applications import AppType
+from fastapi import APIRouter, Body, Depends, FastAPI
+from faststream.rabbit import (
+    RabbitBroker,
+    ExchangeType,
+    RabbitExchange,
+    RabbitQueue,
+    fastapi,
+)
 
 from typing import (
     Any,
@@ -11,6 +17,7 @@ from typing import (
     Optional,
     Sequence,
     Type,
+    TypeVar,
     Union,
 )
 
@@ -28,9 +35,12 @@ from starlette.types import Lifespan
 from .memo import Memo
 
 
+defaultSavantConnector = "amqp://guest:guest@localhost:5672/"
+
+
 class AideServer(FastAPI):
     def __init__(
-        self: AppType,
+        self,
         *,
         # own
         nickname: str = "",
@@ -38,6 +48,7 @@ class AideServer(FastAPI):
         characteristic: Optional[Dict[str, Any]] = None,
         external_routers: Optional[List[APIRouter]] = [],
         memo: Memo,
+        savantConnector: str = defaultSavantConnector,
         # from FastAPI
         debug: bool = False,
         routes: Optional[List[BaseRoute]] = None,
@@ -64,7 +75,7 @@ class AideServer(FastAPI):
         ] = None,
         on_startup: Optional[Sequence[Callable[[], Any]]] = None,
         on_shutdown: Optional[Sequence[Callable[[], Any]]] = None,
-        lifespan: Optional[Lifespan[AppType]] = None,
+        # lifespan: Optional[Lifespan[AppType]] = None,
         terms_of_service: Optional[str] = None,
         contact: Optional[Dict[str, Union[str, Any]]] = None,
         license_info: Optional[Dict[str, Union[str, Any]]] = None,
@@ -85,6 +96,8 @@ class AideServer(FastAPI):
     ):
         self.nickname = nickname  # type: ignore
         self.memo = memo  # type: ignore
+
+        router = fastapi.RabbitRouter(savantConnector)
 
         additional_tags = []
         if characteristic:
@@ -120,7 +133,7 @@ class AideServer(FastAPI):
             exception_handlers=exception_handlers,
             on_startup=on_startup,
             on_shutdown=on_shutdown,
-            lifespan=lifespan,
+            lifespan=router.lifespan_context,
             terms_of_service=terms_of_service,
             contact=contact,
             license_info=license_info,
@@ -138,6 +151,9 @@ class AideServer(FastAPI):
             extra=extra,
         )
 
+        _init_rabbit_router(self, router)
+
+        _init_about_routers(self)
         _init_context_routers(self)
         _init_external_routers(self, external_routers=external_routers)
 
@@ -145,11 +161,91 @@ class AideServer(FastAPI):
         _check_routes(self)  # type: ignore
         _use_route_names_as_operation_ids(self)
 
+    def broker(self):
+        return self.router.broker  # type: ignore
+
+    def exchange(self):
+        return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
+
+    def queryQueue(self, router: APIRouter):
+        return self._queueRouter("query", router=router)
+
+    def progressQueue(self, router: APIRouter):
+        return self._queueRouter("progress", router=router)
+
+    def resultQueue(self, router: APIRouter):
+        return self._queueRouter("result", router=router)
+
+    def requestProgressQueue(self):
+        return self._requestActQueue("progress")
+
+    def requestResultQueue(self):
+        return self._requestActQueue("result")
+
+    def responseProgressQueue(self):
+        return self._responseActQueue("progress")
+
+    def responseResultQueue(self):
+        return self._responseActQueue("result")
+
+    def _queueRouter(self, name_queue: str, router: APIRouter):
+        return _queueRouter(name_queue, router=router, nickname_aide=self.nickname)
+
+    def _requestActQueue(self, act: str):
+        return _queueAct("request", act=act, nickname_aide=self.nickname)
+
+    def _responseActQueue(self, act: str):
+        return _queueAct("response", act=act, nickname_aide=self.nickname)
+
     # Keep a generic context.
     memo: Union[Memo, None] = None
 
 
-def _init_context_routers(server: FastAPI):
+def _queueRouter(name_queue: str, router: APIRouter, nickname_aide: str):
+    return _queueAct(
+        name_queue,
+        act=router.name,  # type: ignore
+        nickname_aide=nickname_aide,
+    )
+
+
+def _queueAct(name_queue: str, act: str, nickname_aide: str):
+    return RabbitQueue(
+        name_queue,
+        auto_delete=True,
+        bind_arguments={
+            "act": act,
+            "nickname": nickname_aide,
+        },
+    )
+
+
+def _init_rabbit_router(server: AideServer, router: fastapi.RabbitRouter):
+    @router.after_startup
+    def start(server):
+        print(
+            f"\nFastStream powered by FastAPI server `{server.title}`"
+            f" with nickname `{server.nickname}`"
+            " started.\n"
+        )
+
+    server.router = router
+
+
+def _init_about_routers(server: AideServer):
+    router = APIRouter()
+
+    @router.get("/")
+    def root():
+        return {
+            "title": server.title,
+            "nickname": server.nickname,
+        }
+
+    server.include_router(router)
+
+
+def _init_context_routers(server: AideServer):
     router = APIRouter()
 
     @router.get("/context")
