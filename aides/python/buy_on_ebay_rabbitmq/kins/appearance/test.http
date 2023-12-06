@@ -4,6 +4,10 @@
 
 ###
 
+GET http://{{host}}/hello-test
+
+###
+
 GET http://{{host}}/face
 
 ###

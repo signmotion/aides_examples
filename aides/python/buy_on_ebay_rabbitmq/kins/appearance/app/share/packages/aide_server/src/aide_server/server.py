@@ -164,29 +164,32 @@ class AideServer(FastAPI):
     def broker(self):
         return self.router.broker  # type: ignore
 
-    def exchange(self):
-        return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
+    # def exchange(self):
+    #     return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
 
-    def queryQueue(self, router: APIRouter):
-        return self._queueRouter("query", router=router)
+    # def queryQueue(self, router: APIRouter):
+    #     return self._queueRouter("query", router=router)
 
-    def progressQueue(self, router: APIRouter):
-        return self._queueRouter("progress", router=router)
+    # def progressQueue(self, router: APIRouter):
+    #     return self._queueRouter("progress", router=router)
 
-    def resultQueue(self, router: APIRouter):
-        return self._queueRouter("result", router=router)
+    # def resultQueue(self, router: APIRouter):
+    #     return self._queueRouter("result", router=router)
 
-    def requestProgressQueue(self):
-        return self._requestActQueue("progress")
+    # def requestProgressQueue(self):
+    #     return self._requestActQueue("progress")
 
-    def requestResultQueue(self):
-        return self._requestActQueue("result")
+    # def requestResultQueue(self):
+    #     return self._requestActQueue("result")
 
-    def responseProgressQueue(self):
-        return self._responseActQueue("progress")
+    # def responseProgressQueue(self):
+    #     return self._responseActQueue("progress")
 
-    def responseResultQueue(self):
-        return self._responseActQueue("result")
+    # def responseResultQueue(self):
+    #     return self._responseActQueue("result")
+
+    # def logQueue(self, router: APIRouter):
+    #     return _queueRouter("log", router=router, nickname_aide=self.nickname)
 
     def _queueRouter(self, name_queue: str, router: APIRouter):
         return _queueRouter(name_queue, router=router, nickname_aide=self.nickname)
@@ -204,7 +207,7 @@ class AideServer(FastAPI):
 def _queueRouter(name_queue: str, router: APIRouter, nickname_aide: str):
     return _queueAct(
         name_queue,
-        act=router.name,  # type: ignore
+        act=router.name if hasattr(router, "name") else type(router).__name__,  # type: ignore
         nickname_aide=nickname_aide,
     )
 
@@ -222,14 +225,36 @@ def _queueAct(name_queue: str, act: str, nickname_aide: str):
 
 def _init_rabbit_router(server: AideServer, router: fastapi.RabbitRouter):
     @router.after_startup
-    def start(server):
-        print(
+    async def start(server):
+        server.router = router
+
+        server.exchange = RabbitExchange(
+            "aide",
+            auto_delete=True,
+            type=ExchangeType.HEADERS,
+        )
+        await server.broker().declare_exchange(server.exchange)
+
+        server.logQueue = _queueRouter(
+            "log",
+            router=router,
+            nickname_aide=server.nickname,
+        )
+        await server.broker().declare_queue(server.logQueue)
+
+        message = (
             f"\nFastStream powered by FastAPI server `{server.title}`"
             f" with nickname `{server.nickname}`"
             " started.\n"
         )
+        print(message)
 
-    server.router = router
+        await server.broker().publish(
+            message.strip(),
+            exchange=server.exchange,
+            queue=server.logQueue,
+            timeout=5,
+        )
 
 
 def _init_about_routers(server: AideServer):
