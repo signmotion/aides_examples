@@ -2,12 +2,14 @@
 
 The part of Aide.
 
-Powered by FastAPI & FastStream.
+Powered by RabbitMQ.
 
-See `README.md` for prepare environment to run this server.
+This server doesn't need to prepare environment: we use a Docker image.
 
-## Run This Server
+Tested on Docker installation. See <https://rabbitmq.com/download.html>.
+
+## Run This Server with Docker
 
 ```bash
-TBD
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
 ```
