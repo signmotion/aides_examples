@@ -1,4 +1,5 @@
 import json
+import time
 from fastapi import APIRouter, Body, Depends, FastAPI
 from faststream.rabbit import (
     RabbitBroker,
@@ -32,7 +33,7 @@ from starlette.responses import JSONResponse, Response
 from starlette.routing import BaseRoute
 from starlette.types import Lifespan
 
-from .memo import Memo
+from .memo import Memo, NoneMemo
 
 
 defaultSavantConnector = "amqp://guest:guest@localhost:5672/"
@@ -44,10 +45,11 @@ class AideServer(FastAPI):
         *,
         # own
         nickname: str = "",
+        part: str = "",
         tags: Optional[List[str]] = None,
         characteristic: Optional[Dict[str, Any]] = None,
         external_routers: List[APIRouter] = [],
-        memo: Memo,
+        memo: Memo = NoneMemo(),
         savantConnector: str = defaultSavantConnector,
         # from FastAPI
         debug: bool = False,
@@ -94,8 +96,9 @@ class AideServer(FastAPI):
         separate_input_output_schemas: bool = True,
         **extra: Any,
     ):
-        self.nickname = nickname  # type: ignore
-        self.memo = memo  # type: ignore
+        self.part = part or type(self).__name__
+        self.nickname = nickname
+        self.memo = memo
 
         savantRouter = fastapi.RabbitRouter(savantConnector)
 
@@ -169,6 +172,7 @@ class AideServer(FastAPI):
 
             message = (
                 f"\nFastStream powered by FastAPI server `{self.title}`"
+                f" defined as `{self.part}`"
                 f" with nickname `{self.nickname}`"
                 " started.\n"
             )
@@ -189,24 +193,24 @@ class AideServer(FastAPI):
 
     def queryQueue(
         self,
-        router: Union[APIRouter, None] = None,
+        router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
         return self._queueRouter("query", router=router, route_name=route_name)
 
     def progressQueue(
         self,
-        router: Union[APIRouter, None] = None,
+        router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
-        return self._queueRouter("progress", router=router)
+        return self._queueRouter("progress", router=router, route_name=route_name)
 
     def resultQueue(
         self,
-        router: Union[APIRouter, None] = None,
+        router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
-        return self._queueRouter("result", router=router)
+        return self._queueRouter("result", router=router, route_name=route_name)
 
     def requestProgressQueue(self):
         return self._requestActQueue("progress")
@@ -220,7 +224,7 @@ class AideServer(FastAPI):
     def responseResultQueue(self):
         return self._responseActQueue("result")
 
-    def logQueue(self, router: Union[APIRouter, None] = None, route_name: str = ""):
+    def logQueue(self, router: Optional[APIRouter] = None, route_name: str = ""):
         return _queueRouter(
             "log",
             router=router or self.router,
@@ -231,7 +235,7 @@ class AideServer(FastAPI):
     def _queueRouter(
         self,
         name_queue: str,
-        router: Union[APIRouter, None] = None,
+        router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
         return _queueRouter(
@@ -248,13 +252,13 @@ class AideServer(FastAPI):
         return _queueAct("response", act=act, nickname_aide=self.nickname)
 
     # Keep a generic context.
-    memo: Union[Memo, None] = None
+    memo: Memo = NoneMemo()
 
 
 def _queueRouter(
     name_queue: str,
     nickname_aide: str,
-    router: Union[APIRouter, None] = None,
+    router: Optional[APIRouter] = None,
     route_name: str = "",
 ):
     act = route_name or (router.name if hasattr(router, "name") else type(router).__name__) or ""  # type: ignore
@@ -284,6 +288,7 @@ def _init_about_router(server: AideServer):
         return {
             "title": server.title,
             "nickname": server.nickname,
+            "part": server.part,
         }
 
     server.include_router(router)
@@ -292,36 +297,21 @@ def _init_about_router(server: AideServer):
 def _init_context_router(server: AideServer):
     router = APIRouter()
 
-    @router.get("/context")
-    def context():
-        return server.memo.context  # type: ignore
-
     @router.get("/schema")
     def schema():
-        return json.loads(server.memo.context.schema_json())  # type: ignore
+        return json.loads(server.memo.context.schema_json())
 
-    @router.get("/context/{hid}")
-    def value(hid: str):
-        return getattr(server.memo.context, hid)  # type: ignore
+    @router.get("/get-context")
+    def get_context():
+        return server.memo.context
 
-    # See [schema].
-    @router.put("/context/{hid}/{value}")
-    def put_inline_hid_value(hid: str, value: str):
-        setattr(server.memo.context, hid, value)  # type: ignore
-        return True
+    @router.get("/get-context-value/{hid}")
+    def get_context_value(hid: str):
+        return getattr(server.memo.context, hid)
 
     # See [schema].
-    @router.put("/context/{hid}")
-    def put_inline_hid_json_value(
-        hid: str,
-        value: str = Body(embed=True),
-    ):
-        setattr(server.memo.context, hid, value)  # type: ignore
-        return True
-
-    # See [schema].
-    @router.put("/context")
-    def put_json_hid_value(
+    @router.put("/set-context-value")
+    def set_context_value(
         hid: str = Body(
             embed=True,
             title="HID",
@@ -333,7 +323,7 @@ def _init_context_router(server: AideServer):
             description="Value for set by HID.",
         ),
     ):
-        setattr(server.memo.context, hid, value)  # type: ignore
+        setattr(server.memo.context, hid, value)
         return True
 
     server.include_router(router)
@@ -366,7 +356,8 @@ async def _declare_routes_queues(server: AideServer, routes: List[routing.APIRou
         await declare(server.queryQueue(route_name=route.name))
         await declare(server.progressQueue(route_name=route.name))
         await declare(server.resultQueue(route_name=route.name))
-        print(f"Declared queues for route `{route.name}`.")  # type: ignore
+        print(f"Declared queues for route `{route.name}`.")
+        time.sleep(0.2)
 
 
 # Check the declared routes.
@@ -402,10 +393,3 @@ def _use_route_names_as_operation_ids(server: AideServer) -> List[routing.APIRou
             r.append(route)
 
     return r
-
-
-# @asynccontextmanager
-# async def lifespan(server: AideServer):
-#     print("Run at startup!")
-#     yield
-#     print("Run on shutdown!")
