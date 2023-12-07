@@ -34,7 +34,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import BaseRoute
 
-from .routers import about
+from .routers import about, context
 from .configure import Configure
 from .memo import Memo, NoneMemo
 
@@ -169,8 +169,11 @@ class AideServer(FastAPI):
             )
         )
 
-        _init_context_router(self)
-        _init_external_routers(self, external_routers=external_routers)
+        self.include_router(context.router(self.memo))
+
+        # init external routers
+        for external_router in external_routers:
+            self.include_router(external_router)
 
         # !) call this functions after adding all routers
         _check_routes(self)
@@ -334,46 +337,6 @@ def _queueAct(name_queue: str, act: str, nickname_aide: str):
             "nickname": nickname_aide,
         },
     )
-
-
-def _init_context_router(server: AideServer):
-    router = APIRouter()
-
-    @router.get("/schema")
-    def schema():
-        return json.loads(server.memo.context.schema_json())
-
-    @router.get("/get-context")
-    def get_context():
-        return server.memo.context
-
-    @router.get("/get-context-value/{hid}")
-    def get_context_value(hid: str):
-        return getattr(server.memo.context, hid)
-
-    # See [schema].
-    @router.put("/set-context-value")
-    def set_context_value(
-        hid: str = Body(
-            embed=True,
-            title="HID",
-            description="ID for human perception.",
-        ),
-        value: str = Body(
-            embed=True,
-            title="Value",
-            description="Value for set by HID.",
-        ),
-    ):
-        setattr(server.memo.context, hid, value)
-        return True
-
-    server.include_router(router)
-
-
-def _init_external_routers(server: AideServer, external_routers: List[APIRouter]):
-    for router in external_routers:
-        server.include_router(router)
 
 
 async def _declare_exchange(server: AideServer):
