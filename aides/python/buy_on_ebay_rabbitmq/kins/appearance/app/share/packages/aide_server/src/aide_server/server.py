@@ -46,7 +46,7 @@ class AideServer(FastAPI):
         nickname: str = "",
         tags: Optional[List[str]] = None,
         characteristic: Optional[Dict[str, Any]] = None,
-        external_routers: Optional[List[APIRouter]] = [],
+        external_routers: List[APIRouter] = [],
         memo: Memo,
         savantConnector: str = defaultSavantConnector,
         # from FastAPI
@@ -57,7 +57,7 @@ class AideServer(FastAPI):
         description: str = "",
         version: str = "0.1.0",
         openapi_url: Optional[str] = "/openapi.json",
-        openapi_tags: Optional[List[Dict[str, Any]]] = [],
+        openapi_tags: List[Dict[str, Any]] = [],
         servers: Optional[List[Dict[str, Union[str, Any]]]] = None,
         dependencies: Optional[Sequence[Depends]] = None,
         default_response_class: Type[Response] = Default(JSONResponse),
@@ -97,7 +97,7 @@ class AideServer(FastAPI):
         self.nickname = nickname  # type: ignore
         self.memo = memo  # type: ignore
 
-        router = fastapi.RabbitRouter(savantConnector)
+        savantRouter = fastapi.RabbitRouter(savantConnector)
 
         additional_tags = []
         if characteristic:
@@ -120,7 +120,7 @@ class AideServer(FastAPI):
             description=description,
             version=version,
             openapi_url=openapi_url,
-            openapi_tags=additional_tags + openapi_tags,  # type: ignore
+            openapi_tags=additional_tags + openapi_tags,
             servers=servers,
             dependencies=dependencies,
             default_response_class=default_response_class,
@@ -133,7 +133,7 @@ class AideServer(FastAPI):
             exception_handlers=exception_handlers,
             on_startup=on_startup,
             on_shutdown=on_shutdown,
-            lifespan=router.lifespan_context,
+            lifespan=savantRouter.lifespan_context,
             terms_of_service=terms_of_service,
             contact=contact,
             license_info=license_info,
@@ -151,48 +151,95 @@ class AideServer(FastAPI):
             extra=extra,
         )
 
-        _init_rabbit_router(self, router)
-
-        _init_about_routers(self)
-        _init_context_routers(self)
+        _init_about_router(self)
+        _init_context_router(self)
         _init_external_routers(self, external_routers=external_routers)
 
         # !) call this functions after adding all routers
-        _check_routes(self)  # type: ignore
-        _use_route_names_as_operation_ids(self)
+        _check_routes(self)
+        rs = _use_route_names_as_operation_ids(self)
+
+        @savantRouter.after_startup
+        async def start(self):
+            self.router = savantRouter
+
+            await _declare_exchange(self)
+            await _declare_service_queues(self)
+            await _declare_routes_queues(self, routes=rs)
+
+            message = (
+                f"\nFastStream powered by FastAPI server `{self.title}`"
+                f" with nickname `{self.nickname}`"
+                " started.\n"
+            )
+            print(message)
+
+            await self.broker().publish(
+                message.strip(),
+                exchange=self.exchange(),
+                queue=self.logQueue(),
+                timeout=5,
+            )
 
     def broker(self):
         return self.router.broker  # type: ignore
 
-    # def exchange(self):
-    #     return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
+    def exchange(self):
+        return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
 
-    # def queryQueue(self, router: APIRouter):
-    #     return self._queueRouter("query", router=router)
+    def queryQueue(
+        self,
+        router: Union[APIRouter, None] = None,
+        route_name: str = "",
+    ):
+        return self._queueRouter("query", router=router, route_name=route_name)
 
-    # def progressQueue(self, router: APIRouter):
-    #     return self._queueRouter("progress", router=router)
+    def progressQueue(
+        self,
+        router: Union[APIRouter, None] = None,
+        route_name: str = "",
+    ):
+        return self._queueRouter("progress", router=router)
 
-    # def resultQueue(self, router: APIRouter):
-    #     return self._queueRouter("result", router=router)
+    def resultQueue(
+        self,
+        router: Union[APIRouter, None] = None,
+        route_name: str = "",
+    ):
+        return self._queueRouter("result", router=router)
 
-    # def requestProgressQueue(self):
-    #     return self._requestActQueue("progress")
+    def requestProgressQueue(self):
+        return self._requestActQueue("progress")
 
-    # def requestResultQueue(self):
-    #     return self._requestActQueue("result")
+    def requestResultQueue(self):
+        return self._requestActQueue("result")
 
-    # def responseProgressQueue(self):
-    #     return self._responseActQueue("progress")
+    def responseProgressQueue(self):
+        return self._responseActQueue("progress")
 
-    # def responseResultQueue(self):
-    #     return self._responseActQueue("result")
+    def responseResultQueue(self):
+        return self._responseActQueue("result")
 
-    # def logQueue(self, router: APIRouter):
-    #     return _queueRouter("log", router=router, nickname_aide=self.nickname)
+    def logQueue(self, router: Union[APIRouter, None] = None, route_name: str = ""):
+        return _queueRouter(
+            "log",
+            router=router or self.router,
+            route_name=route_name,
+            nickname_aide=self.nickname,
+        )
 
-    def _queueRouter(self, name_queue: str, router: APIRouter):
-        return _queueRouter(name_queue, router=router, nickname_aide=self.nickname)
+    def _queueRouter(
+        self,
+        name_queue: str,
+        router: Union[APIRouter, None] = None,
+        route_name: str = "",
+    ):
+        return _queueRouter(
+            name_queue,
+            router=router,
+            route_name=route_name,
+            nickname_aide=self.nickname,
+        )
 
     def _requestActQueue(self, act: str):
         return _queueAct("request", act=act, nickname_aide=self.nickname)
@@ -204,10 +251,16 @@ class AideServer(FastAPI):
     memo: Union[Memo, None] = None
 
 
-def _queueRouter(name_queue: str, router: APIRouter, nickname_aide: str):
+def _queueRouter(
+    name_queue: str,
+    nickname_aide: str,
+    router: Union[APIRouter, None] = None,
+    route_name: str = "",
+):
+    act = route_name or (router.name if hasattr(router, "name") else type(router).__name__) or ""  # type: ignore
     return _queueAct(
         name_queue,
-        act=router.name if hasattr(router, "name") else type(router).__name__,  # type: ignore
+        act=act,
         nickname_aide=nickname_aide,
     )
 
@@ -223,41 +276,7 @@ def _queueAct(name_queue: str, act: str, nickname_aide: str):
     )
 
 
-def _init_rabbit_router(server: AideServer, router: fastapi.RabbitRouter):
-    @router.after_startup
-    async def start(server):
-        server.router = router
-
-        server.exchange = RabbitExchange(
-            "aide",
-            auto_delete=True,
-            type=ExchangeType.HEADERS,
-        )
-        await server.broker().declare_exchange(server.exchange)
-
-        server.logQueue = _queueRouter(
-            "log",
-            router=router,
-            nickname_aide=server.nickname,
-        )
-        await server.broker().declare_queue(server.logQueue)
-
-        message = (
-            f"\nFastStream powered by FastAPI server `{server.title}`"
-            f" with nickname `{server.nickname}`"
-            " started.\n"
-        )
-        print(message)
-
-        await server.broker().publish(
-            message.strip(),
-            exchange=server.exchange,
-            queue=server.logQueue,
-            timeout=5,
-        )
-
-
-def _init_about_routers(server: AideServer):
+def _init_about_router(server: AideServer):
     router = APIRouter()
 
     @router.get("/")
@@ -270,7 +289,7 @@ def _init_about_routers(server: AideServer):
     server.include_router(router)
 
 
-def _init_context_routers(server: AideServer):
+def _init_context_router(server: AideServer):
     router = APIRouter()
 
     @router.get("/context")
@@ -320,17 +339,41 @@ def _init_context_routers(server: AideServer):
     server.include_router(router)
 
 
-def _init_external_routers(server, external_routers):
-    print(external_routers)
+def _init_external_routers(server: AideServer, external_routers: List[APIRouter]):
     for router in external_routers:
         server.include_router(router)
+
+
+async def _declare_exchange(server: AideServer):
+    declare = server.broker().declare_exchange
+    await declare(server.exchange())
+
+
+async def _declare_service_queues(server: AideServer):
+    declare = server.broker().declare_queue
+
+    await declare(server.requestProgressQueue())
+    await declare(server.requestResultQueue())
+    await declare(server.responseProgressQueue())
+    await declare(server.responseResultQueue())
+    await declare(server.logQueue())
+
+
+async def _declare_routes_queues(server: AideServer, routes: List[routing.APIRoute]):
+    declare = server.broker().declare_queue
+
+    for route in routes:
+        await declare(server.queryQueue(route_name=route.name))
+        await declare(server.progressQueue(route_name=route.name))
+        await declare(server.resultQueue(route_name=route.name))
+        print(f"Declared queues for route `{route.name}`.")  # type: ignore
 
 
 # Check the declared routes.
 def _check_routes(server: AideServer):
     for route in server.routes:
         if isinstance(route, routing.APIRoute):
-            print(f"\n{route}")
+            print(f"{route}")
 
             if route.path.lower() != route.path:
                 raise Exception("The route API should be declared in lowercase.")
@@ -350,8 +393,19 @@ def _check_routes(server: AideServer):
 
 
 # Simplify operation IDs into the routes.
-def _use_route_names_as_operation_ids(app: FastAPI):
-    for route in app.routes:
+def _use_route_names_as_operation_ids(server: AideServer) -> List[routing.APIRoute]:
+    r = []
+    for route in server.routes:
         if isinstance(route, routing.APIRoute):
             print(f"{route.operation_id} -> {route.name}")
             route.operation_id = route.name
+            r.append(route)
+
+    return r
+
+
+# @asynccontextmanager
+# async def lifespan(server: AideServer):
+#     print("Run at startup!")
+#     yield
+#     print("Run on shutdown!")
