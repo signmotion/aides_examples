@@ -1,11 +1,10 @@
 from calendar import c
-import json
 
 from kins.share.packages.aide_server.src.aide_server.configure import Configure
 from ..share.config import *
 from ..share.context import Context, test_context_smarthone
 from ..share.packages.aide_server.src.aide_server.server import AideServer, Memo
-from .routers import about, products_today
+from .routers import products_today
 
 
 with open("kins/share/configure.json", "r") as file:
@@ -15,10 +14,10 @@ with open("kins/share/configure.json", "r") as file:
 class Appearance(AideServer):
     def __init__(self: AideServer):
         super().__init__(
+            language="en",
             configure=configure,
             memo=Memo(test_context_smarthone() if use_test_context else Context()),
             external_routers=[
-                about.router(),
                 products_today.router(
                     api_domain=api_domain,
                     ebay_oauth_app_token=ebay_oauth_app_token,

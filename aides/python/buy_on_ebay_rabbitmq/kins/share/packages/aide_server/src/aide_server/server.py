@@ -34,8 +34,8 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import BaseRoute
 
+from .routers import about
 from .configure import Configure
-
 from .memo import Memo, NoneMemo
 
 
@@ -48,16 +48,13 @@ class AideServer(FastAPI):
         self,
         *,
         # own
+        language: str,
         configure: Configure,
         memo: Memo = NoneMemo(),
         external_routers: List[APIRouter] = [],
         # from FastAPI
         debug: bool = False,
         routes: Optional[List[BaseRoute]] = None,
-        title: str = "AideServer",
-        summary: Optional[str] = None,
-        description: str = "",
-        version: str = "0.1.0",
         openapi_url: Optional[str] = "/openapi.json",
         openapi_tags: List[Dict[str, Any]] = [],
         servers: Optional[List[Dict[str, Union[str, Any]]]] = None,
@@ -96,9 +93,12 @@ class AideServer(FastAPI):
         separate_input_output_schemas: bool = True,
         **extra: Any,
     ):
+        self.language = language
         self.configure = configure
         self.memo = memo
 
+        summary = configure.summary.get(language) or ""
+        description = configure.description.get(language) or ""
         savantRouter = fastapi.RabbitRouter(self.savantConnector)
 
         additional_tags = []
@@ -122,10 +122,10 @@ class AideServer(FastAPI):
         super().__init__(
             debug=debug,
             routes=routes,
-            title=title,
+            title=self.name,
             summary=summary,
             description=description,
-            version=version,
+            version=configure.version,
             openapi_url=openapi_url,
             openapi_tags=additional_tags + openapi_tags,
             servers=servers,
@@ -160,7 +160,15 @@ class AideServer(FastAPI):
 
         self.part = type(self).__name__
 
-        _init_about_router(self)
+        self.include_router(
+            about.router(
+                name=self.name,
+                nickname=self.nickname,
+                part=self.part,
+                path_to_face=self.configure.path_to_face,
+            )
+        )
+
         _init_context_router(self)
         _init_external_routers(self, external_routers=external_routers)
 
@@ -184,7 +192,7 @@ class AideServer(FastAPI):
             )
             print(message)
 
-            await self.broker().publish(
+            await self.broker.publish(
                 message.strip(),
                 exchange=self.exchange(),
                 queue=self.logQueue(),
@@ -193,11 +201,21 @@ class AideServer(FastAPI):
 
     # properties
 
+    language: str = Field(
+        ...,
+        title="Language",
+        description="The language of aide. Show info about the aide in that language.",
+    )
+
     configure: Configure = Field(
         ...,
         title="Configure",
         description="The configuration of aide.",
     )
+
+    @property
+    def name(self):
+        return self.configure.name.get(self.language) or ""
 
     @property
     def nickname(self):
@@ -222,6 +240,7 @@ class AideServer(FastAPI):
     def tags(self, language: str):
         return [tag.get(language) for tag in self.configure.tags if language in tag]
 
+    @property
     def broker(self):
         return self.router.broker  # type: ignore
 
@@ -317,24 +336,6 @@ def _queueAct(name_queue: str, act: str, nickname_aide: str):
     )
 
 
-def _init_about_router(server: AideServer):
-    router = APIRouter()
-
-    @router.get("/")
-    def root():
-        return {
-            "title": server.title,
-            "nickname": server.nickname,
-            "part": server.part,
-        }
-
-    @router.get("/face", include_in_schema=False)
-    def face():
-        return FileResponse("app/data/face.webp")
-
-    server.include_router(router)
-
-
 def _init_context_router(server: AideServer):
     router = APIRouter()
 
@@ -376,12 +377,12 @@ def _init_external_routers(server: AideServer, external_routers: List[APIRouter]
 
 
 async def _declare_exchange(server: AideServer):
-    declare = server.broker().declare_exchange
+    declare = server.broker.declare_exchange
     await declare(server.exchange())
 
 
 async def _declare_service_queues(server: AideServer):
-    declare = server.broker().declare_queue
+    declare = server.broker.declare_queue
 
     await declare(server.requestProgressQueue())
     await declare(server.requestResultQueue())
@@ -391,7 +392,7 @@ async def _declare_service_queues(server: AideServer):
 
 
 async def _declare_routes_queues(server: AideServer, routes: List[routing.APIRoute]):
-    declare = server.broker().declare_queue
+    declare = server.broker.declare_queue
 
     for route in routes:
         await declare(server.queryQueue(route_name=route.name))

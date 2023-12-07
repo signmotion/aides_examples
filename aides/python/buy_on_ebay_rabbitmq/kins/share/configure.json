@@ -9,6 +9,8 @@
     { "en": "eBay" },
     { "en": "purchase" }
   ],
+  "_path_to_face": "Locally you can see a face of aide by path `http://127.0.0.1:8000/face`.",
+  "path_to_face": "kins/share/data/face.webp",
   "characteristic": {
     "age": 19,
     "constitution": {

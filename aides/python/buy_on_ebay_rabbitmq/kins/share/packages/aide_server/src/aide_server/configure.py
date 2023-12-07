@@ -4,36 +4,48 @@ from .characteristic import Characteristic
 
 
 class Configure(BaseModel):
-    name: Optional[Dict[str, str]] = Field(
+    name: Dict[str, str] = Field(
         ...,
         title="Name",
         description="Name of aide.",
     )
+
     nickname: str = Field(
         ...,
         title="Nickname",
         description="Nick name of aide.",
     )
-    summary: Optional[Dict[str, str]] = Field(
-        default=None,
+
+    summary: Dict[str, str] = Field(
+        default={},
         title="Summary",
         description="Summary of aide.",
     )
-    description: Optional[Dict[str, str]] = Field(
-        default=None,
+
+    description: Dict[str, str] = Field(
+        default={},
         title="Description",
         description="Description of aide.",
     )
+
     tags: List[Dict[str, str]] = Field(
         default=[],
         title="Tags",
         description="Tags for aide.",
     )
+
+    path_to_face: str = Field(
+        default="",
+        title="Nickname",
+        description="Nick name of aide.",
+    )
+
     characteristic: Optional[Characteristic] = Field(
         default=None,
         title="Characteristic",
         description="Characteristic of aide.",
     )
+
     version: str = Field(
         default="0.1.0",
         title="Version",

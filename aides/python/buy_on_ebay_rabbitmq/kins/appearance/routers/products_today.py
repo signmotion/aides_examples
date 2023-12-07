@@ -94,7 +94,7 @@ def router(
 
     @r.get("/products-today-demo-ebay-json")
     def products_today_demo_ebay_json():
-        with open("app/data/examples/responses/1.json", "r") as file:
+        with open("kins/appearance/data/examples/responses/1.json", "r") as file:
             data = file.read()
 
         return json.loads(data)
