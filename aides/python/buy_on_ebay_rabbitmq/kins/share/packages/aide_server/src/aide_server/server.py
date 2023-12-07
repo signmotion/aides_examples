@@ -28,7 +28,7 @@ from fastapi.datastructures import Default
 
 from fastapi.params import Depends
 from fastapi.utils import generate_unique_id
-from pydantic import Field
+from pydantic import BaseModel, Field
 from starlette.middleware import Middleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -39,72 +39,37 @@ from .configure import Configure
 from .memo import Memo, NoneMemo
 
 
-class AideServer(FastAPI):
+class AideServer:
     """
     Aide Server.
     """
 
+    class Config:
+        arbitrary_types_allowed = True
+
     def __init__(
         self,
         *,
-        # own
         language: str,
         configure: Configure,
         memo: Memo = NoneMemo(),
         external_routers: List[APIRouter] = [],
-        # from FastAPI
-        debug: bool = False,
-        routes: Optional[List[BaseRoute]] = None,
-        openapi_url: Optional[str] = "/openapi.json",
-        openapi_tags: List[Dict[str, Any]] = [],
-        servers: Optional[List[Dict[str, Union[str, Any]]]] = None,
-        dependencies: Optional[Sequence[Depends]] = None,
-        default_response_class: Type[Response] = Default(JSONResponse),
-        redirect_slashes: bool = True,
-        docs_url: Optional[str] = "/docs",
-        redoc_url: Optional[str] = "/redoc",
-        swagger_ui_oauth2_redirect_url: Optional[str] = "/docs/oauth2-redirect",
-        swagger_ui_init_oauth: Optional[Dict[str, Any]] = None,
-        middleware: Optional[Sequence[Middleware]] = None,
-        exception_handlers: Optional[
-            Dict[
-                Union[int, Type[Exception]],
-                Callable[[Request, Any], Coroutine[Any, Any, Response]],
-            ]
-        ] = None,
-        on_startup: Optional[Sequence[Callable[[], Any]]] = None,
-        on_shutdown: Optional[Sequence[Callable[[], Any]]] = None,
-        # lifespan: Optional[Lifespan[AppType]] = None,
-        terms_of_service: Optional[str] = None,
-        contact: Optional[Dict[str, Union[str, Any]]] = None,
-        license_info: Optional[Dict[str, Union[str, Any]]] = None,
-        openapi_prefix: str = "",
-        root_path: str = "",
-        root_path_in_servers: bool = True,
-        responses: Optional[Dict[Union[int, str], Dict[str, Any]]] = None,
-        callbacks: Optional[List[BaseRoute]] = None,
-        webhooks: Optional[routing.APIRouter] = None,
-        deprecated: Optional[bool] = None,
-        include_in_schema: bool = True,
-        swagger_ui_parameters: Optional[Dict[str, Any]] = None,
-        generate_unique_id_function: Callable[[routing.APIRoute], str] = Default(
-            generate_unique_id
-        ),
-        separate_input_output_schemas: bool = True,
-        **extra: Any,
     ):
         self.language = language
         self.configure = configure
         self.memo = memo
+        self.external_routers = external_routers
+        self.part = type(self).__name__
+        self.savantRouter = fastapi.RabbitRouter(self.savantConnector)
 
-        summary = configure.summary.get(language) or ""
-        description = configure.description.get(language) or ""
-        savantRouter = fastapi.RabbitRouter(self.savantConnector)
+    # properties
 
-        additional_tags = []
+    # @property
+    async def fastapi_app(self):
+        openapi_tags = []
         tags = self.tags("en")
         if bool(tags):
-            additional_tags.append(
+            openapi_tags.append(
                 {
                     "name": "tags",
                     "value": tags,
@@ -112,55 +77,24 @@ class AideServer(FastAPI):
             )
 
         if self.configure.characteristic:
-            additional_tags.append(
+            openapi_tags.append(
                 {
                     "name": "characteristic",
                     "value": self.configure.characteristic,
                 }
             )
 
-        super().__init__(
-            debug=debug,
-            routes=routes,
+        app = FastAPI(
             title=self.name,
-            summary=summary,
-            description=description,
-            version=configure.version,
-            openapi_url=openapi_url,
-            openapi_tags=additional_tags + openapi_tags,
-            servers=servers,
-            dependencies=dependencies,
-            default_response_class=default_response_class,
-            redirect_slashes=redirect_slashes,
-            docs_url=docs_url,
-            redoc_url=redoc_url,
-            swagger_ui_oauth2_redirect_url=swagger_ui_oauth2_redirect_url,
-            swagger_ui_init_oauth=swagger_ui_init_oauth,
-            middleware=middleware,
-            exception_handlers=exception_handlers,
-            on_startup=on_startup,
-            on_shutdown=on_shutdown,
-            lifespan=savantRouter.lifespan_context,
-            terms_of_service=terms_of_service,
-            contact=contact,
-            license_info=license_info,
-            openapi_prefix=openapi_prefix,
-            root_path=root_path,
-            root_path_in_servers=root_path_in_servers,
-            responses=responses,
-            callbacks=callbacks,
-            webhooks=webhooks,
-            deprecated=deprecated,
-            include_in_schema=include_in_schema,
-            swagger_ui_parameters=swagger_ui_parameters,
-            generate_unique_id_function=generate_unique_id_function,
-            separate_input_output_schemas=separate_input_output_schemas,
-            extra=extra,
+            summary=self.configure.summary.get(self.language),
+            description=self.configure.description.get(self.language) or "",
+            version=self.configure.version,
+            openapi_tags=openapi_tags,
+            lifespan=self.savantRouter.lifespan_context,
         )
 
-        self.part = type(self).__name__
-
-        self.include_router(
+        # add about routers
+        app.include_router(
             about.router(
                 name=self.name,
                 nickname=self.nickname,
@@ -169,26 +103,25 @@ class AideServer(FastAPI):
             )
         )
 
-        self.include_router(context.router(self.memo))
+        # add context routers
+        app.include_router(context.router(self.memo))
 
-        # init external routers
-        for external_router in external_routers:
-            self.include_router(external_router)
+        # add external routers
+        for external_router in self.external_routers:
+            app.include_router(external_router)
 
         # !) call this functions after adding all routers
-        _check_routes(self)
-        rs = _use_route_names_as_operation_ids(self)
+        _check_routes(app)
+        rs = _use_route_names_as_operation_ids(app)
 
-        @savantRouter.after_startup
-        async def start(self):
-            self.router = savantRouter
+        await _declare_exchange(self)
+        await _declare_service_queues(self)
+        await _declare_routes_queues(self, routes=rs)
 
-            await _declare_exchange(self)
-            await _declare_service_queues(self)
-            await _declare_routes_queues(self, routes=rs)
-
+        @self.savantRouter.after_startup
+        async def app_started(app: FastAPI):
             message = (
-                f"\nFastStream powered by FastAPI server `{self.title}`"
+                f"\nFastStream powered by FastAPI server `{app.title}`"
                 f" defined as `{self.part}`"
                 f" with nickname `{self.nickname}`"
                 " started.\n"
@@ -202,7 +135,7 @@ class AideServer(FastAPI):
                 timeout=5,
             )
 
-    # properties
+        return app
 
     language: str = Field(
         ...,
@@ -236,6 +169,18 @@ class AideServer(FastAPI):
         description="The memory of aide.",
     )
 
+    savantRouter: fastapi.RabbitRouter = Field(
+        ...,
+        title="Savant Router",
+        description="The router to Savant server.",
+    )
+
+    external_routers: List[APIRouter] = Field(
+        default=[],
+        title="External Routers",
+        description="The declared routers (set of endpoints) into aide.",
+    )
+
     @property
     def savantConnector(self):
         return self.configure.savantConnector
@@ -245,7 +190,7 @@ class AideServer(FastAPI):
 
     @property
     def broker(self):
-        return self.router.broker  # type: ignore
+        return self.savantRouter.broker  # type: ignore
 
     def exchange(self):
         return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
@@ -286,7 +231,7 @@ class AideServer(FastAPI):
     def logQueue(self, router: Optional[APIRouter] = None, route_name: str = ""):
         return _queueRouter(
             "log",
-            router=router or self.router,
+            router=router or self.savantRouter,
             route_name=route_name,
             nickname_aide=self.nickname,
         )
@@ -366,7 +311,7 @@ async def _declare_routes_queues(server: AideServer, routes: List[routing.APIRou
 
 
 # Check the declared routes.
-def _check_routes(server: AideServer):
+def _check_routes(server: FastAPI):
     for route in server.routes:
         if isinstance(route, routing.APIRoute):
             print(f"{route}")
@@ -374,11 +319,7 @@ def _check_routes(server: AideServer):
             if route.path.lower() != route.path:
                 raise Exception("The route API should be declared in lowercase.")
 
-            if (
-                route.name != "root"
-                and route.path != "/context"
-                and "{" not in route.path
-            ):
+            if not _skip_check_route(route):
                 tpath = route.path[1:].replace("_", "-").replace("/", "-").lower()
                 if tpath != route.name.replace("_", "-"):
                     raise Exception(
@@ -388,8 +329,17 @@ def _check_routes(server: AideServer):
                     )
 
 
+def _skip_check_route(route: routing.APIRoute):
+    return (
+        route.name == "root"
+        or "asyncapi" in route.path
+        or "/context" in route.path
+        or "{" in route.path
+    )
+
+
 # Simplify operation IDs into the routes.
-def _use_route_names_as_operation_ids(server: AideServer) -> List[routing.APIRoute]:
+def _use_route_names_as_operation_ids(server: FastAPI) -> List[routing.APIRoute]:
     r = []
     for route in server.routes:
         if isinstance(route, routing.APIRoute):

@@ -1,8 +1,6 @@
-from calendar import c
-
-from kins.share.packages.aide_server.src.aide_server.configure import Configure
 from ..share.config import *
 from ..share.context import Context, test_context_smarthone
+from ..share.packages.aide_server.src.aide_server.configure import Configure
 from ..share.packages.aide_server.src.aide_server.server import AideServer, Memo
 from .routers import products_today
 
