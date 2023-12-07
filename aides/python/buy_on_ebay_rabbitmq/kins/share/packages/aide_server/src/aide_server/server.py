@@ -1,6 +1,7 @@
 import json
 import time
 from fastapi import APIRouter, Body, Depends, FastAPI
+from fastapi.responses import FileResponse
 from faststream.rabbit import (
     RabbitBroker,
     ExchangeType,
@@ -27,30 +28,29 @@ from fastapi.datastructures import Default
 
 from fastapi.params import Depends
 from fastapi.utils import generate_unique_id
+from pydantic import Field
 from starlette.middleware import Middleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import BaseRoute
-from starlette.types import Lifespan
+
+from .configure import Configure
 
 from .memo import Memo, NoneMemo
 
 
-defaultSavantConnector = "amqp://guest:guest@localhost:5672/"
-
-
 class AideServer(FastAPI):
+    """
+    Aide Server.
+    """
+
     def __init__(
         self,
         *,
         # own
-        nickname: str = "",
-        part: str = "",
-        tags: Optional[List[str]] = None,
-        characteristic: Optional[Dict[str, Any]] = None,
-        external_routers: List[APIRouter] = [],
+        configure: Configure,
         memo: Memo = NoneMemo(),
-        savantConnector: str = defaultSavantConnector,
+        external_routers: List[APIRouter] = [],
         # from FastAPI
         debug: bool = False,
         routes: Optional[List[BaseRoute]] = None,
@@ -96,24 +96,28 @@ class AideServer(FastAPI):
         separate_input_output_schemas: bool = True,
         **extra: Any,
     ):
-        self.part = part or type(self).__name__
-        self.nickname = nickname
+        self.configure = configure
         self.memo = memo
 
-        savantRouter = fastapi.RabbitRouter(savantConnector)
+        savantRouter = fastapi.RabbitRouter(self.savantConnector)
 
         additional_tags = []
-        if characteristic:
-            additional_tags = [
+        tags = self.tags("en")
+        if bool(tags):
+            additional_tags.append(
                 {
                     "name": "tags",
                     "value": tags,
-                },
+                }
+            )
+
+        if self.configure.characteristic:
+            additional_tags.append(
                 {
                     "name": "characteristic",
-                    "value": characteristic,
-                },
-            ]
+                    "value": self.configure.characteristic,
+                }
+            )
 
         super().__init__(
             debug=debug,
@@ -154,6 +158,8 @@ class AideServer(FastAPI):
             extra=extra,
         )
 
+        self.part = type(self).__name__
+
         _init_about_router(self)
         _init_context_router(self)
         _init_external_routers(self, external_routers=external_routers)
@@ -184,6 +190,37 @@ class AideServer(FastAPI):
                 queue=self.logQueue(),
                 timeout=5,
             )
+
+    # properties
+
+    configure: Configure = Field(
+        ...,
+        title="Configure",
+        description="The configuration of aide.",
+    )
+
+    @property
+    def nickname(self):
+        return self.configure.nickname
+
+    part: str = Field(
+        ...,
+        title="Part",
+        description="The name for part of aide. Set by class name.",
+    )
+
+    memo: Memo = Field(
+        default=NoneMemo(),
+        title="Memo",
+        description="The memory of aide.",
+    )
+
+    @property
+    def savantConnector(self):
+        return self.configure.savantConnector
+
+    def tags(self, language: str):
+        return [tag.get(language) for tag in self.configure.tags if language in tag]
 
     def broker(self):
         return self.router.broker  # type: ignore
@@ -290,6 +327,10 @@ def _init_about_router(server: AideServer):
             "nickname": server.nickname,
             "part": server.part,
         }
+
+    @router.get("/face", include_in_schema=False)
+    def face():
+        return FileResponse("app/data/face.webp")
 
     server.include_router(router)
 
