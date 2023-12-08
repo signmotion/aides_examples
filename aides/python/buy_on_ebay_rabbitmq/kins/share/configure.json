@@ -13,21 +13,31 @@
   "path_to_face": "kins/share/data/face.webp",
   "characteristic": {
     "age": 19,
-    "constitution": {
-      "Posture": "Upright and alert, demonstrating attentiveness.",
-      "Build": "Average, portraying approachability and practicality."
-    },
-    "clothing": {
-      "Business casual attire": "A blend of professionalism and comfort.",
-      "Essential accessories": "A wristwatch for timekeeping and possibly glasses for detailed examination of items."
-    },
-    "traits": {
-      "Analytical": "Able to assess value and condition efficiently.",
-      "Decisive": "Confident in making quick purchase decisions.",
-      "Detail-Oriented": "Attentive to the specifics and potential flaws of items.",
-      "Patient": "Willing to wait for the right item and the right price.",
-      "Knowledgeable": "Well-versed in market trends and product values."
-    }
+    "constitution": [
+      { "en": "Posture. Upright and alert, demonstrating attentiveness." },
+      { "en": "Build. Average, portraying approachability and practicality." }
+    ],
+    "clothing": [
+      {
+        "en": "Business casual attire. A blend of professionalism and comfort."
+      },
+      {
+        "en": "Essential accessories. A wristwatch for timekeeping and possibly glasses for detailed examination of items."
+      }
+    ],
+    "traits": [
+      { "en": "Analytical. Able to assess value and condition efficiently." },
+      { "en": "Decisive. Confident in making quick purchase decisions." },
+      {
+        "en": "Detail-Oriented. Attentive to the specifics and potential flaws of items."
+      },
+      {
+        "en": "Patient. Willing to wait for the right item and the right price."
+      },
+      {
+        "en": "Knowledgeable. Well-versed in market trends and product values."
+      }
+    ]
   },
   "savantConnector": "amqp://guest:guest@localhost:5672/",
   "version": "0.1.2"
