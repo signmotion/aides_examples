@@ -1,6 +1,5 @@
-import json
 import time
-from fastapi import APIRouter, Body, Depends, FastAPI
+from fastapi import APIRouter, FastAPI
 from fastapi.responses import FileResponse
 from faststream.rabbit import (
     RabbitBroker,
@@ -10,29 +9,9 @@ from faststream.rabbit import (
     fastapi,
 )
 
-from typing import (
-    Any,
-    Callable,
-    Coroutine,
-    Dict,
-    List,
-    Optional,
-    Sequence,
-    Type,
-    TypeVar,
-    Union,
-)
-
+from typing import List, Optional
 from fastapi import routing
-from fastapi.datastructures import Default
-
-from fastapi.params import Depends
-from fastapi.utils import generate_unique_id
-from pydantic import BaseModel, Field
-from starlette.middleware import Middleware
-from starlette.requests import Request
-from starlette.responses import JSONResponse, Response
-from starlette.routing import BaseRoute
+from pydantic import Field
 
 from .routers import about, context
 from .configure import Configure
@@ -87,14 +66,13 @@ class AideServer(FastAPI):
         self.tags = tags
         self.configure = configure
         self.memo = memo
-        self.external_routers = external_routers
         self.part = type(self).__name__
         self.savantRouter = savantRouter
 
-        self.include_routers()
+        self.include_routers(external_routers)
         self.declare_channels()
 
-    def include_routers(self):
+    def include_routers(self, external_routers: List[APIRouter]):
         # add about routers
         self.include_router(
             about.router(
@@ -109,7 +87,7 @@ class AideServer(FastAPI):
         self.include_router(context.router(self.memo))
 
         # add external routers
-        for external_router in self.external_routers:
+        for external_router in external_routers:
             self.include_router(external_router)
 
         # !) call this functions after adding all routers
@@ -186,19 +164,13 @@ class AideServer(FastAPI):
         description="The router to Savant server.",
     )
 
-    external_routers: List[APIRouter] = Field(
-        default=[],
-        title="External Routers",
-        description="The declared routers (set of endpoints) into aide.",
-    )
-
     @property
     def savantConnector(self):
         return self.configure.savantConnector
 
     @property
-    def broker(self):
-        return self.savantRouter.broker  # type: ignore
+    def broker(self) -> RabbitBroker:
+        return self.savantRouter.broker
 
     def exchange(self):
         return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
