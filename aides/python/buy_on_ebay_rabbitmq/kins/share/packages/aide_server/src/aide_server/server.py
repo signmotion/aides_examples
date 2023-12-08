@@ -1,7 +1,6 @@
 import logging
 import time
-from fastapi import APIRouter, FastAPI
-from fastapi.responses import FileResponse
+from fastapi import APIRouter, FastAPI, routing
 from faststream.rabbit import (
     RabbitBroker,
     ExchangeType,
@@ -11,7 +10,6 @@ from faststream.rabbit import (
 )
 
 from typing import List, Optional
-from fastapi import routing
 from pydantic import Field
 
 from .routers import about, context
@@ -109,9 +107,8 @@ class AideServer(FastAPI):
             await self._declare_routes_queues()
 
             message = (
-                f"FastStream powered by FastAPI server `{app.title}`"
-                f" defined as `{self.part}`"
-                f" with nickname `{self.nickname}`"
+                f"`{self.part}` `{app.title}` `{self.nickname}`"
+                " powered by FastStream & FastAPI"
                 " started."
             )
             logger.info(message)
@@ -127,8 +124,9 @@ class AideServer(FastAPI):
         @self.broker.subscriber(self.logQueue(), self.exchange())
         async def app_connected_to_broker(message: str):
             logger.info(
-                f"Connection to Savant `{self.broker.url}` confirmed."
-                f" Message received: '{message[:12]}...{message[-12:]}'"
+                "Connection to Savant"
+                f" from `{self.part}` confirmed."
+                f' Message received: "{message[:24]}...{message[-12:]}"'
             )
 
     # properties
@@ -188,28 +186,43 @@ class AideServer(FastAPI):
         return self.savantRouter.broker
 
     def exchange(self):
-        return RabbitExchange("aide_topic", auto_delete=True, type=ExchangeType.TOPIC)
+        return RabbitExchange("aide", auto_delete=True, type=ExchangeType.TOPIC)
 
     def queryQueue(
         self,
         router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
-        return self._queueRouter("query", router=router, route_name=route_name)
+        return self._queueRouter(
+            "query",
+            include_part=False,
+            router=router,
+            route_name=route_name,
+        )
 
     def progressQueue(
         self,
         router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
-        return self._queueRouter("progress", router=router, route_name=route_name)
+        return self._queueRouter(
+            "progress",
+            include_part=False,
+            router=router,
+            route_name=route_name,
+        )
 
     def resultQueue(
         self,
         router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
-        return self._queueRouter("result", router=router, route_name=route_name)
+        return self._queueRouter(
+            "result",
+            include_part=False,
+            router=router,
+            route_name=route_name,
+        )
 
     def requestProgressQueue(self):
         return self._requestActQueue("progress")
@@ -226,6 +239,7 @@ class AideServer(FastAPI):
     def logQueue(self, router: Optional[APIRouter] = None, route_name: str = ""):
         return self._queueRouter(
             "log",
+            include_part=True,
             router=router or self.savantRouter,
             route_name=route_name,
         )
@@ -233,34 +247,46 @@ class AideServer(FastAPI):
     def _queueRouter(
         self,
         name_queue: str,
+        include_part: bool,
         router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
         act = route_name or (router.name if hasattr(router, "name") else type(router).__name__) or ""  # type: ignore
-        return self._queueAct(name_queue, act=act)
+        return self._queueAct(name_queue, act=act, include_part=include_part)
 
     def _requestActQueue(self, act: str):
-        return self._queueAct("request", act=act)
+        return self._queueAct("request", act=act, include_part=False)
 
     def _responseActQueue(self, act: str):
-        return self._queueAct("response", act=act)
+        return self._queueAct("response", act=act, include_part=False)
 
-    def _queueAct(self, name_queue: str, act: str):
+    def _queueAct(
+        self,
+        name_queue: str,
+        act: str,
+        include_part: bool,
+    ):
+        keys = [
+            act,
+            self.part.lower() if include_part else "*",
+            self.nickname,
+        ]
+
         return RabbitQueue(
             name_queue,
             auto_delete=True,
-            routing_key=".".join([act, self.nickname]),
+            routing_key=".".join(keys),
         )
 
     async def _declare_exchange(self):
         declare = self.broker.declare_exchange
         ex = self.exchange()
         await declare(ex)
-        logger.info(f"\tCreated exchange `{ex.name}` with\t{ex.type}.")
+        logger.info(f"\tCreated exchange `{ex.name}` with type\t{ex.type.upper}.")
 
     async def _declare_queue(self, queue: RabbitQueue):
         await self.broker.declare_queue(queue)
-        logger.info(f"\tCreated queue `{queue.name}` with\t{queue.bind_arguments}.")
+        logger.info(f"\tCreated queue `{queue.name}` with key\t{queue.routing_key}.")
 
     async def _declare_service_queues(self):
         logger.info(f"Declaring service queues...")
