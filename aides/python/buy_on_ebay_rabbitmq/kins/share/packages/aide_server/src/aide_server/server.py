@@ -113,20 +113,20 @@ class AideServer(FastAPI):
             )
             logger.info(message)
 
-            logger.info(f"Testing connection to Savant `{self.broker.url}`...")
-            await self.broker.publish(
+            logger.info(f"Testing connection to Savant `{self.savant.url}`...")
+            await self.savant.publish(
                 message,
                 exchange=self.exchange(),
                 queue=self.logQueue(),
                 timeout=5,
             )
 
-        @self.broker.subscriber(self.logQueue(), self.exchange())
-        async def app_connected_to_broker(message: str):
+        @self.savant.subscriber(self.logQueue(), self.exchange())
+        async def test_connected_to_savant(message: str):
             logger.info(
                 "Connection to Savant"
-                f" from `{self.part}` confirmed."
-                f' Message received: "{message[:24]}...{message[-12:]}"'
+                f" from `{self.part}` `{self.nickname}` confirmed."
+                # f' Message received: "{message[:24]}...{message[-12:]}"'
             )
 
     # properties
@@ -182,7 +182,7 @@ class AideServer(FastAPI):
         return self.configure.savantConnector
 
     @property
-    def broker(self) -> RabbitBroker:
+    def savant(self) -> RabbitBroker:
         return self.savantRouter.broker
 
     def exchange(self):
@@ -279,13 +279,13 @@ class AideServer(FastAPI):
         )
 
     async def _declare_exchange(self):
-        declare = self.broker.declare_exchange
+        declare = self.savant.declare_exchange
         ex = self.exchange()
         await declare(ex)
         logger.info(f"\tCreated exchange `{ex.name}` with type\t{ex.type.upper}.")
 
     async def _declare_queue(self, queue: RabbitQueue):
-        await self.broker.declare_queue(queue)
+        await self.savant.declare_queue(queue)
         logger.info(f"\tCreated queue `{queue.name}` with key\t{queue.routing_key}.")
 
     async def _declare_service_queues(self):
