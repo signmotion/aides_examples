@@ -1,4 +1,6 @@
 {
+  "editor.codeActionsOnSave": { "source.fixAll": true },
+
   "workbench.colorTheme": "GitHub Dark Default",
   "workbench.iconTheme": "fira-code-material-minimal",
   "editor.fontFamily": "fira-code-nerd, FiraCode Nerd Font, Consolas, 'Courier New', monospace",
@@ -40,6 +42,8 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.autoImportCompletions": true,
 
   "[env]": {
     "editor.defaultFormatter": "IronGeek.vscode-env"
@@ -47,5 +51,26 @@
 
   "files.associations": {
     ".env": "env"
-  }
+  },
+
+  "hidefiles.configurationType": "local",
+  "hidefiles.globalConfig": {
+    "profiles": [
+      {
+        "hidden": ["venv/", "**/__pycache__", "**/__init__.py"],
+        "name": "Python",
+        "description": "",
+        "detail": "",
+        "peek": []
+      },
+      {
+        "name": "Default",
+        "detail": "",
+        "description": "Test",
+        "hidden": [".vscode/"]
+      }
+    ]
+  },
+  "hidefiles.selectedProfile": "Python",
+  "hide-files.files": []
 }

@@ -51,5 +51,26 @@
 
   "files.associations": {
     ".env": "env"
-  }
+  },
+
+  "hidefiles.configurationType": "local",
+  "hidefiles.globalConfig": {
+    "profiles": [
+      {
+        "hidden": ["venv/", "**/__pycache__", "**/__init__.py"],
+        "name": "Python",
+        "description": "",
+        "detail": "",
+        "peek": []
+      },
+      {
+        "name": "Default",
+        "detail": "",
+        "description": "Test",
+        "hidden": [".vscode/"]
+      }
+    ]
+  },
+  "hidefiles.selectedProfile": "Python",
+  "hide-files.files": []
 }
