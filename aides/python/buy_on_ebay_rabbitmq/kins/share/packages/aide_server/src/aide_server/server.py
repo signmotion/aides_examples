@@ -112,15 +112,23 @@ class AideServer(FastAPI):
                 f"FastStream powered by FastAPI server `{app.title}`"
                 f" defined as `{self.part}`"
                 f" with nickname `{self.nickname}`"
-                " started.\n"
+                " started."
             )
             logger.info(message)
 
+            logger.info(f"Testing connection to Savant `{self.broker.url}`...")
             await self.broker.publish(
-                message.strip(),
+                message,
                 exchange=self.exchange(),
                 queue=self.logQueue(),
                 timeout=5,
+            )
+
+        @self.broker.subscriber(self.logQueue(), self.exchange())
+        async def app_connected_to_broker(message: str):
+            logger.info(
+                f"Connection to Savant `{self.broker.url}` confirmed."
+                f" Message received: '{message[:12]}...{message[-12:]}'"
             )
 
     # properties
@@ -180,7 +188,7 @@ class AideServer(FastAPI):
         return self.savantRouter.broker
 
     def exchange(self):
-        return RabbitExchange("aide", auto_delete=True, type=ExchangeType.HEADERS)
+        return RabbitExchange("aide_topic", auto_delete=True, type=ExchangeType.TOPIC)
 
     def queryQueue(
         self,
@@ -241,10 +249,7 @@ class AideServer(FastAPI):
         return RabbitQueue(
             name_queue,
             auto_delete=True,
-            bind_arguments={
-                "act": act,
-                "nickname": self.nickname,
-            },
+            routing_key=".".join([act, self.nickname]),
         )
 
     async def _declare_exchange(self):

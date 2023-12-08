@@ -57,7 +57,7 @@
   "hidefiles.globalConfig": {
     "profiles": [
       {
-        "hidden": ["venv/", "**/__pycache__", "**/__init__.py"],
+        "hidden": ["**/__pycache__", "**/__init__.py"],
         "name": "Python",
         "description": "",
         "detail": "",
