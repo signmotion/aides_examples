@@ -1,3 +1,4 @@
+import logging
 from fastapi import Depends, FastAPI
 from typing_extensions import Annotated
 from faststream import Logger
@@ -8,6 +9,8 @@ from faststream.rabbit import (
     RabbitQueue,
     fastapi,
 )
+
+logger = logging.getLogger("uvicorn.error")
 
 router = fastapi.RabbitRouter("amqp://guest:guest@localhost:5672/")
 _app = FastAPI(lifespan=router.lifespan_context)
@@ -34,7 +37,7 @@ async def test(app: FastAPI):
     await bro().declare_exchange(exchange)
     await bro().declare_queue(queue)
 
-    print(f"FastStream Test router started.\n\tFastAPI server: `{app.title}`.")
+    logger.info(f"FastStream Test router started.\n\tFastAPI server: `{app.title}`.")
 
 
 def bro():
@@ -52,11 +55,11 @@ broker = RabbitBroker("amqp://guest:guest@localhost:5672/")
 async def hello_test(
     broker: Annotated[RabbitBroker, Depends(bro)],
 ):
-    print(exchange)
-    print(queue)
+    logger.info(exchange)
+    logger.info(queue)
 
     message = "Hello!"
-    print(message)
+    logger.info(message)
     await broker.publish(
         message,
         exchange=exchange,

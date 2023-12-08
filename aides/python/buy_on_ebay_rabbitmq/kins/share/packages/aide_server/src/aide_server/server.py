@@ -1,3 +1,4 @@
+import logging
 import time
 from fastapi import APIRouter, FastAPI
 from fastapi.responses import FileResponse
@@ -18,6 +19,9 @@ from .configure import Configure
 from .memo import Memo, NoneMemo
 
 
+logger = logging.getLogger("uvicorn.error")
+
+
 class AideServer(FastAPI):
     """
     Aide Server.
@@ -30,7 +34,10 @@ class AideServer(FastAPI):
         configure: Configure,
         memo: Memo = NoneMemo(),
         external_routers: List[APIRouter] = [],
+        debug_level: int = logging.INFO,
     ):
+        logging.basicConfig(level=debug_level)
+
         tags = [tag.get(language) or "" for tag in configure.tags if language in tag]
         openapi_tags = []
         if bool(tags):
@@ -102,12 +109,12 @@ class AideServer(FastAPI):
             await self._declare_routes_queues()
 
             message = (
-                f"\nFastStream powered by FastAPI server `{app.title}`"
+                f"FastStream powered by FastAPI server `{app.title}`"
                 f" defined as `{self.part}`"
                 f" with nickname `{self.nickname}`"
                 " started.\n"
             )
-            print(message)
+            logger.info(message)
 
             await self.broker.publish(
                 message.strip(),
@@ -244,14 +251,14 @@ class AideServer(FastAPI):
         declare = self.broker.declare_exchange
         ex = self.exchange()
         await declare(ex)
-        print(f"\tCreated exchange `{ex.name}` with\t{ex.type}.")
+        logger.info(f"\tCreated exchange `{ex.name}` with\t{ex.type}.")
 
     async def _declare_queue(self, queue: RabbitQueue):
         await self.broker.declare_queue(queue)
-        print(f"\tCreated queue `{queue.name}` with\t{queue.bind_arguments}.")
+        logger.info(f"\tCreated queue `{queue.name}` with\t{queue.bind_arguments}.")
 
     async def _declare_service_queues(self):
-        print(f"\nDeclaring service queues...")
+        logger.info(f"Declaring service queues...")
 
         await self._declare_queue(self.requestProgressQueue())
         await self._declare_queue(self.requestResultQueue())
@@ -259,7 +266,7 @@ class AideServer(FastAPI):
         await self._declare_queue(self.responseResultQueue())
         await self._declare_queue(self.logQueue())
 
-        print(f"Declared service queues.")
+        logger.info(f"Declared service queues.")
 
     async def _declare_routes_queues(self):
         # TODO optimize We don't need the queues for all routes.
@@ -267,14 +274,14 @@ class AideServer(FastAPI):
             if isinstance(route, routing.APIRoute) and not self._skip_check_route(
                 route
             ):
-                print(f"\nDeclaring queues for route `{route.name}`...")
+                logger.info(f"Declaring queues for route `{route.name}`...")
 
                 await self._declare_queue(self.queryQueue(route_name=route.name))
                 await self._declare_queue(self.progressQueue(route_name=route.name))
                 await self._declare_queue(self.resultQueue(route_name=route.name))
                 time.sleep(0.2)
 
-                print(f"Declared queues for route `{route.path}`.")
+                logger.info(f"Declared queues for route `{route.path}`.")
 
     # Check the declared routes.
     def _check_routes(self):
@@ -282,7 +289,7 @@ class AideServer(FastAPI):
             if isinstance(route, routing.APIRoute) and not self._skip_check_route(
                 route
             ):
-                print(f"\nChecking {route}...")
+                logger.info(f"Checking {route}...")
 
                 if route.path.lower() != route.path:
                     raise Exception("The route API should be declared in lowercase.")
@@ -295,7 +302,7 @@ class AideServer(FastAPI):
                         f" Have: `{tpath}` != `{route.name}`."
                     )
 
-                print(f"Checked route `{route.path}`. It's OK.")
+                logger.info(f"Checked route `{route.path}`. It's OK.")
 
     def _skip_check_route(self, route: routing.APIRoute) -> bool:
         return (

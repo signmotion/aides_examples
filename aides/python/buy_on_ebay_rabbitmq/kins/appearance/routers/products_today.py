@@ -1,7 +1,10 @@
+import logging
 from fastapi import APIRouter
 import json
 import httpx
 import traceback
+
+logger = logging.getLogger("uvicorn.error")
 
 
 def router(
@@ -54,7 +57,7 @@ def router(
             r = response.json()
         else:
             ex = "Failed to retrieve data."
-            print(f"!) {ex}")
+            logger.error(f"!) {ex}")
             return ex
 
         try:
