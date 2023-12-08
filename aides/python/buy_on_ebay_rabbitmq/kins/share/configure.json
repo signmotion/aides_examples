@@ -1,6 +1,6 @@
 {
   "name": { "en": "Auction eBay" },
-  "nickname": "auction-ebay",
+  "nickname": "auction_ebay",
   "summary": { "en": "The aide for work with the eBay's auction." },
   "description": { "en": "Appraise purchases items from eBay's auction." },
   "tags": [

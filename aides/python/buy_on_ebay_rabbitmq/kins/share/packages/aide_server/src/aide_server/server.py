@@ -113,15 +113,15 @@ class AideServer(FastAPI):
             self.include_router(external_router)
 
         # !) call this functions after adding all routers
-        _check_routes(self)
-        _use_route_names_as_operation_ids(self)
+        self._check_routes()
+        self._use_route_names_as_operation_ids()
 
     def declare_channels(self):
         @self.savantRouter.after_startup
         async def app_started(app: AideServer):
-            await _declare_exchange(self)
-            await _declare_service_queues(self)
-            await _declare_routes_queues(self)
+            await self._declare_exchange()
+            await self._declare_service_queues()
+            await self._declare_routes_queues()
 
             message = (
                 f"\nFastStream powered by FastAPI server `{app.title}`"
@@ -177,7 +177,7 @@ class AideServer(FastAPI):
     memo: Memo = Field(
         default=NoneMemo(),
         title="Memo",
-        description="The memory of aide.",
+        description="The memory of aide. Keep a generic context.",
     )
 
     savantRouter: fastapi.RabbitRouter = Field(
@@ -237,11 +237,10 @@ class AideServer(FastAPI):
         return self._responseActQueue("result")
 
     def logQueue(self, router: Optional[APIRouter] = None, route_name: str = ""):
-        return _queueRouter(
+        return self._queueRouter(
             "log",
             router=router or self.savantRouter,
             route_name=route_name,
-            nickname_aide=self.nickname,
         )
 
     def _queueRouter(
@@ -250,119 +249,98 @@ class AideServer(FastAPI):
         router: Optional[APIRouter] = None,
         route_name: str = "",
     ):
-        return _queueRouter(
-            name_queue,
-            router=router,
-            route_name=route_name,
-            nickname_aide=self.nickname,
-        )
+        act = route_name or (router.name if hasattr(router, "name") else type(router).__name__) or ""  # type: ignore
+        return self._queueAct(name_queue, act=act)
 
     def _requestActQueue(self, act: str):
-        return _queueAct("request", act=act, nickname_aide=self.nickname)
+        return self._queueAct("request", act=act)
 
     def _responseActQueue(self, act: str):
-        return _queueAct("response", act=act, nickname_aide=self.nickname)
+        return self._queueAct("response", act=act)
 
-    # Keep a generic context.
-    memo: Memo = NoneMemo()
+    def _queueAct(self, name_queue: str, act: str):
+        return RabbitQueue(
+            name_queue,
+            auto_delete=True,
+            bind_arguments={
+                "act": act,
+                "nickname": self.nickname,
+            },
+        )
 
+    async def _declare_exchange(self):
+        declare = self.broker.declare_exchange
+        ex = self.exchange()
+        await declare(ex)
+        print(f"\tCreated exchange `{ex.name}` with\t{ex.type}.")
 
-def _queueRouter(
-    name_queue: str,
-    nickname_aide: str,
-    router: Optional[APIRouter] = None,
-    route_name: str = "",
-):
-    act = route_name or (router.name if hasattr(router, "name") else type(router).__name__) or ""  # type: ignore
-    return _queueAct(
-        name_queue,
-        act=act,
-        nickname_aide=nickname_aide,
-    )
+    async def _declare_queue(self, queue: RabbitQueue):
+        await self.broker.declare_queue(queue)
+        print(f"\tCreated queue `{queue.name}` with\t{queue.bind_arguments}.")
 
+    async def _declare_service_queues(self):
+        print(f"\nDeclaring service queues...")
 
-def _queueAct(name_queue: str, act: str, nickname_aide: str):
-    return RabbitQueue(
-        name_queue,
-        auto_delete=True,
-        bind_arguments={
-            "act": act,
-            "nickname": nickname_aide,
-        },
-    )
+        await self._declare_queue(self.requestProgressQueue())
+        await self._declare_queue(self.requestResultQueue())
+        await self._declare_queue(self.responseProgressQueue())
+        await self._declare_queue(self.responseResultQueue())
+        await self._declare_queue(self.logQueue())
 
+        print(f"Declared service queues.")
 
-async def _declare_exchange(server: AideServer):
-    declare = server.broker.declare_exchange
-    await declare(server.exchange())
+    async def _declare_routes_queues(self):
+        # TODO optimize We don't need the queues for all routes.
+        for route in self.routes:
+            if isinstance(route, routing.APIRoute) and not self._skip_check_route(
+                route
+            ):
+                print(f"\nDeclaring queues for route `{route.name}`...")
 
+                await self._declare_queue(self.queryQueue(route_name=route.name))
+                await self._declare_queue(self.progressQueue(route_name=route.name))
+                await self._declare_queue(self.resultQueue(route_name=route.name))
+                time.sleep(0.2)
 
-async def _declare_queue(server: AideServer, queue: RabbitQueue):
-    await server.broker.declare_queue(queue)
-    print(f"\tCreated queue `{queue.name}` with\t{queue.bind_arguments}.")
+                print(f"Declared queues for route `{route.path}`.")
 
+    # Check the declared routes.
+    def _check_routes(self):
+        for route in self.routes:
+            if isinstance(route, routing.APIRoute) and not self._skip_check_route(
+                route
+            ):
+                print(f"\nChecking {route}...")
 
-async def _declare_service_queues(server: AideServer):
-    print(f"\nDeclaring service queues...")
+                if route.path.lower() != route.path:
+                    raise Exception("The route API should be declared in lowercase.")
 
-    await _declare_queue(server, server.requestProgressQueue())
-    await _declare_queue(server, server.requestResultQueue())
-    await _declare_queue(server, server.responseProgressQueue())
-    await _declare_queue(server, server.responseResultQueue())
-    await _declare_queue(server, server.logQueue())
+                tpath = route.path[1:].replace("_", "-").replace("/", "-").lower()
+                if tpath != route.name.replace("_", "-"):
+                    raise Exception(
+                        "The route API should be declared with `-` instead of `_`"
+                        " and it should have the same names for path and name."
+                        f" Have: `{tpath}` != `{route.name}`."
+                    )
 
-    print(f"Declared service queues.")
+                print(f"Checked route `{route.path}`. It's OK.")
 
+    def _skip_check_route(self, route: routing.APIRoute) -> bool:
+        return (
+            route.name == "root"
+            or "asyncapi" in route.path
+            or "/context" in route.path
+            or "{" in route.path
+        )
 
-async def _declare_routes_queues(server: AideServer):
-    # TODO optimize We don't need the queues for all routes.
-    for route in server.routes:
-        if isinstance(route, routing.APIRoute) and not _skip_check_route(route):
-            print(f"\nDeclaring queues for route `{route.name}`...")
+    # Simplify operation IDs into the routes.
+    def _use_route_names_as_operation_ids(self) -> List[routing.APIRoute]:
+        r = []
+        for route in self.routes:
+            if isinstance(route, routing.APIRoute) and not self._skip_check_route(
+                route
+            ):
+                route.operation_id = route.name
+                r.append(route)
 
-            await _declare_queue(server, server.queryQueue(route_name=route.name))
-            await _declare_queue(server, server.progressQueue(route_name=route.name))
-            await _declare_queue(server, server.resultQueue(route_name=route.name))
-            time.sleep(0.2)
-
-            print(f"Declared queues for route `{route.path}`.")
-
-
-# Check the declared routes.
-def _check_routes(server: AideServer):
-    for route in server.routes:
-        if isinstance(route, routing.APIRoute) and not _skip_check_route(route):
-            print(f"\nChecking {route}...")
-
-            if route.path.lower() != route.path:
-                raise Exception("The route API should be declared in lowercase.")
-
-            tpath = route.path[1:].replace("_", "-").replace("/", "-").lower()
-            if tpath != route.name.replace("_", "-"):
-                raise Exception(
-                    "The route API should be declared with `-` instead of `_`"
-                    " and it should have the same names for path and name."
-                    f" Have: `{tpath}` != `{route.name}`."
-                )
-
-            print(f"Checked route `{route.name}`. It's OK.")
-
-
-def _skip_check_route(route: routing.APIRoute) -> bool:
-    return (
-        route.name == "root"
-        or "asyncapi" in route.path
-        or "/context" in route.path
-        or "{" in route.path
-    )
-
-
-# Simplify operation IDs into the routes.
-def _use_route_names_as_operation_ids(server: FastAPI) -> List[routing.APIRoute]:
-    r = []
-    for route in server.routes:
-        if isinstance(route, routing.APIRoute) and not _skip_check_route(route):
-            route.operation_id = route.name
-            r.append(route)
-
-    return r
+        return r
