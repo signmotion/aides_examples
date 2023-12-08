@@ -39,13 +39,10 @@ from .configure import Configure
 from .memo import Memo, NoneMemo
 
 
-class AideServer:
+class AideServer(FastAPI):
     """
     Aide Server.
     """
-
-    class Config:
-        arbitrary_types_allowed = True
 
     def __init__(
         self,
@@ -55,19 +52,8 @@ class AideServer:
         memo: Memo = NoneMemo(),
         external_routers: List[APIRouter] = [],
     ):
-        self.language = language
-        self.configure = configure
-        self.memo = memo
-        self.external_routers = external_routers
-        self.part = type(self).__name__
-        self.savantRouter = fastapi.RabbitRouter(self.savantConnector)
-
-    # properties
-
-    # @property
-    async def fastapi_app(self):
+        tags = [tag.get(language) or "" for tag in configure.tags if language in tag]
         openapi_tags = []
-        tags = self.tags("en")
         if bool(tags):
             openapi_tags.append(
                 {
@@ -76,25 +62,41 @@ class AideServer:
                 }
             )
 
-        if self.configure.characteristic:
+        if configure.characteristic:
             openapi_tags.append(
                 {
                     "name": "characteristic",
-                    "value": self.configure.characteristic,
+                    "value": configure.characteristic,
                 }
             )
 
-        app = FastAPI(
-            title=self.name,
-            summary=self.configure.summary.get(self.language),
-            description=self.configure.description.get(self.language) or "",
-            version=self.configure.version,
+        name = configure.name.get(language) or "AideServer"
+        savantRouter = fastapi.RabbitRouter(configure.savantConnector)
+
+        super().__init__(
+            title=name,
+            summary=configure.summary.get(self.language),
+            description=configure.description.get(self.language) or "",
+            version=configure.version,
             openapi_tags=openapi_tags,
-            lifespan=self.savantRouter.lifespan_context,
+            lifespan=savantRouter.lifespan_context,
         )
 
+        self.language = language
+        self.name = name
+        self.tags = tags
+        self.configure = configure
+        self.memo = memo
+        self.external_routers = external_routers
+        self.part = type(self).__name__
+        self.savantRouter = savantRouter
+
+        self.include_routers()
+        self.declare_channels()
+
+    def include_routers(self):
         # add about routers
-        app.include_router(
+        self.include_router(
             about.router(
                 name=self.name,
                 nickname=self.nickname,
@@ -104,22 +106,23 @@ class AideServer:
         )
 
         # add context routers
-        app.include_router(context.router(self.memo))
+        self.include_router(context.router(self.memo))
 
         # add external routers
         for external_router in self.external_routers:
-            app.include_router(external_router)
+            self.include_router(external_router)
 
         # !) call this functions after adding all routers
-        _check_routes(app)
-        rs = _use_route_names_as_operation_ids(app)
+        _check_routes(self)
+        _use_route_names_as_operation_ids(self)
 
-        await _declare_exchange(self)
-        await _declare_service_queues(self)
-        await _declare_routes_queues(self, routes=rs)
-
+    def declare_channels(self):
         @self.savantRouter.after_startup
-        async def app_started(app: FastAPI):
+        async def app_started(app: AideServer):
+            await _declare_exchange(self)
+            await _declare_service_queues(self)
+            await _declare_routes_queues(self)
+
             message = (
                 f"\nFastStream powered by FastAPI server `{app.title}`"
                 f" defined as `{self.part}`"
@@ -135,7 +138,7 @@ class AideServer:
                 timeout=5,
             )
 
-        return app
+    # properties
 
     language: str = Field(
         ...,
@@ -149,13 +152,21 @@ class AideServer:
         description="The configuration of aide.",
     )
 
-    @property
-    def name(self):
-        return self.configure.name.get(self.language) or ""
+    name: str = Field(
+        ...,
+        title="Name",
+        description="The name of aide.",
+    )
 
     @property
     def nickname(self):
         return self.configure.nickname
+
+    tags: List[str] = Field(
+        default=[],
+        title="Tags",
+        description="The tags for aide.",
+    )
 
     part: str = Field(
         ...,
@@ -184,9 +195,6 @@ class AideServer:
     @property
     def savantConnector(self):
         return self.configure.savantConnector
-
-    def tags(self, language: str):
-        return [tag.get(language) for tag in self.configure.tags if language in tag]
 
     @property
     def broker(self):
@@ -289,47 +297,58 @@ async def _declare_exchange(server: AideServer):
     await declare(server.exchange())
 
 
+async def _declare_queue(server: AideServer, queue: RabbitQueue):
+    await server.broker.declare_queue(queue)
+    print(f"\tCreated queue `{queue.name}` with\t{queue.bind_arguments}.")
+
+
 async def _declare_service_queues(server: AideServer):
-    declare = server.broker.declare_queue
+    print(f"\nDeclaring service queues...")
 
-    await declare(server.requestProgressQueue())
-    await declare(server.requestResultQueue())
-    await declare(server.responseProgressQueue())
-    await declare(server.responseResultQueue())
-    await declare(server.logQueue())
+    await _declare_queue(server, server.requestProgressQueue())
+    await _declare_queue(server, server.requestResultQueue())
+    await _declare_queue(server, server.responseProgressQueue())
+    await _declare_queue(server, server.responseResultQueue())
+    await _declare_queue(server, server.logQueue())
+
+    print(f"Declared service queues.")
 
 
-async def _declare_routes_queues(server: AideServer, routes: List[routing.APIRoute]):
-    declare = server.broker.declare_queue
+async def _declare_routes_queues(server: AideServer):
+    # TODO optimize We don't need the queues for all routes.
+    for route in server.routes:
+        if isinstance(route, routing.APIRoute) and not _skip_check_route(route):
+            print(f"\nDeclaring queues for route `{route.name}`...")
 
-    for route in routes:
-        await declare(server.queryQueue(route_name=route.name))
-        await declare(server.progressQueue(route_name=route.name))
-        await declare(server.resultQueue(route_name=route.name))
-        print(f"Declared queues for route `{route.name}`.")
-        time.sleep(0.2)
+            await _declare_queue(server, server.queryQueue(route_name=route.name))
+            await _declare_queue(server, server.progressQueue(route_name=route.name))
+            await _declare_queue(server, server.resultQueue(route_name=route.name))
+            time.sleep(0.2)
+
+            print(f"Declared queues for route `{route.path}`.")
 
 
 # Check the declared routes.
-def _check_routes(server: FastAPI):
+def _check_routes(server: AideServer):
     for route in server.routes:
-        if isinstance(route, routing.APIRoute):
-            print(f"{route}")
+        if isinstance(route, routing.APIRoute) and not _skip_check_route(route):
+            print(f"\nChecking {route}...")
 
             if route.path.lower() != route.path:
                 raise Exception("The route API should be declared in lowercase.")
 
-            if not _skip_check_route(route):
-                tpath = route.path[1:].replace("_", "-").replace("/", "-").lower()
-                if tpath != route.name.replace("_", "-"):
-                    raise Exception(
-                        "The route API should be declared with `-` instead of `_`"
-                        " and it should have the same names for path and name."
-                        f" Have: `{tpath}` != `{route.name}`."
-                    )
+            tpath = route.path[1:].replace("_", "-").replace("/", "-").lower()
+            if tpath != route.name.replace("_", "-"):
+                raise Exception(
+                    "The route API should be declared with `-` instead of `_`"
+                    " and it should have the same names for path and name."
+                    f" Have: `{tpath}` != `{route.name}`."
+                )
+
+            print(f"Checked route `{route.name}`. It's OK.")
 
 
-def _skip_check_route(route: routing.APIRoute):
+def _skip_check_route(route: routing.APIRoute) -> bool:
     return (
         route.name == "root"
         or "asyncapi" in route.path
@@ -342,8 +361,7 @@ def _skip_check_route(route: routing.APIRoute):
 def _use_route_names_as_operation_ids(server: FastAPI) -> List[routing.APIRoute]:
     r = []
     for route in server.routes:
-        if isinstance(route, routing.APIRoute):
-            print(f"{route.operation_id} -> {route.name}")
+        if isinstance(route, routing.APIRoute) and not _skip_check_route(route):
             route.operation_id = route.name
             r.append(route)
 
