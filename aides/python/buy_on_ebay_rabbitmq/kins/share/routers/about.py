@@ -4,7 +4,7 @@
 #
 # from fastapi import APIRouter
 #
-# def router():
+# def router() -> APIRouter:
 #     r = APIRouter()
 #
 #     @r.get("/place", include_in_schema=False)

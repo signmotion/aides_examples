@@ -1,5 +1,5 @@
-from kins.appearance.server import Appearance
-from kins.brain.server import Brain
+from .appearance.server import Appearance
+from .brain.server import Brain
 
 
 def appearance():

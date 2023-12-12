@@ -40,5 +40,23 @@
     ]
   },
   "savantConnector": "amqp://guest:guest@localhost:5672/",
+  "acts": [
+    {
+      "name": { "en": "Products Today" },
+      "nickname": "products_today",
+      "summary": { "en": "Returns a list of recent products from auction." },
+      "description": {
+        "en": "Returns a list of auction products no later than the last 24 hours."
+      },
+      "tags": [
+        { "en": "hours" },
+        { "en": "items" },
+        { "en": "now" },
+        { "en": "products" },
+        { "en": "today" }
+      ],
+      "version": "0.1.0"
+    }
+  ],
   "version": "0.1.2"
 }

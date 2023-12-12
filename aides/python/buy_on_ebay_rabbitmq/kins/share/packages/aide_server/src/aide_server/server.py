@@ -9,12 +9,13 @@ from faststream.rabbit import (
     fastapi,
 )
 
-from typing import List, Optional
+from typing import Callable, List, Optional
 from pydantic import Field
 
-from .routers import about, context
 from .configure import Configure
 from .memo import Memo, NoneMemo
+from .routers import about, context
+from .sides import AppearanceSide, BrainSide, Side
 
 
 logger = logging.getLogger("uvicorn.error")
@@ -30,8 +31,8 @@ class AideServer(FastAPI):
         *,
         language: str,
         configure: Configure,
+        brainRuns: List[Callable] = [],
         memo: Memo = NoneMemo(),
-        external_routers: List[APIRouter] = [],
         debug_level: int = logging.INFO,
     ):
         logging.basicConfig(level=debug_level)
@@ -70,36 +71,59 @@ class AideServer(FastAPI):
         self.name = name
         self.tags = tags
         self.configure = configure
+        self.brainRuns = brainRuns
         self.memo = memo
-        self.part = type(self).__name__
         self.savantRouter = savantRouter
 
-        self.include_routers(external_routers)
+        self.register_runs()
         self.declare_channels()
+        self.include_routers()
 
-    def include_routers(self, external_routers: List[APIRouter]):
+    def include_routers(self):
+        logger.info("Adding the routers...")
+
         # add about routers
         self.include_router(
             about.router(
                 name=self.name,
                 nickname=self.nickname,
-                part=self.part,
+                sidename=self.sidename,
                 path_to_face=self.configure.path_to_face,
             )
         )
+        logger.info("Added the router for `About`.")
 
         # add context routers
         self.include_router(context.router(self.memo))
+        logger.info("Added the router for `Context`.")
 
-        # add external routers
-        for external_router in external_routers:
-            self.include_router(external_router)
+        logger.info("Added the routers.")
+
+    def register_runs(self):
+        logger.info(f"Registering the side `{self.sidename}`...")
+
+        # adding runs as external routers
+        router = APIRouter()
+
+        # TODO Wrap to factory.
+        if self.sidename == "Appearance":
+            self.side = AppearanceSide(router=router, server=self)
+        elif self.sidename == "Brain":
+            self.side = BrainSide(router=router, server=self)
+        # TBD ...
+
+        self.include_router(router)
+        logger.info(f"Added the router the side `{self.sidename}`.")
 
         # !) call this functions after adding all routers
-        self._check_routes()
-        self._use_route_names_as_operation_ids()
+        # self._check_routes()
+        # self._use_route_names_as_operation_ids()
+
+        logger.info(f"Registered the side `{self.sidename}`.")
 
     def declare_channels(self):
+        logger.info("Declaring the channels...")
+
         @self.savantRouter.after_startup
         async def app_started(app: AideServer):
             await self._declare_exchange()
@@ -107,7 +131,7 @@ class AideServer(FastAPI):
             await self._declare_routes_queues()
 
             message = (
-                f"`{self.part}` `{app.title}` `{self.nickname}`"
+                f"`{self.sidename}` `{app.title}` `{self.nickname}`"
                 " powered by FastStream & FastAPI"
                 " started."
             )
@@ -122,12 +146,14 @@ class AideServer(FastAPI):
             )
 
         @self.savant.subscriber(self.logQueue(), self.exchange())
-        async def test_connected_to_savant(message: str):
+        async def check_connection_to_savant(message: str):
             logger.info(
                 "Connection to Savant"
-                f" from `{self.part}` `{self.nickname}` confirmed."
+                f" from `{self.sidename}` `{self.nickname}` confirmed."
                 # f' Message received: "{message[:24]}...{message[-12:]}"'
             )
+
+        logger.info("Declared the channels.")
 
     # properties
 
@@ -153,16 +179,26 @@ class AideServer(FastAPI):
     def nickname(self):
         return self.configure.nickname
 
+    @property
+    def sidename(self):
+        return self.side.name
+
     tags: List[str] = Field(
         default=[],
         title="Tags",
         description="The tags for aide.",
     )
 
-    part: str = Field(
+    side: Side = Field(
         ...,
-        title="Part",
-        description="The name for part of aide. Set by class name.",
+        title="Side",
+        description="The side of aide. Set by class name.",
+    )
+
+    brainRuns: List[Callable] = Field(
+        ...,
+        title="Braint Runs",
+        description="The runs for Brain server. Each runs should be defined into `configure.json` with same name.",
     )
 
     memo: Memo = Field(
@@ -188,7 +224,7 @@ class AideServer(FastAPI):
     def exchange(self):
         return RabbitExchange("aide", auto_delete=True, type=ExchangeType.TOPIC)
 
-    def queryQueue(
+    def taskQueue(
         self,
         router: Optional[APIRouter] = None,
         route_name: str = "",
@@ -268,7 +304,7 @@ class AideServer(FastAPI):
     ):
         keys = [
             act,
-            self.part.lower() if include_part else "*",
+            self.sidename.lower() if include_part else "*",
             self.nickname,
         ]
 
@@ -307,7 +343,7 @@ class AideServer(FastAPI):
             ):
                 logger.info(f"Declaring queues for route `{route.name}`...")
 
-                await self._declare_queue(self.queryQueue(route_name=route.name))
+                await self._declare_queue(self.taskQueue(route_name=route.name))
                 await self._declare_queue(self.progressQueue(route_name=route.name))
                 await self._declare_queue(self.resultQueue(route_name=route.name))
                 time.sleep(0.2)

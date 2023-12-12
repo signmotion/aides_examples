@@ -1,5 +1,6 @@
 from typing import Dict, List, Optional
-from pydantic import BaseModel, Field, PositiveInt
+from pydantic import BaseModel, Field
+from .act import Act
 from .characteristic import Characteristic
 
 
@@ -46,15 +47,21 @@ class Configure(BaseModel):
         description="Characteristic of aide.",
     )
 
-    version: str = Field(
-        default="0.1.0",
-        title="Version",
-        description="Version of aide.",
-    )
-
     savantConnector: str = Field(
         ...,
         examples=["amqp://guest:guest@localhost:5672/"],
         title="Savant Connector",
         description="Connector to Savant server.",
+    )
+
+    acts: List[Act] = Field(
+        default=[],
+        title="Acts Aide",
+        description="Possible acts this aide.",
+    )
+
+    version: str = Field(
+        default="0.1.0",
+        title="Version",
+        description="Version of aide.",
     )

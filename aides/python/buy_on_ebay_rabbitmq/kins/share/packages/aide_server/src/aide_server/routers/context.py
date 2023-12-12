@@ -4,22 +4,22 @@ from ..memo import Memo
 
 
 def router(memo: Memo):
-    r = APIRouter()
+    api = APIRouter()
 
-    @r.get("/schema")
+    @api.get("/schema")
     def schema():
         return json.loads(memo.context.schema_json())
 
-    @r.get("/get-context")
+    @api.get("/get-context")
     def get_context():
         return memo.context
 
-    @r.get("/get-context-value/{hid}")
+    @api.get("/get-context-value/{hid}")
     def get_context_value(hid: str):
         return getattr(memo.context, hid)
 
     # See [schema].
-    @r.put("/set-context-value")
+    @api.put("/set-context-value")
     def set_context_value(
         hid: str = Body(
             embed=True,
@@ -35,4 +35,4 @@ def router(memo: Memo):
         setattr(memo.context, hid, value)
         return True
 
-    return r
+    return api
