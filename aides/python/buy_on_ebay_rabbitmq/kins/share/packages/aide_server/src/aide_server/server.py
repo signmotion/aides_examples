@@ -55,6 +55,7 @@ class AideServer(FastAPI):
             configure.savantConnector,
             nickname_server=configure.nickname,
             sidename_server=sidename,
+            acts=configure.acts,
         )
 
         super().__init__(
@@ -138,7 +139,7 @@ class AideServer(FastAPI):
         async def app_started(app: AideServer):
             await self.savant_router.declare_exchange()
             await self.savant_router.declare_service_queues()
-            await self.savant_router.declare_routes_queues()
+            await self.savant_router.declare_acts_queues()
 
             message = (
                 f"`{self.sidename}` `{app.title}` `{self.nickname}`"
@@ -152,8 +153,8 @@ class AideServer(FastAPI):
             )
             await self.savant_router.broker.publish(
                 message,
-                exchange=self.savant_router.exchange(),
                 queue=self.savant_router.logQueue(),
+                exchange=self.savant_router.exchange(),
                 timeout=5,
             )
 

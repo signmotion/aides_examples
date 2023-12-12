@@ -62,8 +62,15 @@ class AppearanceSide(Side):
             acts=acts,
         )
 
+    def register_client_endpoints(self):
+        logger.info(f"Registering client endpoint(s) for `{self.name}`...")
+
         for act in self.acts:
             self.register_client_endpoint(act)
+
+        logger.info(
+            f"Registering the {len(self.acts)} client endpoint(s) for `{self.name}`..."
+        )
 
     def register_client_endpoint(self, act: Act):
         @self.router.get(act.nickname)
@@ -71,11 +78,13 @@ class AppearanceSide(Side):
             logger.info(f"Call endpoint `{act.nickname}`")
             await self._publish_task(act)
 
-        logger.info(f"Registered client endpoint for `{act.nickname}`.")
+        logger.info(
+            f"Registered the client endpoint `{act.nickname}` for `{self.name}`."
+        )
 
     async def _publish_task(self, act: Act):
         exchange = self.savant_router.exchange()
-        queue = self.savant_router.taskQueue(route_name=act.nickname)
+        queue = self.savant_router.queryQueue(act.nickname)
 
         message = act.nickname
         logger.info("Publish task message")
@@ -106,8 +115,7 @@ class BrainSide(Side):
         self.runs = runs
         self.memo = memo
 
-        for act in self.acts:
-            self.register_subscribers(act)
+        self.register_subscribers_for_acts()
 
     runs: List[Callable] = Field(
         ...,
@@ -121,8 +129,16 @@ class BrainSide(Side):
         description="The memory of aide. Keep a generic context.",
     )
 
-    def register_subscribers(self, act: Act):
-        queue = self.savant_router.taskQueue(route_name=act.nickname)
+    def register_subscribers_for_acts(self):
+        logger.info("Registering subscribers for act(s)...")
+
+        for act in self.acts:
+            self.register_subscribers_for_act(act)
+
+        logger.info(f"Registered subscribers for {len(self.acts)} act(s)...")
+
+    def register_subscribers_for_act(self, act: Act):
+        queue = self.savant_router.queryQueue(act.nickname)
         exchange = self.savant_router.exchange()
 
         @self.savant_router.broker.subscriber(queue, exchange)
@@ -130,7 +146,7 @@ class BrainSide(Side):
             logger.info("Catch task!")
             self.run_act(act)
 
-        logger.info(f"Subscribed `{act.nickname}` to Savant.")
+        logger.info(f"Registered subscribers for act `{act.nickname}` to Savant.")
 
     # def catch_task(self):
     #     pass

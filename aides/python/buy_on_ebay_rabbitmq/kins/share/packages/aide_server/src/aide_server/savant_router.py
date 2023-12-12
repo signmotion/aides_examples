@@ -1,16 +1,18 @@
-from fastapi import APIRouter, routing
+from typing import List
+from fastapi import routing
 from faststream.rabbit import (
     ExchangeType,
     RabbitExchange,
     RabbitQueue,
     fastapi,
 )
-from typing import Optional
 from pydantic import Field
 import time
 import logging
 
+from .act import Act
 from .helpers import skip_check_route
+from .type_queue import TypeQueue
 
 
 logger = logging.getLogger("uvicorn.error")
@@ -22,6 +24,7 @@ class SavantRouter(fastapi.RabbitRouter):
         connector: str,
         nickname_server: str,
         sidename_server: str,
+        acts: List[Act],
     ):
         assert connector.strip()
         assert nickname_server.strip()
@@ -29,19 +32,26 @@ class SavantRouter(fastapi.RabbitRouter):
 
         super().__init__(connector)
 
-        self.nickname = nickname_server
-        self.sidename = sidename_server
+        self.nickname_server = nickname_server
+        self.sidename_server = sidename_server
+        self.acts = acts
 
-    nickname: str = Field(
+    nickname_server: str = Field(
         ...,
         title="Nickname Server",
         description="The nickname of server.",
     )
 
-    sidename: str = Field(
+    sidename_server: str = Field(
         ...,
         title="Sidename Server",
         description="The sidename of server.",
+    )
+
+    acts: List[Act] = Field(
+        default=[],
+        title="Acts Aide",
+        description="Possible acts this aide.",
     )
 
     def exchange(self):
@@ -51,98 +61,65 @@ class SavantRouter(fastapi.RabbitRouter):
             type=ExchangeType.TOPIC,
         )
 
-    def taskQueue(
+    def queryQueue(
         self,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
+        nickname_act: str,
     ):
-        return self._queueRouter(
-            "query",
-            include_part=False,
-            router=router,
-            route_name=route_name,
+        return queue(
+            type=TypeQueue.QUERY,
+            nickname_act=nickname_act,
+            nickname_server=self.nickname_server,
         )
 
     def progressQueue(
         self,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
+        nickname_act: str,
     ):
-        return self._queueRouter(
-            "progress",
-            include_part=False,
-            router=router,
-            route_name=route_name,
+        return queue(
+            type=TypeQueue.PROGRESS,
+            nickname_act=nickname_act,
+            nickname_server=self.nickname_server,
         )
 
     def resultQueue(
         self,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
+        nickname_act: str,
     ):
-        return self._queueRouter(
-            "result",
-            include_part=False,
-            router=router,
-            route_name=route_name,
+        return queue(
+            type=TypeQueue.RESULT,
+            nickname_act=nickname_act,
+            nickname_server=self.nickname_server,
         )
 
     def requestProgressQueue(self):
-        return self._requestActQueue("progress")
-
-    def requestResultQueue(self):
-        return self._requestActQueue("result")
-
-    def responseProgressQueue(self):
-        return self._responseActQueue("progress")
-
-    def responseResultQueue(self):
-        return self._responseActQueue("result")
-
-    def logQueue(
-        self,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
-    ):
-        return self._queueRouter(
-            "log",
-            include_part=True,
-            router=router or self,
-            route_name=route_name,
+        return queue(
+            type=TypeQueue.REQUEST_PROGRESS,
+            nickname_server=self.nickname_server,
         )
 
-    def _queueRouter(
-        self,
-        name_queue: str,
-        include_part: bool,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
-    ):
-        act = route_name or (router.name if hasattr(router, "name") else type(router).__name__) or ""  # type: ignore
-        return self._queueAct(name_queue, act=act, include_part=include_part)
+    def requestResultQueue(self):
+        return queue(
+            type=TypeQueue.REQUEST_RESULT,
+            nickname_server=self.nickname_server,
+        )
 
-    def _requestActQueue(self, act: str):
-        return self._queueAct("request", act=act, include_part=False)
+    def responseProgressQueue(self):
+        return queue(
+            type=TypeQueue.RESPONSE_PROGRESS,
+            nickname_server=self.nickname_server,
+        )
 
-    def _responseActQueue(self, act: str):
-        return self._queueAct("response", act=act, include_part=False)
+    def responseResultQueue(self):
+        return queue(
+            type=TypeQueue.RESPONSE_RESULT,
+            nickname_server=self.nickname_server,
+        )
 
-    def _queueAct(
-        self,
-        name_queue: str,
-        act: str,
-        include_part: bool,
-    ):
-        keys = [
-            act,
-            self.sidename.lower() if include_part else "*",
-            self.nickname,
-        ]
-
-        return RabbitQueue(
-            name_queue,
-            auto_delete=True,
-            routing_key=".".join(keys),
+    def logQueue(self):
+        return queue(
+            type=TypeQueue.LOG,
+            sidename_server=self.sidename_server,
+            nickname_server=self.nickname_server,
         )
 
     async def declare_exchange(self):
@@ -153,28 +130,59 @@ class SavantRouter(fastapi.RabbitRouter):
 
     async def declare_queue(self, queue: RabbitQueue):
         await self.broker.declare_queue(queue)
-        logger.info(f"\tCreated queue `{queue.name}` with key\t{queue.routing_key}.")
+        logger.info(f"\tCreated queue `{queue.name}`.   ")
 
     async def declare_service_queues(self):
-        logger.info(f"Declaring service queues...")
+        logger.info(f"Declaring services queues...")
 
+        n = 0
         await self.declare_queue(self.requestProgressQueue())
+        n += 1
         await self.declare_queue(self.requestResultQueue())
+        n += 1
         await self.declare_queue(self.responseProgressQueue())
+        n += 1
         await self.declare_queue(self.responseResultQueue())
+        n += 1
         await self.declare_queue(self.logQueue())
+        n += 1
 
-        logger.info(f"Declared service queues.")
+        logger.info(f"Declared {n} service(s) queues.")
 
-    async def declare_routes_queues(self):
+    async def declare_acts_queues(self):
+        logger.info(f"Declaring act(s)...")
+
         # TODO optimize We don't need the queues for all routes.
-        for route in self.routes:
-            if isinstance(route, routing.APIRoute) and not skip_check_route(route):
-                logger.info(f"Declaring queues for route `{route.name}`...")
+        for act in self.acts:
+            logger.info(f"Declaring queues for act `{act.name['en']}`...")
 
-                await self.declare_queue(self.taskQueue(route_name=route.name))
-                await self.declare_queue(self.progressQueue(route_name=route.name))
-                await self.declare_queue(self.resultQueue(route_name=route.name))
-                time.sleep(0.2)
+            n = 0
+            await self.declare_queue(self.queryQueue(act.nickname))
+            n += 1
+            await self.declare_queue(self.progressQueue(act.nickname))
+            n += 1
+            await self.declare_queue(self.resultQueue(act.nickname))
+            n += 1
 
-                logger.info(f"Declared queues for route `{route.path}`.")
+            time.sleep(0.2)
+
+            logger.info(f"Declared {n} queue(s) for act `{act.name['en']}`.")
+
+        logger.info(f"Declared {len(self.acts)} act(s).")
+
+
+def queue(
+    type: TypeQueue,
+    nickname_act: str = "",
+    sidename_server: str = "",
+    nickname_server: str = "",
+):
+    keys = [
+        type.name.lower(),
+        nickname_act,
+        sidename_server.lower() if sidename_server else None,
+        nickname_server,
+    ]
+    name = ".".join(filter(None, keys))
+
+    return RabbitQueue(name, auto_delete=True)
