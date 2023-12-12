@@ -4,7 +4,7 @@ import httpx
 import traceback
 
 from ..config import *
-from share.packages.aide_server.src.aide_server.memo import Memo
+from ..packages.aide_server.src.aide_server.memo import Memo
 
 
 logger = logging.getLogger("uvicorn.error")

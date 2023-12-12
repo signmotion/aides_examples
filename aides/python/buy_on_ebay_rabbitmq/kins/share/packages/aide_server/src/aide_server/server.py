@@ -1,22 +1,15 @@
 import logging
-import time
 from fastapi import APIRouter, FastAPI, routing
-from faststream.rabbit import (
-    RabbitBroker,
-    ExchangeType,
-    RabbitExchange,
-    RabbitQueue,
-    fastapi,
-)
 
-from typing import Callable, List, Optional
+from typing import Callable, List
 from pydantic import Field
 
 from .configure import Configure
+from .helpers import skip_check_route
 from .memo import Memo, NoneMemo
 from .routers import about, context
+from .savant_router import SavantRouter
 from .sides import AppearanceSide, BrainSide, Side
-
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -55,8 +48,14 @@ class AideServer(FastAPI):
                 }
             )
 
+        sidename = type(self).__name__
+
         name = configure.name.get(language) or "AideServer"
-        savantRouter = fastapi.RabbitRouter(configure.savantConnector)
+        savant_router = SavantRouter(
+            configure.savantConnector,
+            nickname_server=configure.nickname,
+            sidename_server=sidename,
+        )
 
         super().__init__(
             title=name,
@@ -64,18 +63,19 @@ class AideServer(FastAPI):
             description=configure.description.get(self.language) or "",
             version=configure.version,
             openapi_tags=openapi_tags,
-            lifespan=savantRouter.lifespan_context,
+            lifespan=savant_router.lifespan_context,
         )
 
         self.language = language
         self.name = name
+        self.sidename = sidename
         self.tags = tags
         self.configure = configure
         self.brainRuns = brainRuns
         self.memo = memo
-        self.savantRouter = savantRouter
+        self.savant_router = savant_router
 
-        self.register_runs()
+        self.register_side()
         self.declare_channels()
         self.include_routers()
 
@@ -99,7 +99,7 @@ class AideServer(FastAPI):
 
         logger.info("Added the routers.")
 
-    def register_runs(self):
+    def register_side(self):
         logger.info(f"Registering the side `{self.sidename}`...")
 
         # adding runs as external routers
@@ -107,9 +107,19 @@ class AideServer(FastAPI):
 
         # TODO Wrap to factory.
         if self.sidename == "Appearance":
-            self.side = AppearanceSide(router=router, server=self)
+            self.side = AppearanceSide(
+                router,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+            )
         elif self.sidename == "Brain":
-            self.side = BrainSide(router=router, server=self)
+            self.side = BrainSide(
+                router,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                runs=self.brainRuns,
+                memo=self.memo,
+            )
         # TBD ...
 
         self.include_router(router)
@@ -124,11 +134,11 @@ class AideServer(FastAPI):
     def declare_channels(self):
         logger.info("Declaring the channels...")
 
-        @self.savantRouter.after_startup
+        @self.savant_router.after_startup
         async def app_started(app: AideServer):
-            await self._declare_exchange()
-            await self._declare_service_queues()
-            await self._declare_routes_queues()
+            await self.savant_router.declare_exchange()
+            await self.savant_router.declare_service_queues()
+            await self.savant_router.declare_routes_queues()
 
             message = (
                 f"`{self.sidename}` `{app.title}` `{self.nickname}`"
@@ -137,15 +147,20 @@ class AideServer(FastAPI):
             )
             logger.info(message)
 
-            logger.info(f"Testing connection to Savant `{self.savant.url}`...")
-            await self.savant.publish(
+            logger.info(
+                f"Testing connection to Savant `{self.savant_router.broker.url}`..."
+            )
+            await self.savant_router.broker.publish(
                 message,
-                exchange=self.exchange(),
-                queue=self.logQueue(),
+                exchange=self.savant_router.exchange(),
+                queue=self.savant_router.logQueue(),
                 timeout=5,
             )
 
-        @self.savant.subscriber(self.logQueue(), self.exchange())
+        @self.savant_router.broker.subscriber(
+            self.savant_router.logQueue(),
+            self.savant_router.exchange(),
+        )
         async def check_connection_to_savant(message: str):
             logger.info(
                 "Connection to Savant"
@@ -179,9 +194,11 @@ class AideServer(FastAPI):
     def nickname(self):
         return self.configure.nickname
 
-    @property
-    def sidename(self):
-        return self.side.name
+    sidename: str = Field(
+        ...,
+        title="Sidename",
+        description="The sidename of aide.",
+    )
 
     tags: List[str] = Field(
         default=[],
@@ -207,155 +224,16 @@ class AideServer(FastAPI):
         description="The memory of aide. Keep a generic context.",
     )
 
-    savantRouter: fastapi.RabbitRouter = Field(
+    savant_router: SavantRouter = Field(
         ...,
         title="Savant Router",
         description="The router to Savant server.",
     )
 
-    @property
-    def savantConnector(self):
-        return self.configure.savantConnector
-
-    @property
-    def savant(self) -> RabbitBroker:
-        return self.savantRouter.broker
-
-    def exchange(self):
-        return RabbitExchange("aide", auto_delete=True, type=ExchangeType.TOPIC)
-
-    def taskQueue(
-        self,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
-    ):
-        return self._queueRouter(
-            "query",
-            include_part=False,
-            router=router,
-            route_name=route_name,
-        )
-
-    def progressQueue(
-        self,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
-    ):
-        return self._queueRouter(
-            "progress",
-            include_part=False,
-            router=router,
-            route_name=route_name,
-        )
-
-    def resultQueue(
-        self,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
-    ):
-        return self._queueRouter(
-            "result",
-            include_part=False,
-            router=router,
-            route_name=route_name,
-        )
-
-    def requestProgressQueue(self):
-        return self._requestActQueue("progress")
-
-    def requestResultQueue(self):
-        return self._requestActQueue("result")
-
-    def responseProgressQueue(self):
-        return self._responseActQueue("progress")
-
-    def responseResultQueue(self):
-        return self._responseActQueue("result")
-
-    def logQueue(self, router: Optional[APIRouter] = None, route_name: str = ""):
-        return self._queueRouter(
-            "log",
-            include_part=True,
-            router=router or self.savantRouter,
-            route_name=route_name,
-        )
-
-    def _queueRouter(
-        self,
-        name_queue: str,
-        include_part: bool,
-        router: Optional[APIRouter] = None,
-        route_name: str = "",
-    ):
-        act = route_name or (router.name if hasattr(router, "name") else type(router).__name__) or ""  # type: ignore
-        return self._queueAct(name_queue, act=act, include_part=include_part)
-
-    def _requestActQueue(self, act: str):
-        return self._queueAct("request", act=act, include_part=False)
-
-    def _responseActQueue(self, act: str):
-        return self._queueAct("response", act=act, include_part=False)
-
-    def _queueAct(
-        self,
-        name_queue: str,
-        act: str,
-        include_part: bool,
-    ):
-        keys = [
-            act,
-            self.sidename.lower() if include_part else "*",
-            self.nickname,
-        ]
-
-        return RabbitQueue(
-            name_queue,
-            auto_delete=True,
-            routing_key=".".join(keys),
-        )
-
-    async def _declare_exchange(self):
-        declare = self.savant.declare_exchange
-        ex = self.exchange()
-        await declare(ex)
-        logger.info(f"\tCreated exchange `{ex.name}` with type\t{ex.type.upper}.")
-
-    async def _declare_queue(self, queue: RabbitQueue):
-        await self.savant.declare_queue(queue)
-        logger.info(f"\tCreated queue `{queue.name}` with key\t{queue.routing_key}.")
-
-    async def _declare_service_queues(self):
-        logger.info(f"Declaring service queues...")
-
-        await self._declare_queue(self.requestProgressQueue())
-        await self._declare_queue(self.requestResultQueue())
-        await self._declare_queue(self.responseProgressQueue())
-        await self._declare_queue(self.responseResultQueue())
-        await self._declare_queue(self.logQueue())
-
-        logger.info(f"Declared service queues.")
-
-    async def _declare_routes_queues(self):
-        # TODO optimize We don't need the queues for all routes.
-        for route in self.routes:
-            if isinstance(route, routing.APIRoute) and not self._skip_check_route(
-                route
-            ):
-                logger.info(f"Declaring queues for route `{route.name}`...")
-
-                await self._declare_queue(self.taskQueue(route_name=route.name))
-                await self._declare_queue(self.progressQueue(route_name=route.name))
-                await self._declare_queue(self.resultQueue(route_name=route.name))
-                time.sleep(0.2)
-
-                logger.info(f"Declared queues for route `{route.path}`.")
-
     # Check the declared routes.
     def _check_routes(self):
         for route in self.routes:
-            if isinstance(route, routing.APIRoute) and not self._skip_check_route(
-                route
-            ):
+            if isinstance(route, routing.APIRoute) and not skip_check_route(route):
                 logger.info(f"Checking {route}...")
 
                 if route.path.lower() != route.path:
@@ -371,21 +249,11 @@ class AideServer(FastAPI):
 
                 logger.info(f"Checked route `{route.path}`. It's OK.")
 
-    def _skip_check_route(self, route: routing.APIRoute) -> bool:
-        return (
-            route.name == "root"
-            or "asyncapi" in route.path
-            or "/context" in route.path
-            or "{" in route.path
-        )
-
     # Simplify operation IDs into the routes.
     def _use_route_names_as_operation_ids(self) -> List[routing.APIRoute]:
         r = []
         for route in self.routes:
-            if isinstance(route, routing.APIRoute) and not self._skip_check_route(
-                route
-            ):
+            if isinstance(route, routing.APIRoute) and not skip_check_route(route):
                 route.operation_id = route.name
                 r.append(route)
 
