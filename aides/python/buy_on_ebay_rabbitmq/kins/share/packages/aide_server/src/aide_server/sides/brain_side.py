@@ -1,12 +1,13 @@
 import logging
 from typing import Callable, List
 from fastapi import APIRouter
-from pydantic import Field
+from pydantic import Field, PositiveFloat
 
 from .side import Side
 from ..act import Act
 from ..memo import Memo, NoneMemo
 from ..savant_router import SavantRouter
+from ..task import Task
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -56,32 +57,46 @@ class BrainSide(Side):
         exchange = self.savant_router.exchange()
 
         @self.savant_router.broker.subscriber(queue, exchange)
-        async def catch_task(message: str):
-            logger.info("Catch task!")
-            self.run_act(act)
+        async def catch_task(task: Task):
+            logger.info(f"Catched task {type(task).__name__} -> {task}")
+            if isinstance(task, dict):
+                task = Task.model_validate(task)  # type: ignore
+            self.run_task(task)
 
         logger.info(f"Registered subscribers for act `{act.nickname}` to Savant.")
 
     # def catch_task(self):
     #     pass
 
-    def run_act(self, act: Act):
+    def run_task(self, task: Task):
         found_run = None
         for run in self.runs:
-            for act in self.acts:
-                logger.info(f"`{act.nickname}` in `{run}`?")
-                if act.nickname in run.__str__():
-                    logger.info(f"Run for act `{act.nickname}` found.")
-                    found_run = run
-                    break
+            logger.info(
+                f"Looking at act `{task.nickname_act}` into run `{run.__name__}`..."
+            )
+            if task.nickname_act in run.__name__:
+                logger.info(f"Run for act `{task.nickname_act}` found.")
+                found_run = run
+                break
 
-        if found_run:
-            found_run(self.memo)
-        else:
-            raise Exception(f"Not found a brain-run for {act}.")
+        if not found_run:
+            raise Exception(f"Not found a run for act {task.nickname_act}.")
 
-    def publish_progress(self):
-        pass
+        found_run(
+            task=task,
+            memo=self.memo,
+            publish_progress=self.publish_progress,
+            publish_result=self.publish_result,
+        )
 
-    def publish_result(self):
-        pass
+    def publish_progress(self, task: Task, progress: PositiveFloat):
+        logger.info(f"Progress for task `{task}`: {progress} %")
+        # TODO
+
+        return progress
+
+    def publish_result(self, task: Task, result: dict):
+        logger.info(f"Result for task `{task}`: `{result}`")
+        # TODO
+
+        return result

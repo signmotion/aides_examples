@@ -1,20 +1,32 @@
 import logging
 import json
+from typing import Callable
 import httpx
 import traceback
 
 from ..config import *
 from ..packages.aide_server.src.aide_server.memo import Memo
+from ..packages.aide_server.src.aide_server.task import Task
 
 
 logger = logging.getLogger("uvicorn.error")
 
 
-def products_today(memo: Memo):
+def products_today(
+    task: Task,
+    memo: Memo,
+    publish_progress: Callable,
+    publish_result: Callable,
+):
     logger.info(f"Running `{__name__}`...")
 
+    publish_progress(task=task, progress=0)
+
     if use_fake_response:
-        return _products_today_demo_ebay_json()
+        result = _products_today_demo_ebay_json()
+        publish_progress(task=task, progress=100)
+
+        return publish_result(task=task, result=result)
 
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
 
@@ -78,10 +90,13 @@ def products_today(memo: Memo):
     if include_original_response_in_response:
         o["original_response"] = r
 
-    return {
+    result = {
         "result": o,
         "context": app().memo.context,  # type: ignore
     }
+    publish_progress(task=task, progress=100)
+
+    return publish_result(task=task, result=result)
 
 
 def _products_today_demo_ebay_json():

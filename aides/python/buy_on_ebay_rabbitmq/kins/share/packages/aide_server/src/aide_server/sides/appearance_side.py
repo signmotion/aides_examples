@@ -1,14 +1,13 @@
 import logging
 from typing import List
 from fastapi import APIRouter
-
-from kins.share.packages.aide_server.src.aide_server.helpers import (
-    unwrapMultilangTextList,
-)
+import uuid
 
 from .side import Side
 from ..act import Act
+from ..helpers import unwrapMultilangTextList
 from ..savant_router import SavantRouter
+from ..task import Task
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -49,7 +48,8 @@ class AppearanceSide(Side):
         )
         async def endpoint():
             logger.warn(f"Call endpoint `{act.nickname}`")
-            await self._publish_task(act)
+
+            return await self._publish_task(act)
 
         logger.info(
             f"Registered the client endpoint `{act.nickname}` for `{self.name}`."
@@ -58,12 +58,14 @@ class AppearanceSide(Side):
     async def _publish_task(self, act: Act):
         exchange = self.savant_router.exchange()
         queue = self.savant_router.queryQueue(act.nickname)
+        task = Task(uid=str(uuid.uuid4()), nickname_act=act.nickname)
 
-        message = act.nickname
-        logger.warn("Publish task message")
+        logger.warn(f"Publish task message: {task}")
         await self.savant_router.broker.publish(
-            message,
+            task,
             queue=queue,
             exchange=exchange,
-            timeout=5,
+            timeout=6,
         )
+
+        return task.uid
