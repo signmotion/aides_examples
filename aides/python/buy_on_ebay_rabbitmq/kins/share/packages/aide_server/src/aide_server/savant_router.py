@@ -126,7 +126,7 @@ class SavantRouter(fastapi.RabbitRouter):
         declare = self.broker.declare_exchange
         ex = self.exchange()
         await declare(ex)
-        logger.info(f"\tCreated exchange `{ex.name}` with type\t{ex.type.upper}.")
+        logger.info(f"Created exchange `{ex.name}` with type `{ex.type.upper()}`.")
 
     async def declare_queue(self, queue: RabbitQueue):
         await self.broker.declare_queue(queue)

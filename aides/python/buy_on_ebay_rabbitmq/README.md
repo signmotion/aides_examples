@@ -59,24 +59,32 @@ Add the package name with version to `requirements.txt`.
 
 ## Run Servers
 
-### Appearance
+### Run All Together
 
 ```bash
-uvicorn kins.main:appearance --factory --reload
+.\main_dev.bat
 ```
 
-### Brain
+### Run Apart
+
+#### Appearance
 
 ```bash
-uvicorn kins.main:brain --factory --reload
+uvicorn kins.main:appearance --factory --reload --port 12001
 ```
 
-### Keeper
+#### Brain
 
 ```bash
-uvicorn kins.main:keeper --factory --reload
+uvicorn kins.main:brain --factory --reload --port 12002
 ```
 
-### Savant
+#### Keeper
+
+```bash
+uvicorn kins.main:keeper --factory --reload --port 12003
+```
+
+#### Savant
 
 See `kins/savant/README.md`.

@@ -50,7 +50,7 @@ class AideServer(FastAPI):
                 }
             )
 
-        sidename = type(self).__name__
+        sidename = type(self).__name__.lower()
 
         name = configure.name.get(language) or "AideServer"
         savant_router = SavantRouter(
@@ -144,14 +144,15 @@ class AideServer(FastAPI):
             await self.savant_router.declare_acts_queues()
 
             message = (
-                f"`{self.sidename}` `{app.title}` `{self.nickname}`"
+                f"`{self.sidename}` `{self.nickname}`"
                 " powered by FastStream & FastAPI"
                 " started."
             )
             logger.info(message)
 
             logger.info(
-                f"Testing connection to Savant `{self.savant_router.broker.url}`..."
+                f"Testing connection to Savant `{self.savant_router.broker.url}`"
+                f" from `{self.sidename}` `{self.nickname}`..."
             )
             await self.savant_router.broker.publish(
                 message,
