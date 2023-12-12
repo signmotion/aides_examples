@@ -10,7 +10,10 @@ def router(
 ):
     api = APIRouter()
 
-    @api.get("/")
+    @api.get(
+        "/",
+        operation_id="root",
+    )
     def root():
         return {
             "name": name,

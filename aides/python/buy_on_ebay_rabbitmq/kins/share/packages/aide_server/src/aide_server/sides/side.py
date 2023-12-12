@@ -18,7 +18,7 @@ class Side:
         savant_router: SavantRouter,
         acts: List[Act],
     ):
-        self.name = type(self).__name__.rstrip("Side")
+        self.name = type(self).__name__.replace("Side", "")
         self.router = router
         self.savant_router = savant_router
         self.acts = acts

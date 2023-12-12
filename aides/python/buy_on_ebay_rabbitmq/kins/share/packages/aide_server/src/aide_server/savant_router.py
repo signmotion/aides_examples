@@ -1,5 +1,4 @@
 from typing import List
-from fastapi import routing
 from faststream.rabbit import (
     ExchangeType,
     RabbitExchange,
@@ -11,7 +10,6 @@ import time
 import logging
 
 from .act import Act
-from .helpers import skip_check_route
 from .type_queue import TypeQueue
 
 
@@ -152,7 +150,6 @@ class SavantRouter(fastapi.RabbitRouter):
     async def declare_acts_queues(self):
         logger.info(f"Declaring act(s)...")
 
-        # TODO optimize We don't need the queues for all routes.
         for act in self.acts:
             logger.info(f"Declaring queues for act `{act.name['en']}`...")
 

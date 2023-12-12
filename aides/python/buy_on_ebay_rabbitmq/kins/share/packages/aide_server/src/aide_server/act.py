@@ -17,7 +17,7 @@ class Act(BaseModel):
 
     @property
     def path(self):
-        return f"/{self.nickname}"
+        return f"/{self.nickname.replace('_', '-')}"
 
     summary: Dict[str, str] = Field(
         default={},

@@ -2,6 +2,10 @@ import logging
 from typing import List
 from fastapi import APIRouter
 
+from kins.share.packages.aide_server.src.aide_server.helpers import (
+    unwrapMultilangTextList,
+)
+
 from .side import Side
 from ..act import Act
 from ..savant_router import SavantRouter
@@ -22,6 +26,8 @@ class AppearanceSide(Side):
             acts=acts,
         )
 
+        self.register_client_endpoints()
+
     def register_client_endpoints(self):
         logger.info(f"Registering client endpoint(s) for `{self.name}`...")
 
@@ -33,9 +39,16 @@ class AppearanceSide(Side):
         )
 
     def register_client_endpoint(self, act: Act):
-        @self.router.get(act.nickname)
+        @self.router.get(
+            path=act.path,
+            name=act.name["en"],
+            summary=act.summary["en"],
+            description=act.description["en"],
+            tags=unwrapMultilangTextList(act.tags, "en"),  # type: ignore
+            operation_id=act.nickname,
+        )
         async def endpoint():
-            logger.info(f"Call endpoint `{act.nickname}`")
+            logger.warn(f"Call endpoint `{act.nickname}`")
             await self._publish_task(act)
 
         logger.info(
@@ -47,7 +60,7 @@ class AppearanceSide(Side):
         queue = self.savant_router.queryQueue(act.nickname)
 
         message = act.nickname
-        logger.info("Publish task message")
+        logger.warn("Publish task message")
         await self.savant_router.broker.publish(
             message,
             queue=queue,

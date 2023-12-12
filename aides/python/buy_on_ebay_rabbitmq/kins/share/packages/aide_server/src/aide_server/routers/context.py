@@ -10,16 +10,25 @@ def router(memo: Memo):
     def schema():
         return json.loads(memo.context.schema_json())
 
-    @api.get("/get-context")
+    @api.get(
+        "/get-context",
+        operation_id="get_context",
+    )
     def get_context():
         return memo.context
 
-    @api.get("/get-context-value/{hid}")
+    @api.get(
+        "/get-context-value/{hid}",
+        operation_id="get_context_value",
+    )
     def get_context_value(hid: str):
         return getattr(memo.context, hid)
 
     # See [schema].
-    @api.put("/set-context-value")
+    @api.put(
+        "/set-context-value",
+        operation_id="set_context_value",
+    )
     def set_context_value(
         hid: str = Body(
             embed=True,

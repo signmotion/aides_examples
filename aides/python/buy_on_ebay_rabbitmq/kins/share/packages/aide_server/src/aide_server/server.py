@@ -5,7 +5,7 @@ from typing import Callable, List
 from pydantic import Field
 
 from .configure import Configure
-from .helpers import skip_check_route
+from .helpers import unwrapMultilangTextList, skip_check_route
 from .memo import Memo, NoneMemo
 from .routers import about, context
 from .savant_router import SavantRouter
@@ -32,7 +32,7 @@ class AideServer(FastAPI):
     ):
         logging.basicConfig(level=debug_level)
 
-        tags = [tag.get(language) or "" for tag in configure.tags if language in tag]
+        tags = unwrapMultilangTextList(configure.tags, language=language)
         openapi_tags = []
         if bool(tags):
             openapi_tags.append(
@@ -109,13 +109,13 @@ class AideServer(FastAPI):
         router = APIRouter()
 
         # TODO Wrap to factory.
-        if self.sidename == "Appearance":
+        if self.sidename == "appearance":
             self.side = AppearanceSide(
                 router,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
             )
-        elif self.sidename == "Brain":
+        elif self.sidename == "brain":
             self.side = BrainSide(
                 router,
                 savant_router=self.savant_router,
@@ -201,7 +201,7 @@ class AideServer(FastAPI):
     sidename: str = Field(
         ...,
         title="Sidename",
-        description="The sidename of aide.",
+        description="The sidename of aide. Lowercase.",
     )
 
     tags: List[str] = Field(

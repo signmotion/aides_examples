@@ -69,7 +69,7 @@ class BrainSide(Side):
         found_run = None
         for run in self.runs:
             for act in self.acts:
-                logger.info(f"`{act.nickname}` in `{run.str()}`?")
+                logger.info(f"`{act.nickname}` in `{run}`?")
                 if act.nickname in run.__str__():
                     logger.info(f"Run for act `{act.nickname}` found.")
                     found_run = run
