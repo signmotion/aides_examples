@@ -9,7 +9,9 @@ from .helpers import skip_check_route
 from .memo import Memo, NoneMemo
 from .routers import about, context
 from .savant_router import SavantRouter
-from .sides import AppearanceSide, BrainSide, Side
+from .sides.appearance_side import AppearanceSide
+from .sides.brain_side import BrainSide
+from .sides.side import Side
 
 logger = logging.getLogger("uvicorn.error")
 
