@@ -18,7 +18,7 @@ class Side:
         savant_router: SavantRouter,
         acts: List[Act],
     ):
-        self.name = type(self).__name__.replace("Side", "")
+        self.name = type(self).__name__.replace("Side", "").lower()
         self.router = router
         self.savant_router = savant_router
         self.acts = acts
@@ -26,7 +26,7 @@ class Side:
     name: str = Field(
         ...,
         title="Name",
-        description="The name for side of aide. Set by class.",
+        description="The name for side of aide. Set by class. Lowercase.",
     )
 
     router: APIRouter = Field(

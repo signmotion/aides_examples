@@ -3,3 +3,4 @@ __pycache__
 /aides/python/buy_on_ebay_fastapi/.vscode/settings.json
 /.vscode/settings.json
 settings.json
+/aides/python/buy_on_ebay_rabbitmq/local_storage

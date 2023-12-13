@@ -16,8 +16,20 @@ class Act(BaseModel):
     )
 
     @property
-    def path(self):
+    def query_path(self):
         return f"/{self.hid.replace('_', '-')}"
+
+    @property
+    def progress_path(self):
+        return f"{self.query_path}/progress/" "{uid_task}"
+
+    @property
+    def result_path(self):
+        return f"{self.query_path}/result"
+
+    @property
+    def paths(self):
+        return [self.query_path, self.progress_path, self.result_path]
 
     summary: Dict[str, str] = Field(
         default={},
@@ -37,11 +49,26 @@ class Act(BaseModel):
         description="Tags for act aide.",
     )
 
+    @property
+    def name_progress(self):
+        return {"en": f"Progress of {self.name['en']}"}
+
+    @property
+    def summary_progress(self):
+        return {"en": f"Progress value for {self.name['en']}."}
+
+    @property
+    def description_progress(self):
+        return {
+            "en": f"Percentage progress for {self.name['en']}. Range: [0.0; 100.0]."
+        }
+
+    @property
+    def tags_progress(self):
+        return self.tags + [{"en": "progress"}]
+
     version: str = Field(
         default="0.1.0",
         title="Version",
         description="Version of act aide.",
     )
-
-    # def __call__(self, memo: Memo):
-    #    raise Exception("Should be released into Brain.")

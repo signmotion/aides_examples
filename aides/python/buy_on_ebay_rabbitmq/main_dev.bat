@@ -7,5 +7,6 @@ timeout /t 10
 @echo Starting the side-servers of aide...
 start "Appearance" uvicorn kins.main:appearance --factory --reload --port 12001
 start "Brain"      uvicorn kins.main:brain      --factory --reload --port 12002
+start "Keeper"     uvicorn kins.main:keeper     --factory --reload --port 12003
 
 @echo All servers started.

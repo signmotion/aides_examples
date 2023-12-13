@@ -1,16 +1,18 @@
 import logging
 from fastapi import APIRouter, FastAPI, routing
 
-from typing import Callable, List
+from typing import Callable, List, Optional
 from pydantic import Field
 
 from .configure import Configure
 from .helpers import unwrapMultilangTextList, skip_check_route
+from .keeper_brokers.keeper_broker import KeeperBroker
 from .memo import Memo, NoneMemo
 from .routers import about, context
 from .savant_router import SavantRouter
 from .sides.appearance_side import AppearanceSide
 from .sides.brain_side import BrainSide
+from .sides.keeper_side import KeeperSide
 from .sides.side import Side
 
 logger = logging.getLogger("uvicorn.error")
@@ -26,7 +28,8 @@ class AideServer(FastAPI):
         *,
         language: str,
         configure: Configure,
-        brainRuns: List[Callable] = [],
+        brain_runs: List[Callable] = [],
+        keeper_broker: Optional[KeeperBroker] = None,
         memo: Memo = NoneMemo(),
         debug_level: int = logging.INFO,
     ):
@@ -74,7 +77,8 @@ class AideServer(FastAPI):
         self.sidename = sidename
         self.tags = tags
         self.configure = configure
-        self.brainRuns = brainRuns
+        self.brain_runs = brain_runs
+        self.keeper_broker = keeper_broker
         self.memo = memo
         self.savant_router = savant_router
 
@@ -82,28 +86,8 @@ class AideServer(FastAPI):
         self.declare_channels()
         self.include_routers()
 
-    def include_routers(self):
-        logger.info("Adding the routers...")
-
-        # add about routers
-        self.include_router(
-            about.router(
-                name=self.name,
-                hid=self.hid,
-                sidename=self.sidename,
-                path_to_face=self.configure.path_to_face,
-            )
-        )
-        logger.info("Added the router for `About`.")
-
-        # add context routers
-        self.include_router(context.router(self.memo))
-        logger.info("Added the router for `Context`.")
-
-        logger.info("Added the routers.")
-
     def register_side(self):
-        logger.info(f"Registering the side `{self.sidename}`...")
+        logger.info(f"Initializing the side `{self.sidename}`...")
 
         # adding runs as external routers
         router = APIRouter()
@@ -116,17 +100,27 @@ class AideServer(FastAPI):
                 acts=self.configure.acts,
             )
         elif self.sidename == "brain":
+            assert len(self.brain_runs) == len(self.configure.acts)
             self.side = BrainSide(
                 router,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
-                runs=self.brainRuns,
+                runs=self.brain_runs,
                 memo=self.memo,
             )
-        # TBD ...
+        elif self.sidename == "keeper":
+            assert self.keeper_broker
+            self.side = KeeperSide(
+                router,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                keeper_broker=self.keeper_broker,
+            )
+
+        logger.info(f"Initialized the side `{self.sidename}`.")
 
         self.include_router(router)
-        logger.info(f"Added the router the side `{self.sidename}`.")
+        logger.info(f"Included the router to the side `{self.sidename}`.")
 
         # !) call this functions after adding all routers
         # self._check_routes()
@@ -144,9 +138,8 @@ class AideServer(FastAPI):
             await self.savant_router.declare_acts_queues()
 
             message = (
-                f"`{self.sidename}` `{self.hid}`"
-                " powered by FastStream & FastAPI"
-                " started."
+                f"`{self.sidename}` `{self.hid}` started"
+                " and powered by FastStream & FastAPI."
             )
             logger.info(message)
 
@@ -173,6 +166,26 @@ class AideServer(FastAPI):
             )
 
         logger.info("Declared the channels.")
+
+    def include_routers(self):
+        logger.info("Adding the routers...")
+
+        # add about routers
+        self.include_router(
+            about.router(
+                name=self.name,
+                hid=self.hid,
+                sidename=self.sidename,
+                path_to_face=self.configure.path_to_face,
+            )
+        )
+        logger.info("Added the router for `About`.")
+
+        # add context routers
+        self.include_router(context.router(self.memo))
+        logger.info("Added the router for `Context`.")
+
+        logger.info("Added the routers.")
 
     # properties
 
@@ -216,10 +229,16 @@ class AideServer(FastAPI):
         description="The side of aide. Set by class name.",
     )
 
-    brainRuns: List[Callable] = Field(
-        ...,
-        title="Braint Runs",
+    brain_runs: List[Callable] = Field(
+        default=[],
+        title="Brain Runs",
         description="The runs for Brain server. Each runs should be defined into `configure.json` with same name.",
+    )
+
+    keeper_broker: Optional[KeeperBroker] = Field(
+        default=None,
+        title="Keeper Broker",
+        description="The broker for Keeper.",
     )
 
     memo: Memo = Field(

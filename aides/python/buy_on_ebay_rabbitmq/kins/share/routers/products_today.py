@@ -6,13 +6,13 @@ import traceback
 
 from ..config import *
 from ..packages.aide_server.src.aide_server.memo import Memo
-from ..packages.aide_server.src.aide_server.task import Task
+from ..packages.aide_server.src.aide_server.task import Result, Task
 
 
 logger = logging.getLogger("uvicorn.error")
 
 
-def products_today(
+async def products_today(
     task: Task,
     memo: Memo,
     publish_progress: Callable,
@@ -20,13 +20,16 @@ def products_today(
 ):
     logger.info(f"Running `{__name__}`...")
 
-    publish_progress(task=task, progress=0)
+    await publish_progress(task=task, progress=0)
 
     if use_fake_response:
-        result = _products_today_demo_ebay_json()
-        publish_progress(task=task, progress=100)
+        value = _products_today_demo_ebay_json()
+        await publish_progress(task=task, progress=100)
 
-        return publish_result(task=task, result=result)
+        return await publish_result(
+            task=task,
+            result=Result(uid_task=task.uid, value=value),
+        )
 
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
 
@@ -53,14 +56,10 @@ def products_today(
     with httpx.Client(headers=headers) as client:
         response = client.get(url, params=params)
 
-    if response.status_code == 200:
-        r = response.json()
-    else:
-        ex = "Failed to retrieve data."
-        logger.error(f"!) {ex}")
-        return ex
-
+    r = response.json()
     try:
+        if response.status_code != 200:
+            raise Exception("Failed to retrieve data.")
         o = {
             "total": r["total"],
             "href": r["href"],
@@ -86,17 +85,21 @@ def products_today(
                 "traceback": f"{traceback.format_exc()}",
             },
         }
+        logger.error(o)
 
     if include_original_response_in_response:
         o["original_response"] = r
 
-    result = {
+    value = {
         "result": o,
-        "context": app().memo.context,  # type: ignore
+        "context": app().memo.context,  # type: ignore[override]
     }
-    publish_progress(task=task, progress=100)
+    await publish_progress(task=task, progress=100)
 
-    return publish_result(task=task, result=result)
+    return await publish_result(
+        task=task,
+        result=Result(uid_task=task.uid, value=value),
+    )
 
 
 def _products_today_demo_ebay_json():

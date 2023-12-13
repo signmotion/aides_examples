@@ -59,12 +59,12 @@ class SavantRouter(fastapi.RabbitRouter):
             type=ExchangeType.TOPIC,
         )
 
-    def queryQueue(
+    def taskQueue(
         self,
         hid_act: str,
     ):
         return queue(
-            type=TypeQueue.QUERY,
+            type=TypeQueue.TASK,
             hid_act=hid_act,
             hid_server=self.hid_server,
         )
@@ -154,7 +154,7 @@ class SavantRouter(fastapi.RabbitRouter):
             logger.info(f"Declaring queues for act `{act.name['en']}`...")
 
             n = 0
-            await self.declare_queue(self.queryQueue(act.hid))
+            await self.declare_queue(self.taskQueue(act.hid))
             n += 1
             await self.declare_queue(self.progressQueue(act.hid))
             n += 1
