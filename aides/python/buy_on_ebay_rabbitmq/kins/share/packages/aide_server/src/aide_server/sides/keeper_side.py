@@ -1,4 +1,3 @@
-import logging
 from typing import List
 from fastapi import APIRouter
 from pydantic import Field
@@ -6,10 +5,9 @@ from pydantic import Field
 from .side import Side
 from ..act import Act
 from ..keeper_brokers.keeper_broker import KeeperBroker
+from ..log import logger
 from ..savant_router import SavantRouter
 from ..task import Progress, Result
-
-logger = logging.getLogger("uvicorn.error")
 
 
 class KeeperSide(Side):
@@ -31,7 +29,7 @@ class KeeperSide(Side):
         self.register_catchers_for_acts()
 
         logger.info(
-            f"Initialized `{self.name}` with keeper broker `{self.keeper_broker}`."
+            f"🏳️‍🌈 Initialized `{self.name}` with keeper broker `{self.keeper_broker}`."
         )
 
     keeper_broker: KeeperBroker = Field(
@@ -41,12 +39,12 @@ class KeeperSide(Side):
     )
 
     def register_catchers_for_acts(self):
-        logger.info("Registering catchers for act(s)...")
+        logger.info("🪶 Registering catchers for act(s)...")
 
         for act in self.acts:
             self.register_catchers_for_act(act)
 
-        logger.info(f"Registered catchers for {len(self.acts)} act(s).")
+        logger.info(f"🪶 Registered catchers for {len(self.acts)} act(s).")
 
     def register_catchers_for_act(self, act: Act):
         n = 1
@@ -73,7 +71,7 @@ class KeeperSide(Side):
                 result = Result.model_validate(result)
             self.result_catched(result)
 
-        logger.info(f"Registered {n} catchers for act `{act.hid}`.")
+        logger.info(f"🪶 Registered {n} catchers for act `{act.hid}`.")
 
     def progress_catched(self, progress: Progress):
         key = f"{progress.uid_task}.progress"

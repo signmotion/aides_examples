@@ -1,15 +1,12 @@
-import logging
 import json
 from typing import Callable
 import httpx
 import traceback
 
 from ..config import *
+from ..packages.aide_server.src.aide_server.log import logger
 from ..packages.aide_server.src.aide_server.memo import Memo
 from ..packages.aide_server.src.aide_server.task import Result, Task
-
-
-logger = logging.getLogger("uvicorn.error")
 
 
 async def products_today(

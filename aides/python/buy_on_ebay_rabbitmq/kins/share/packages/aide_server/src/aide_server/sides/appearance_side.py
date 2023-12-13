@@ -1,4 +1,3 @@
-import logging
 from typing import List
 from fastapi import APIRouter
 import uuid
@@ -6,10 +5,9 @@ import uuid
 from .side import Side
 from ..act import Act
 from ..helpers import unwrapMultilangTextList
+from ..log import logger
 from ..savant_router import SavantRouter
 from ..task import Task
-
-logger = logging.getLogger("uvicorn.error")
 
 
 class AppearanceSide(Side):
@@ -27,21 +25,21 @@ class AppearanceSide(Side):
 
         self.register_client_endpoints()
 
-        logger.info(f"Initialized `{self.name}` with acts `{self.acts}`.")
+        logger.info(f"🏳️‍🌈 Initialized `{self.name}` with acts `{self.acts}`.")
 
     def register_client_endpoints(self):
-        logger.info(f"Registering client endpoint(s) for `{self.name}`...")
+        logger.info(f"🪶 Registering client endpoint(s) for `{self.name}`...")
 
         for act in self.acts:
             self.register_client_endpoint(act)
 
         logger.info(
-            f"Registered the {len(self.acts)} client endpoint(s) for `{self.name}`."
+            f"🪶 Registered the {len(self.acts)} client endpoint(s) for `{self.name}`."
         )
 
     def register_client_endpoint(self, act: Act):
         logger.info(
-            f"Registering the client endpoint `{act.query_path}`"
+            f"🪶 Registering the client endpoint `{act.query_path}`"
             f" for `{self.name}` act `{act.hid}`..."
         )
 
@@ -75,7 +73,7 @@ class AppearanceSide(Side):
             return await self._publish_request_progress(act, uid_task)
 
         logger.info(
-            f"Registered the client endpoints `{act.paths}`"
+            f"🪶 Registered the client endpoints `{act.paths}`"
             f" for `{self.name}` act `{act.hid}`."
         )
 

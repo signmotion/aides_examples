@@ -7,13 +7,10 @@ from faststream.rabbit import (
 )
 from pydantic import Field
 import time
-import logging
 
 from .act import Act
+from .log import logger
 from .type_queue import TypeQueue
-
-
-logger = logging.getLogger("uvicorn.error")
 
 
 class SavantRouter(fastapi.RabbitRouter):
@@ -124,14 +121,14 @@ class SavantRouter(fastapi.RabbitRouter):
         declare = self.broker.declare_exchange
         ex = self.exchange()
         await declare(ex)
-        logger.info(f"Created exchange `{ex.name}` with type `{ex.type.upper()}`.")
+        logger.info(f"🌱 Created exchange `{ex.name}` with type `{ex.type.upper()}`.")
 
     async def declare_queue(self, queue: RabbitQueue):
         await self.broker.declare_queue(queue)
-        logger.info(f"\tCreated queue `{queue.name}`.   ")
+        logger.info(f"\t🌱 Created queue `{queue.name}`.   ")
 
     async def declare_service_queues(self):
-        logger.info(f"Declaring services queues...")
+        logger.info(f"🌱 Declaring services queues...")
 
         n = 0
         await self.declare_queue(self.requestProgressQueue())
@@ -145,13 +142,13 @@ class SavantRouter(fastapi.RabbitRouter):
         await self.declare_queue(self.logQueue())
         n += 1
 
-        logger.info(f"Declared {n} service(s) queues.")
+        logger.info(f"🌱 Declared {n} service(s) queues.")
 
     async def declare_acts_queues(self):
-        logger.info(f"Declaring act(s)...")
+        logger.info(f"🌱 Declaring act(s)...")
 
         for act in self.acts:
-            logger.info(f"Declaring queues for act `{act.name['en']}`...")
+            logger.info(f"🌱 Declaring queues for act `{act.name['en']}`...")
 
             n = 0
             await self.declare_queue(self.taskQueue(act.hid))
@@ -163,9 +160,9 @@ class SavantRouter(fastapi.RabbitRouter):
 
             time.sleep(0.2)
 
-            logger.info(f"Declared {n} queue(s) for act `{act.name['en']}`.")
+            logger.info(f"🌱 Declared {n} queue(s) for act `{act.name['en']}`.")
 
-        logger.info(f"Declared {len(self.acts)} act(s).")
+        logger.info(f"🌱 Declared {len(self.acts)} act(s).")
 
 
 def queue(

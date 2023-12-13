@@ -1,4 +1,3 @@
-import logging
 import time
 from typing import Any, Callable, List
 from fastapi import APIRouter
@@ -6,11 +5,10 @@ from pydantic import Field, NonNegativeFloat
 
 from .side import Side
 from ..act import Act
+from ..log import logger
 from ..memo import Memo, NoneMemo
 from ..savant_router import SavantRouter
 from ..task import Progress, Result, Task
-
-logger = logging.getLogger("uvicorn.error")
 
 
 class BrainSide(Side):
@@ -34,7 +32,7 @@ class BrainSide(Side):
         self.register_catchers_for_acts()
 
         logger.info(
-            f"Initialized `{self.name}` with runs `{self.runs}`"
+            f"🏳️‍🌈 Initialized `{self.name}` with runs `{self.runs}`"
             f" and memo `{self.memo}`."
         )
 
@@ -51,12 +49,12 @@ class BrainSide(Side):
     )
 
     def register_catchers_for_acts(self):
-        logger.info("Registering catchers for act(s)...")
+        logger.info("🪶 Registering catchers for act(s)...")
 
         for act in self.acts:
             self.register_catchers_for_act(act)
 
-        logger.info(f"Registered catchers for {len(self.acts)} act(s).")
+        logger.info(f"🪶 Registered catchers for {len(self.acts)} act(s).")
 
     def register_catchers_for_act(self, act: Act):
         n = 1
@@ -71,7 +69,7 @@ class BrainSide(Side):
                 task = Task.model_validate(task)
             await self.run_task(task)
 
-        logger.info(f"Registered {n} catcher for act `{act.hid}`.")
+        logger.info(f"🪶 Registered {n} catcher for act `{act.hid}`.")
 
     # def catch_task(self):
     #     pass

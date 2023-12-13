@@ -1,13 +1,9 @@
-import logging
 from typing import List
 from fastapi import APIRouter
 from pydantic import Field
 
 from ..act import Act
-from ..memo import Memo, NoneMemo
 from ..savant_router import SavantRouter
-
-logger = logging.getLogger("uvicorn.error")
 
 
 # Functional part of server: endpoints, tasks, etc.

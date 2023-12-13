@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 from pydantic import Field
 from sanitize_filename import sanitize
@@ -7,9 +6,7 @@ import shutil
 from typing import Any
 
 from ..keeper_brokers.keeper_broker import KeeperBroker
-
-
-logger = logging.getLogger("uvicorn.error")
+from ..log import logger
 
 
 class FilesystemKeeperBroker(KeeperBroker):
@@ -25,13 +22,13 @@ class FilesystemKeeperBroker(KeeperBroker):
         self.path_prefix = path_prefix
 
         if clear:
-            logger.info(f"Purging the storage `{self}`...")
+            logger.info(f"🔥 Purging the storage `{self}`...")
             shutil.rmtree(self.path_prefix)
-            logger.info(f"Purged the storage `{self}`.")
+            logger.info(f"🔥 Purged the storage `{self}`.")
 
         os.makedirs(self.path_prefix, exist_ok=True)
 
-        logger.info(f"Initialized `{self.name}` with path prefix `{self.path_prefix}`.")
+        logger.info(f"🏳️‍🌈 Initialized `{self.name}` with path `{self.path_prefix}`.")
 
     path_prefix: str = Field(
         ...,

@@ -7,6 +7,7 @@ from pydantic import Field
 from .configure import Configure
 from .helpers import unwrapMultilangTextList, skip_check_route
 from .keeper_brokers.keeper_broker import KeeperBroker
+from .log import logger
 from .memo import Memo, NoneMemo
 from .routers import about, context
 from .savant_router import SavantRouter
@@ -14,8 +15,6 @@ from .sides.appearance_side import AppearanceSide
 from .sides.brain_side import BrainSide
 from .sides.keeper_side import KeeperSide
 from .sides.side import Side
-
-logger = logging.getLogger("uvicorn.error")
 
 
 class AideServer(FastAPI):
@@ -87,7 +86,7 @@ class AideServer(FastAPI):
         self.include_routers()
 
     def register_side(self):
-        logger.info(f"Initializing the side `{self.sidename}`...")
+        logger.info(f"🏳️‍🌈 Initializing the side `{self.sidename}`...")
 
         # adding runs as external routers
         router = APIRouter()
@@ -117,19 +116,19 @@ class AideServer(FastAPI):
                 keeper_broker=self.keeper_broker,
             )
 
-        logger.info(f"Initialized the side `{self.sidename}`.")
+        logger.info(f"🏳️‍🌈 Initialized the side `{self.sidename}`.")
 
         self.include_router(router)
-        logger.info(f"Included the router to the side `{self.sidename}`.")
+        logger.info(f"🍁 Included the router to the side `{self.sidename}`.")
 
         # !) call this functions after adding all routers
         # self._check_routes()
         # self._use_route_names_as_operation_ids()
 
-        logger.info(f"Registered the side `{self.sidename}`.")
+        logger.info(f"🪶 Registered the side `{self.sidename}`.")
 
     def declare_channels(self):
-        logger.info("Declaring the channels...")
+        logger.info("🌱 Declaring the channels...")
 
         @self.savant_router.after_startup
         async def app_started(app: AideServer):
@@ -138,13 +137,13 @@ class AideServer(FastAPI):
             await self.savant_router.declare_acts_queues()
 
             message = (
-                f"`{self.sidename}` `{self.hid}` started"
+                f"🚩 `{self.sidename}` `{self.hid}` started"
                 " and powered by FastStream & FastAPI."
             )
             logger.info(message)
 
             logger.info(
-                f"Testing connection to Savant `{self.savant_router.broker.url}`"
+                f"😎 Testing connection to Savant `{self.savant_router.broker.url}`"
                 f" from `{self.sidename}` `{self.hid}`..."
             )
             await self.savant_router.broker.publish(
@@ -160,15 +159,15 @@ class AideServer(FastAPI):
         )
         async def check_connection_to_savant(message: str):
             logger.info(
-                "Connection to Savant"
+                "😎 Connection to Savant"
                 f" from `{self.sidename}` `{self.hid}` confirmed."
                 # f' Message received: "{message[:24]}...{message[-12:]}"'
             )
 
-        logger.info("Declared the channels.")
+        logger.info("🌱 Declared the channels.")
 
     def include_routers(self):
-        logger.info("Adding the routers...")
+        logger.info("🍁 Adding the routers...")
 
         # add about routers
         self.include_router(
@@ -179,13 +178,13 @@ class AideServer(FastAPI):
                 path_to_face=self.configure.path_to_face,
             )
         )
-        logger.info("Added the router for `About`.")
+        logger.info("🍁 Added the router for `About`.")
 
         # add context routers
         self.include_router(context.router(self.memo))
-        logger.info("Added the router for `Context`.")
+        logger.info("🍁 Added the router for `Context`.")
 
-        logger.info("Added the routers.")
+        logger.info("🍁 Added the routers.")
 
     # properties
 
