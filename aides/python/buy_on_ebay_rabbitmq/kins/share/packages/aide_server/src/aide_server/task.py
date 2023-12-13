@@ -8,11 +8,11 @@ class Task(BaseModel):
         description="UID of task. We can access to the task known only this UID.",
     )
 
-    nickname_act: str = Field(
+    hid_act: str = Field(
         ...,
-        title="Nickname Act",
+        title="HID Act",
         description="Nick name of act aide.",
     )
 
     def __str__(self):
-        return f"{self.uid}:{self.nickname_act}"
+        return f"{self.uid}:{self.hid_act}"

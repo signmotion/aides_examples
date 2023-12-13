@@ -1,6 +1,6 @@
 {
   "name": { "en": "Auction eBay" },
-  "nickname": "auction_ebay",
+  "hid": "auction_ebay",
   "summary": { "en": "The aide for work with the eBay's auction." },
   "description": { "en": "Appraise purchases items from eBay's auction." },
   "tags": [
@@ -43,7 +43,7 @@
   "acts": [
     {
       "name": { "en": "Products Today" },
-      "nickname": "products_today",
+      "hid": "products_today",
       "summary": { "en": "Returns a list of recent products from auction." },
       "description": {
         "en": "Returns a list of auction products no later than the last 24 hours."

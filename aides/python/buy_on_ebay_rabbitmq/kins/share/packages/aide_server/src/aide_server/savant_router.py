@@ -20,24 +20,24 @@ class SavantRouter(fastapi.RabbitRouter):
     def __init__(
         self,
         connector: str,
-        nickname_server: str,
+        hid_server: str,
         sidename_server: str,
         acts: List[Act],
     ):
         assert connector.strip()
-        assert nickname_server.strip()
+        assert hid_server.strip()
         assert sidename_server.strip()
 
         super().__init__(connector)
 
-        self.nickname_server = nickname_server
+        self.hid_server = hid_server
         self.sidename_server = sidename_server
         self.acts = acts
 
-    nickname_server: str = Field(
+    hid_server: str = Field(
         ...,
-        title="Nickname Server",
-        description="The nickname of server.",
+        title="HID Server",
+        description="The hid of server.",
     )
 
     sidename_server: str = Field(
@@ -61,63 +61,63 @@ class SavantRouter(fastapi.RabbitRouter):
 
     def queryQueue(
         self,
-        nickname_act: str,
+        hid_act: str,
     ):
         return queue(
             type=TypeQueue.QUERY,
-            nickname_act=nickname_act,
-            nickname_server=self.nickname_server,
+            hid_act=hid_act,
+            hid_server=self.hid_server,
         )
 
     def progressQueue(
         self,
-        nickname_act: str,
+        hid_act: str,
     ):
         return queue(
             type=TypeQueue.PROGRESS,
-            nickname_act=nickname_act,
-            nickname_server=self.nickname_server,
+            hid_act=hid_act,
+            hid_server=self.hid_server,
         )
 
     def resultQueue(
         self,
-        nickname_act: str,
+        hid_act: str,
     ):
         return queue(
             type=TypeQueue.RESULT,
-            nickname_act=nickname_act,
-            nickname_server=self.nickname_server,
+            hid_act=hid_act,
+            hid_server=self.hid_server,
         )
 
     def requestProgressQueue(self):
         return queue(
             type=TypeQueue.REQUEST_PROGRESS,
-            nickname_server=self.nickname_server,
+            hid_server=self.hid_server,
         )
 
     def requestResultQueue(self):
         return queue(
             type=TypeQueue.REQUEST_RESULT,
-            nickname_server=self.nickname_server,
+            hid_server=self.hid_server,
         )
 
     def responseProgressQueue(self):
         return queue(
             type=TypeQueue.RESPONSE_PROGRESS,
-            nickname_server=self.nickname_server,
+            hid_server=self.hid_server,
         )
 
     def responseResultQueue(self):
         return queue(
             type=TypeQueue.RESPONSE_RESULT,
-            nickname_server=self.nickname_server,
+            hid_server=self.hid_server,
         )
 
     def logQueue(self):
         return queue(
             type=TypeQueue.LOG,
             sidename_server=self.sidename_server,
-            nickname_server=self.nickname_server,
+            hid_server=self.hid_server,
         )
 
     async def declare_exchange(self):
@@ -154,11 +154,11 @@ class SavantRouter(fastapi.RabbitRouter):
             logger.info(f"Declaring queues for act `{act.name['en']}`...")
 
             n = 0
-            await self.declare_queue(self.queryQueue(act.nickname))
+            await self.declare_queue(self.queryQueue(act.hid))
             n += 1
-            await self.declare_queue(self.progressQueue(act.nickname))
+            await self.declare_queue(self.progressQueue(act.hid))
             n += 1
-            await self.declare_queue(self.resultQueue(act.nickname))
+            await self.declare_queue(self.resultQueue(act.hid))
             n += 1
 
             time.sleep(0.2)
@@ -170,15 +170,15 @@ class SavantRouter(fastapi.RabbitRouter):
 
 def queue(
     type: TypeQueue,
-    nickname_act: str = "",
+    hid_act: str = "",
     sidename_server: str = "",
-    nickname_server: str = "",
+    hid_server: str = "",
 ):
     keys = [
         type.name.lower(),
-        nickname_act,
+        hid_act,
         sidename_server.lower() if sidename_server else None,
-        nickname_server,
+        hid_server,
     ]
     name = ".".join(filter(None, keys))
 

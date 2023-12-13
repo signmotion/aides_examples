@@ -9,15 +9,15 @@ class Act(BaseModel):
         description="Name of act aide.",
     )
 
-    nickname: str = Field(
+    hid: str = Field(
         ...,
-        title="Nickname",
+        title="HID",
         description="Nick name of act aide.",
     )
 
     @property
     def path(self):
-        return f"/{self.nickname.replace('_', '-')}"
+        return f"/{self.hid.replace('_', '-')}"
 
     summary: Dict[str, str] = Field(
         default={},

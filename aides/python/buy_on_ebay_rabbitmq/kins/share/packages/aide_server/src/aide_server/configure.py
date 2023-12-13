@@ -11,9 +11,9 @@ class Configure(BaseModel):
         description="Name of aide.",
     )
 
-    nickname: str = Field(
+    hid: str = Field(
         ...,
-        title="Nickname",
+        title="HID",
         description="Nick name of aide.",
     )
 
@@ -37,7 +37,7 @@ class Configure(BaseModel):
 
     path_to_face: str = Field(
         default="",
-        title="Nickname",
+        title="HID",
         description="Nick name of aide.",
     )
 

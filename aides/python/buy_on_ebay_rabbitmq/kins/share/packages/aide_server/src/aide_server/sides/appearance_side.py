@@ -44,21 +44,19 @@ class AppearanceSide(Side):
             summary=act.summary["en"],
             description=act.description["en"],
             tags=unwrapMultilangTextList(act.tags, "en"),  # type: ignore
-            operation_id=act.nickname,
+            operation_id=act.hid,
         )
         async def endpoint():
-            logger.warn(f"Call endpoint `{act.nickname}`")
+            logger.warn(f"Call endpoint `{act.hid}`")
 
             return await self._publish_task(act)
 
-        logger.info(
-            f"Registered the client endpoint `{act.nickname}` for `{self.name}`."
-        )
+        logger.info(f"Registered the client endpoint `{act.hid}` for `{self.name}`.")
 
     async def _publish_task(self, act: Act):
         exchange = self.savant_router.exchange()
-        queue = self.savant_router.queryQueue(act.nickname)
-        task = Task(uid=str(uuid.uuid4()), nickname_act=act.nickname)
+        queue = self.savant_router.queryQueue(act.hid)
+        task = Task(uid=str(uuid.uuid4()), hid_act=act.hid)
 
         logger.warn(f"Publish task message: {task}")
         await self.savant_router.broker.publish(

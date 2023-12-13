@@ -28,7 +28,7 @@ queue = RabbitQueue(
     auto_delete=True,
     bind_arguments={
         "act": "test",
-        "nickname": "a",
+        "hid": "a",
     },
 )
 

@@ -4,7 +4,7 @@ from fastapi.responses import FileResponse
 
 def router(
     name: str,
-    nickname: str,
+    hid: str,
     sidename: str,
     path_to_face: str,
 ):
@@ -17,7 +17,7 @@ def router(
     def root():
         return {
             "name": name,
-            "nickname": nickname,
+            "hid": hid,
             "sidename": sidename,
         }
 

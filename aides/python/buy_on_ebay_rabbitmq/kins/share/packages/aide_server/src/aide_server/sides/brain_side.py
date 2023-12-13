@@ -53,7 +53,7 @@ class BrainSide(Side):
         logger.info(f"Registered subscribers for {len(self.acts)} act(s)...")
 
     def register_subscribers_for_act(self, act: Act):
-        queue = self.savant_router.queryQueue(act.nickname)
+        queue = self.savant_router.queryQueue(act.hid)
         exchange = self.savant_router.exchange()
 
         @self.savant_router.broker.subscriber(queue, exchange)
@@ -63,7 +63,7 @@ class BrainSide(Side):
                 task = Task.model_validate(task)  # type: ignore
             self.run_task(task)
 
-        logger.info(f"Registered subscribers for act `{act.nickname}` to Savant.")
+        logger.info(f"Registered subscribers for act `{act.hid}` to Savant.")
 
     # def catch_task(self):
     #     pass
@@ -71,16 +71,14 @@ class BrainSide(Side):
     def run_task(self, task: Task):
         found_run = None
         for run in self.runs:
-            logger.info(
-                f"Looking at act `{task.nickname_act}` into run `{run.__name__}`..."
-            )
-            if task.nickname_act in run.__name__:
-                logger.info(f"Run for act `{task.nickname_act}` found.")
+            logger.info(f"Looking at act `{task.hid_act}` into run `{run.__name__}`...")
+            if task.hid_act in run.__name__:
+                logger.info(f"Run for act `{task.hid_act}` found.")
                 found_run = run
                 break
 
         if not found_run:
-            raise Exception(f"Not found a run for act {task.nickname_act}.")
+            raise Exception(f"Not found a run for act {task.hid_act}.")
 
         found_run(
             task=task,
