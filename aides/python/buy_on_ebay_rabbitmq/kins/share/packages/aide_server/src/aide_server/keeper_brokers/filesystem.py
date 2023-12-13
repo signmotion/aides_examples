@@ -3,6 +3,7 @@ import logging
 import os
 from pydantic import Field
 from sanitize_filename import sanitize
+import shutil
 from typing import Any
 
 from ..keeper_brokers.keeper_broker import KeeperBroker
@@ -12,12 +13,21 @@ logger = logging.getLogger("uvicorn.error")
 
 
 class FilesystemKeeperBroker(KeeperBroker):
-    def __init__(self, path_prefix: str):
+    def __init__(
+        self,
+        path_prefix: str,
+        clear: bool = True,
+    ):
         assert path_prefix
 
-        super().__init__()
+        super().__init__(clear=clear)
 
         self.path_prefix = path_prefix
+
+        if clear:
+            logger.info(f"Purging the storage `{self}`...")
+            shutil.rmtree(self.path_prefix)
+            logger.info(f"Purged the storage `{self}`.")
 
         os.makedirs(self.path_prefix, exist_ok=True)
 

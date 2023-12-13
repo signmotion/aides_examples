@@ -3,8 +3,9 @@ from typing import Any
 
 
 class KeeperBroker:
-    def __init__(self):
+    def __init__(self, clear: bool = True):
         self.name = type(self).__name__
+        self.clear = clear
 
     def get(self, key: str):
         raise Exception("Should be implemented.")
