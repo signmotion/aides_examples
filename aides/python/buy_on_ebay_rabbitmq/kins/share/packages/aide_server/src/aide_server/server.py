@@ -99,6 +99,7 @@ class AideServer(FastAPI):
                 acts=self.configure.acts,
             )
         elif self.sidename == "brain":
+            assert bool(self.brain_runs)
             assert len(self.brain_runs) == len(self.configure.acts)
             self.side = BrainSide(
                 router,

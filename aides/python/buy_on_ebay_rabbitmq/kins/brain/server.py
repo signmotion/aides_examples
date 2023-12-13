@@ -14,8 +14,6 @@ class Brain(AideServer):
         super().__init__(
             language="en",
             configure=configure,
-            brain_runs=[
-                products_today,
-            ],
+            brain_runs=[products_today],
             memo=Memo(test_context_smarthone() if use_test_context else Context()),
         )
