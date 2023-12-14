@@ -1,14 +1,13 @@
-import logging
 from fastapi import APIRouter, FastAPI, routing
-
-from typing import Callable, List, Optional
+import logging
 from pydantic import Field
+from typing import Callable, List
 
 from .configure import Configure
+from .context_memo import ContextMemo, NoneContextMemo
 from .helpers import unwrapMultilangTextList, skip_check_route
-from .keeper_brokers.keeper_broker import KeeperBroker
+from .inner_memo import InnerMemo, NoneInnerMemo
 from .log import logger
-from .memo import Memo, NoneMemo
 from .routers import about, context
 from .savant_router import SavantRouter
 from .sides.appearance_side import AppearanceSide
@@ -25,11 +24,11 @@ class AideServer(FastAPI):
     def __init__(
         self,
         *,
-        language: str,
         configure: Configure,
         brain_runs: List[Callable] = [],
-        keeper_broker: Optional[KeeperBroker] = None,
-        memo: Memo = NoneMemo(),
+        inner_memo: InnerMemo = NoneInnerMemo(),
+        context_memo: ContextMemo = NoneContextMemo(),
+        language: str = "en",
         debug_level: int = logging.INFO,
     ):
         logging.basicConfig(level=debug_level)
@@ -54,7 +53,7 @@ class AideServer(FastAPI):
 
         sidename = type(self).__name__.lower()
 
-        name = configure.name.get(language) or "AideServer"
+        name = configure.name.get(language) or "Aide Server"
         savant_router = SavantRouter(
             configure.savantConnector,
             hid_server=configure.hid,
@@ -77,8 +76,8 @@ class AideServer(FastAPI):
         self.tags = tags
         self.configure = configure
         self.brain_runs = brain_runs
-        self.keeper_broker = keeper_broker
-        self.memo = memo
+        self.inner_memo = inner_memo
+        self.context_memo = context_memo
         self.savant_router = savant_router
 
         self.register_side()
@@ -93,10 +92,18 @@ class AideServer(FastAPI):
 
         # TODO Wrap to factory.
         if self.sidename == "appearance":
+            if isinstance(self.context_memo, NoneContextMemo):
+                raise Exception("The Appearance should have a context memo.")
+
+            # add context routers
+            self.include_router(context.router(self.context_memo))
+            logger.info("🍁 Added the router for `Context`.")
+
             self.side = AppearanceSide(
                 router,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
+                inner_memo=self.inner_memo,
             )
         elif self.sidename == "brain":
             assert bool(self.brain_runs)
@@ -106,15 +113,13 @@ class AideServer(FastAPI):
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
                 runs=self.brain_runs,
-                memo=self.memo,
             )
         elif self.sidename == "keeper":
-            assert self.keeper_broker
             self.side = KeeperSide(
                 router,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
-                keeper_broker=self.keeper_broker,
+                inner_memo=self.inner_memo,
             )
 
         logger.info(f"🏳️‍🌈 Initialized the side `{self.sidename}`.")
@@ -181,10 +186,6 @@ class AideServer(FastAPI):
         )
         logger.info("🍁 Added the router for `About`.")
 
-        # add context routers
-        self.include_router(context.router(self.memo))
-        logger.info("🍁 Added the router for `Context`.")
-
         logger.info("🍁 Added the routers.")
 
     # properties
@@ -233,18 +234,6 @@ class AideServer(FastAPI):
         default=[],
         title="Brain Runs",
         description="The runs for Brain server. Each runs should be defined into `configure.json` with same name.",
-    )
-
-    keeper_broker: Optional[KeeperBroker] = Field(
-        default=None,
-        title="Keeper Broker",
-        description="The broker for Keeper.",
-    )
-
-    memo: Memo = Field(
-        default=NoneMemo(),
-        title="Memo",
-        description="The memory of aide. Keep a generic context.",
     )
 
     savant_router: SavantRouter = Field(

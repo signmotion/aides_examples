@@ -1,4 +1,3 @@
-from typing import List
 from faststream.rabbit import (
     ExchangeType,
     RabbitExchange,
@@ -7,6 +6,7 @@ from faststream.rabbit import (
 )
 from pydantic import Field
 import time
+from typing import List
 
 from .act import Act
 from .log import logger

@@ -1,8 +1,9 @@
-from typing import List
 from fastapi import APIRouter
 from pydantic import Field
+from typing import List
 
 from ..act import Act
+from ..inner_memo import InnerMemo, NoneInnerMemo
 from ..savant_router import SavantRouter
 
 
@@ -13,11 +14,13 @@ class Side:
         router: APIRouter,
         savant_router: SavantRouter,
         acts: List[Act],
+        inner_memo: InnerMemo,
     ):
         self.name = type(self).__name__.replace("Side", "").lower()
         self.router = router
         self.savant_router = savant_router
         self.acts = acts
+        self.inner_memo = inner_memo
 
     name: str = Field(
         ...,
@@ -41,4 +44,10 @@ class Side:
         default=[],
         title="Acts Aide",
         description="Possible acts this aide.",
+    )
+
+    inner_memo: InnerMemo = Field(
+        default=NoneInnerMemo(),
+        title="Inner Memo",
+        description="The inner memory.",
     )

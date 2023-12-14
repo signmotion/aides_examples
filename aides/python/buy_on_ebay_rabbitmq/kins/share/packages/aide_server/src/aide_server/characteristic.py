@@ -1,5 +1,5 @@
-from typing import Dict, List
 from pydantic import BaseModel, Field, PositiveInt
+from typing import Dict, List
 
 
 class Characteristic(BaseModel):

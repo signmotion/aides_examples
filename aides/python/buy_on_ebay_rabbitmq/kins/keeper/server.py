@@ -1,10 +1,10 @@
 from ..share.config import *
-from ..share.context import Context, test_context_smarthone
 from ..share.packages.aide_server.src.aide_server.configure import Configure
-from ..share.packages.aide_server.src.aide_server.keeper_brokers.filesystem import (
-    FilesystemKeeperBroker,
+from ..share.packages.aide_server.src.aide_server.inner_memo import InnerMemo
+from ..share.packages.aide_server.src.aide_server.memo_brokers.filesystem import (
+    FilesystemMemoBroker,
 )
-from ..share.packages.aide_server.src.aide_server.server import AideServer, Memo
+from ..share.packages.aide_server.src.aide_server.server import AideServer
 
 
 with open("kins/share/configure.json", "r") as file:
@@ -14,8 +14,8 @@ with open("kins/share/configure.json", "r") as file:
 class Keeper(AideServer):
     def __init__(self):
         super().__init__(
-            language="en",
             configure=configure,
-            keeper_broker=FilesystemKeeperBroker(path_prefix="local_storage"),
-            memo=Memo(test_context_smarthone() if use_test_context else Context()),
+            inner_memo=InnerMemo(
+                FilesystemMemoBroker(path_prefix="keeper_inner_memo"),
+            ),
         )

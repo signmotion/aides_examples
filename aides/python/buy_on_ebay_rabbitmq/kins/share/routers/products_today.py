@@ -1,17 +1,16 @@
 import json
-from typing import Callable
 import httpx
 import traceback
+from typing import Callable
 
 from ..config import *
 from ..packages.aide_server.src.aide_server.log import logger
-from ..packages.aide_server.src.aide_server.memo import Memo
 from ..packages.aide_server.src.aide_server.task import Result, Task
 
 
 async def products_today(
     task: Task,
-    memo: Memo,
+    # TODO memo: ContextMemo,
     publish_progress: Callable,
     publish_result: Callable,
 ):
@@ -57,6 +56,7 @@ async def products_today(
     try:
         if response.status_code != 200:
             raise Exception("Failed to retrieve data.")
+
         o = {
             "total": r["total"],
             "href": r["href"],

@@ -1,10 +1,11 @@
-from typing import List
 from fastapi import APIRouter
 from pydantic import Field
+from typing import List
 
 from .side import Side
+
 from ..act import Act
-from ..keeper_brokers.keeper_broker import KeeperBroker
+from ..inner_memo import InnerMemo
 from ..log import logger
 from ..savant_router import SavantRouter
 from ..task import Progress, Result
@@ -16,27 +17,20 @@ class KeeperSide(Side):
         router: APIRouter,
         savant_router: SavantRouter,
         acts: List[Act],
-        keeper_broker: KeeperBroker,
+        inner_memo: InnerMemo,
     ):
         super().__init__(
             router=router,
             savant_router=savant_router,
             acts=acts,
+            inner_memo=inner_memo,
         )
-
-        self.keeper_broker = keeper_broker
 
         self.register_catchers_for_acts()
 
         logger.info(
-            f"🏳️‍🌈 Initialized `{self.name}` with keeper broker `{self.keeper_broker}`."
+            f"🏳️‍🌈 Initialized `{self.name}` with inner memory `{self.inner_memo}`."
         )
-
-    keeper_broker: KeeperBroker = Field(
-        ...,
-        title="Keeper Broker",
-        description="The broker for save and load data.",
-    )
 
     def register_catchers_for_acts(self):
         logger.info("🪶 Registering catchers for act(s)...")
@@ -61,6 +55,7 @@ class KeeperSide(Side):
 
         n += 1
 
+        # TODO Replace to `self.savant_broker.subscriber()` or `self.catcher()`.
         @self.savant_router.broker.subscriber(
             queue=self.savant_router.resultQueue(act.hid),
             exchange=self.savant_router.exchange(),
@@ -69,17 +64,32 @@ class KeeperSide(Side):
             logger.info(f"Catched a result `{result}`.")
             if isinstance(result, dict):
                 result = Result.model_validate(result)
-            self.result_catched(result)
+            await self.result_catched(result)
+
+        n += 1
+
+        @self.savant_router.broker.subscriber(
+            queue=self.savant_router.requestProgressQueue(),
+            exchange=self.savant_router.exchange(),
+        )
+        async def request_progress_catcher(uid_task: str):
+            logger.info(f"Catched a request progress for task `{uid_task}`.")
+            await self.request_progress_catched(uid_task)
 
         logger.info(f"🪶 Registered {n} catchers for act `{act.hid}`.")
 
     def progress_catched(self, progress: Progress):
         key = f"{progress.uid_task}.progress"
-        self.keeper_broker.put(key, progress.value)
+        self.inner_memo.put(key, progress.value)
 
-    def result_catched(self, result: Result):
+    async def result_catched(self, result: Result):
         key = f"{result.uid_task}.result"
-        self.keeper_broker.put(key, result.value)
+        self.inner_memo.put(key, result.value)
+
+    async def request_progress_catched(self, uid_task: str):
+        key = f"{uid_task}.progress"
+        value = self.inner_memo.get(key)
+        await self._publish_response_progress(uid_task, value=float(value))
 
     # def catch_progress(self):
     #     pass
@@ -87,8 +97,8 @@ class KeeperSide(Side):
     # def catch_result(self):
     #     pass
 
-    def catch_requested_progress(self):
-        pass
+    # def catch_requested_progress(self):
+    #     pass
 
     def publish_requested_progress(self):
         pass
@@ -98,3 +108,22 @@ class KeeperSide(Side):
 
     def publish_request_result(self):
         pass
+
+    # catcher: Appearance
+    async def _publish_response_progress(self, uid_task: str, value: float):
+        exchange = self.savant_router.exchange()
+        queue = self.savant_router.responseProgressQueue()
+
+        logger.info(
+            f"Publish a response progress for task `{uid_task}` to Savant:"
+            f" exchange `{exchange.name}`, queue `{queue.name}`."
+        )
+        # TODO Replace to `self.savant_broker.publish()` or `self.publish()`.
+        await self.savant_router.broker.publish(
+            Progress(uid_task=uid_task, value=value),
+            queue=queue,
+            exchange=exchange,
+            timeout=6,
+        )
+
+        return True

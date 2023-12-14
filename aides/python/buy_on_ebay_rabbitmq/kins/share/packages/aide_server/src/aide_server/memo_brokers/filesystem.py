@@ -5,15 +5,15 @@ from sanitize_filename import sanitize
 import shutil
 from typing import Any
 
-from ..keeper_brokers.keeper_broker import KeeperBroker
 from ..log import logger
+from ..memo_brokers.memo_broker import MemoBroker
 
 
-class FilesystemKeeperBroker(KeeperBroker):
+class FilesystemMemoBroker(MemoBroker):
     def __init__(
         self,
         path_prefix: str,
-        clear: bool = True,
+        clear: bool = False,
     ):
         assert path_prefix
 
@@ -21,7 +21,7 @@ class FilesystemKeeperBroker(KeeperBroker):
 
         self.path_prefix = path_prefix
 
-        if clear:
+        if clear and os.path.exists(self.path_prefix):
             logger.info(f"🔥 Purging the storage `{self}`...")
             shutil.rmtree(self.path_prefix)
             logger.info(f"🔥 Purged the storage `{self}`.")

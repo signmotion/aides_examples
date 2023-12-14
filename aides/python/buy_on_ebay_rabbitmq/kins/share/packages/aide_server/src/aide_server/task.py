@@ -1,5 +1,5 @@
-from typing import Any
 from pydantic import BaseModel, Field, NonNegativeFloat
+from typing import Any
 
 
 class Task(BaseModel):

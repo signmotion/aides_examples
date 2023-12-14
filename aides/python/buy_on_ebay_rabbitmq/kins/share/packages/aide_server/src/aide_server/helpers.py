@@ -1,5 +1,5 @@
-from typing import Dict, List
 from fastapi import routing
+from typing import Dict, List
 
 
 def skip_check_route(route: routing.APIRoute) -> bool:

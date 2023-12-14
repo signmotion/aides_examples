@@ -1,12 +1,13 @@
-import time
-from typing import Any, Callable, List
 from fastapi import APIRouter
 from pydantic import Field, NonNegativeFloat
+import time
+from typing import Any, Callable, List
 
 from .side import Side
+
 from ..act import Act
+from ..inner_memo import NoneInnerMemo
 from ..log import logger
-from ..memo import Memo, NoneMemo
 from ..savant_router import SavantRouter
 from ..task import Progress, Result, Task
 
@@ -18,34 +19,27 @@ class BrainSide(Side):
         savant_router: SavantRouter,
         acts: List[Act],
         runs: List[Callable],
-        memo: Memo,
     ):
         super().__init__(
             router=router,
             savant_router=savant_router,
             acts=acts,
+            inner_memo=NoneInnerMemo(),
         )
 
         self.runs = runs
-        self.memo = memo
 
         self.register_catchers_for_acts()
 
         logger.info(
             f"🏳️‍🌈 Initialized `{self.name}` with runs `{self.runs}`"
-            f" and memo `{self.memo}`."
+            f" and inner memo `{self.inner_memo}`."
         )
 
     runs: List[Callable] = Field(
         ...,
         title="Braint Runs",
         description="The runs for Brain server. Each runs should be defined into `configure.json` with same name.",
-    )
-
-    memo: Memo = Field(
-        default=NoneMemo(),
-        title="Memo",
-        description="The memory of aide. Keep a generic context.",
     )
 
     def register_catchers_for_acts(self):
@@ -88,7 +82,6 @@ class BrainSide(Side):
 
         await found_run(
             task=task,
-            memo=self.memo,
             publish_progress=self.publish_progress,
             publish_result=self.publish_result,
         )

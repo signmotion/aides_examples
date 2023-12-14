@@ -1,9 +1,10 @@
-import json
 from fastapi import APIRouter, Body
-from ..memo import Memo
+import json
+
+from ..context_memo import ContextMemo
 
 
-def router(memo: Memo):
+def router(memo: ContextMemo):
     api = APIRouter()
 
     @api.get("/schema")

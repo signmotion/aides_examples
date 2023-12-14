@@ -1,14 +1,8 @@
-from typing import Dict, List
 from pydantic import BaseModel, Field
+from typing import Dict, List
 
 
 class Act(BaseModel):
-    name: Dict[str, str] = Field(
-        ...,
-        title="Name",
-        description="Name of act aide.",
-    )
-
     hid: str = Field(
         ...,
         title="HID",
@@ -16,20 +10,26 @@ class Act(BaseModel):
     )
 
     @property
-    def query_path(self):
-        return f"/{self.hid.replace('_', '-')}"
-
-    @property
-    def progress_path(self):
-        return f"{self.query_path}/progress/" "{uid_task}"
-
-    @property
-    def result_path(self):
-        return f"{self.query_path}/result"
+    def path_request_result(self):
+        return f"{self.path}/request-result" "{uid_task}"
 
     @property
     def paths(self):
-        return [self.query_path, self.progress_path, self.result_path]
+        return [self.path, self.path_request_progress, self.path_request_result]
+
+    # call act (send task to Brain)
+    @property
+    def path(self):
+        """
+        Endpoint to call this act.
+        """
+        return f"/{self.hid.replace('_', '-')}"
+
+    name: Dict[str, str] = Field(
+        ...,
+        title="Name",
+        description="Name of act aide.",
+    )
 
     summary: Dict[str, str] = Field(
         default={},
@@ -49,23 +49,51 @@ class Act(BaseModel):
         description="Tags for act aide.",
     )
 
+    # request progress (send request to Keeper)
     @property
-    def name_progress(self):
-        return {"en": f"Progress of {self.name['en']}"}
+    def path_request_progress(self):
+        return f"{self.path}/request-progress/" "{uid_task}"
 
     @property
-    def summary_progress(self):
-        return {"en": f"Progress value for {self.name['en']}."}
+    def name_request_progress(self):
+        return {"en": f"Request progress for {self.name['en']}"}
 
     @property
-    def description_progress(self):
+    def summary_request_progress(self):
+        return {"en": f"Request progress value for {self.name['en']}."}
+
+    @property
+    def description_request_progress(self):
         return {
-            "en": f"Percentage progress for {self.name['en']}. Range: [0.0; 100.0]."
+            "en": f"Request progress in percentage for {self.name['en']}. Range: [0.0; 100.0]."
         }
 
     @property
-    def tags_progress(self):
-        return self.tags + [{"en": "progress"}]
+    def tags_request_progress(self):
+        return self.tags + [{"en": "progress"}, {"en": "request"}]
+
+    # response progress (get requested progress from appearance memory)
+    @property
+    def path_response_progress(self):
+        return f"{self.path}/response-progress/" "{uid_task}"
+
+    @property
+    def name_response_progress(self):
+        return {"en": f"Response progress for {self.name['en']}"}
+
+    @property
+    def summary_response_progress(self):
+        return {"en": f"Response progress value for {self.name['en']}."}
+
+    @property
+    def description_response_progress(self):
+        return {
+            "en": f"Response progress in percentage for {self.name['en']}. Range: [0.0; 100.0]."
+        }
+
+    @property
+    def tags_response_progress(self):
+        return self.tags + [{"en": "progress"}, {"en": "response"}]
 
     version: str = Field(
         default="0.1.0",
