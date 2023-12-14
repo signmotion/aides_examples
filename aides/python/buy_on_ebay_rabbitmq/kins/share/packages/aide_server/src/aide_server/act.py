@@ -10,14 +10,10 @@ class Act(BaseModel):
     )
 
     @property
-    def path_request_result(self):
-        return f"{self.path}/request-result" "{uid_task}"
-
-    @property
     def paths(self):
         return [self.path, self.path_request_progress, self.path_request_result]
 
-    # call act (send task to Brain)
+    # CALL ACT or TASK (send task to Brain)
     @property
     def path(self):
         """
@@ -49,7 +45,7 @@ class Act(BaseModel):
         description="Tags for act aide.",
     )
 
-    # request progress (send request to Keeper)
+    # REQUEST PROGRESS (send request to Keeper)
     @property
     def path_request_progress(self):
         return f"{self.path}/request-progress/" "{uid_task}"
@@ -72,7 +68,7 @@ class Act(BaseModel):
     def tags_request_progress(self):
         return self.tags + [{"en": "progress"}, {"en": "request"}]
 
-    # response progress (get requested progress from appearance memory)
+    # RESPONSE PROGRESS (get requested progress from appearance memory)
     @property
     def path_response_progress(self):
         return f"{self.path}/response-progress/" "{uid_task}"
@@ -94,6 +90,48 @@ class Act(BaseModel):
     @property
     def tags_response_progress(self):
         return self.tags + [{"en": "progress"}, {"en": "response"}]
+
+    # REQUEST RESULT (send request to Keeper)
+    @property
+    def path_request_result(self):
+        return f"{self.path}/request-result/" "{uid_task}"
+
+    @property
+    def name_request_result(self):
+        return {"en": f"Request result for {self.name['en']}"}
+
+    @property
+    def summary_request_result(self):
+        return {"en": f"Request result value for {self.name['en']}."}
+
+    @property
+    def description_request_result(self):
+        return {"en": f"Request result for {self.name['en']} from Keeper."}
+
+    @property
+    def tags_request_result(self):
+        return self.tags + [{"en": "result"}, {"en": "request"}]
+
+    # RESPONSE RESULT (get requested result from appearance memory)
+    @property
+    def path_response_result(self):
+        return f"{self.path}/response-result/" "{uid_task}"
+
+    @property
+    def name_response_result(self):
+        return {"en": f"Response result for {self.name['en']}"}
+
+    @property
+    def summary_response_result(self):
+        return {"en": f"Response result value for {self.name['en']}."}
+
+    @property
+    def description_response_result(self):
+        return {"en": f"Response result for {self.name['en']} from Keeper."}
+
+    @property
+    def tags_response_result(self):
+        return self.tags + [{"en": "result"}, {"en": "response"}]
 
     version: str = Field(
         default="0.1.0",

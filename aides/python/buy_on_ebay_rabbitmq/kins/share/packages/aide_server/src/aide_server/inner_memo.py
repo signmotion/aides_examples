@@ -11,7 +11,11 @@ class InnerMemo:
         self.broker = broker
 
     def get(self, key: str) -> str:
-        return self.broker.get(key)
+        try:
+            return self.broker.get(key)
+        except KeyError:
+            logger.warning(f"`{self.name}`: the key `{key}` is absent.")
+            return ""
 
     def put(self, key: str, value: Any) -> None:
         return self.broker.put(key, value)

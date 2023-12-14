@@ -1,5 +1,5 @@
 from pydantic import Field
-from typing import TypeVar, Generic
+from typing import Any, TypeVar, Generic
 
 from .log import logger
 from .memo_brokers.memo_broker import MemoBroker, NoneMemoBroker
@@ -13,6 +13,16 @@ class ContextMemo(Generic[C]):
         self.name = type(self).__name__
         self.context = context
         self.broker = broker
+
+    def get(self, hid: str) -> str:
+        try:
+            return self.broker.get(hid)
+        except KeyError:
+            logger.warning(f"`{self.name}`: the HID `{hid}` is absent.")
+            return ""
+
+    def put(self, hid: str, value: Any) -> None:
+        return self.broker.put(hid, value)
 
     name: str = Field(
         ...,
@@ -29,7 +39,7 @@ class ContextMemo(Generic[C]):
     broker: MemoBroker = Field(
         ...,
         title="Memo Broker",
-        description="Broker this inner memory.",
+        description="Broker this memory.",
     )
 
     def __str__(self):

@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter
 from pydantic import Field
 from typing import List
@@ -76,6 +77,16 @@ class KeeperSide(Side):
             logger.info(f"Catched a request progress for task `{uid_task}`.")
             await self.request_progress_catched(uid_task)
 
+        n += 1
+
+        @self.savant_router.broker.subscriber(
+            queue=self.savant_router.requestResultQueue(),
+            exchange=self.savant_router.exchange(),
+        )
+        async def request_result_catcher(uid_task: str):
+            logger.info(f"Catched a request result for task `{uid_task}`.")
+            await self.request_result_catched(uid_task)
+
         logger.info(f"🪶 Registered {n} catchers for act `{act.hid}`.")
 
     def progress_catched(self, progress: Progress):
@@ -90,6 +101,11 @@ class KeeperSide(Side):
         key = f"{uid_task}.progress"
         value = self.inner_memo.get(key)
         await self._publish_response_progress(uid_task, value=float(value))
+
+    async def request_result_catched(self, uid_task: str):
+        key = f"{uid_task}.result"
+        value = self.inner_memo.get(key)
+        await self._publish_response_result(uid_task, value=json.loads(value))
 
     # def catch_progress(self):
     #     pass
@@ -121,6 +137,25 @@ class KeeperSide(Side):
         # TODO Replace to `self.savant_broker.publish()` or `self.publish()`.
         await self.savant_router.broker.publish(
             Progress(uid_task=uid_task, value=value),
+            queue=queue,
+            exchange=exchange,
+            timeout=6,
+        )
+
+        return True
+
+    # catcher: Appearance
+    async def _publish_response_result(self, uid_task: str, value: str):
+        exchange = self.savant_router.exchange()
+        queue = self.savant_router.responseResultQueue()
+
+        logger.info(
+            f"Publish a response result for task `{uid_task}` to Savant:"
+            f" exchange `{exchange.name}`, queue `{queue.name}`."
+        )
+        # TODO Replace to `self.savant_broker.publish()` or `self.publish()`.
+        await self.savant_router.broker.publish(
+            Result(uid_task=uid_task, value=value),
             queue=queue,
             exchange=exchange,
             timeout=6,

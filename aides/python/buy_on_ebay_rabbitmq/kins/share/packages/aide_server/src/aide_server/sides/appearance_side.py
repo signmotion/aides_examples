@@ -9,7 +9,7 @@ from ..inner_memo import InnerMemo
 from ..helpers import unwrapMultilangTextList
 from ..log import logger
 from ..savant_router import SavantRouter
-from ..task import Progress, Task
+from ..task import Progress, Result, Task
 
 
 class AppearanceSide(Side):
@@ -55,14 +55,19 @@ class AppearanceSide(Side):
         )
 
         self.task_act_register_endpoint(act)
+
         self.request_progress_act_register_endpoint(act)
         self.response_progress_register_catcher_and_endpoint(act)
+
+        self.request_result_act_register_endpoint(act)
+        self.response_result_register_catcher_and_endpoint(act)
 
         logger.info(
             f"🪶 Registered the catchers and endpoints for `{act.paths}`"
             f" `{self.name}` act `{act.hid}`."
         )
 
+    # TASK
     def task_act_register_endpoint(self, act: Act):
         # publish task
         # catcher: Brain
@@ -96,6 +101,7 @@ class AppearanceSide(Side):
 
         return task.uid
 
+    # PROGRESS
     def request_progress_act_register_endpoint(self, act: Act):
         # request progress endpoint
         # catcher: Keeper
@@ -165,3 +171,74 @@ class AppearanceSide(Side):
     def _response_progress_catched(self, progress: Progress):
         key = f"{progress.uid_task}.response_progress"
         self.inner_memo.put(key, progress.value)
+
+    # RESULT
+    def request_result_act_register_endpoint(self, act: Act):
+        # request result endpoint
+        # catcher: Keeper
+        @self.router.get(
+            path=act.path_request_result,
+            name=act.name_request_result["en"],
+            summary=act.summary_request_result["en"],
+            description=act.description_request_result["en"],
+            tags=unwrapMultilangTextList(act.tags_request_result, "en"),  # type: ignore[override]
+            # operation_id=act.hid,
+        )
+        async def request_result_endpoint(uid_task: str):
+            path = act.path_request_result.replace("{uid_task}", uid_task)
+            logger.info(f"Call the endpoint `{path}`.")
+            return await self._publish_request_result(act, uid_task)
+
+    # Returns a generated endpoint string for take a result later.
+    async def _publish_request_result(self, act: Act, uid_task: str):
+        exchange = self.savant_router.exchange()
+        queue = self.savant_router.requestResultQueue()
+
+        logger.info(
+            f"Publish a request result of task `{uid_task}` to Savant:"
+            f" exchange `{exchange.name}`, queue `{queue.name}`."
+        )
+        await self.savant_router.broker.publish(
+            uid_task,
+            queue=queue,
+            exchange=exchange,
+            timeout=6,
+        )
+
+        return act.path_response_result.replace("{uid_task}", uid_task)
+
+    def response_result_register_catcher_and_endpoint(self, act: Act):
+        # response result catcher
+        # memorize it to inner memory
+        @self.savant_router.broker.subscriber(
+            queue=self.savant_router.responseResultQueue(),
+            exchange=self.savant_router.exchange(),
+        )
+        async def response_result_catcher(result: Result):
+            logger.info(f"Catched a response result `{result}`.")
+            if isinstance(result, dict):
+                result = Result.model_validate(result)
+            self._response_result_catched(result)
+
+        # response result endpoint
+        # returns a result value after call a request_result_endpoint and
+        # catch a response in response_result_catcher
+        @self.router.get(
+            path=act.path_response_result,
+            name=act.name_response_result["en"],
+            summary=act.summary_response_result["en"],
+            description=act.description_response_result["en"],
+            tags=unwrapMultilangTextList(act.tags_response_result, "en"),  # type: ignore[override]
+            # operation_id=act.hid,
+        )
+        async def response_result_endpoint(uid_task: str):
+            path = act.path_response_result.replace("{uid_task}", uid_task)
+            logger.info(f"Call the endpoint `{path}`.")
+
+            key = f"{uid_task}.response_result"
+
+            return self.inner_memo.get(key)
+
+    def _response_result_catched(self, result: Result):
+        key = f"{result.uid_task}.response_result"
+        self.inner_memo.put(key, result.value)
