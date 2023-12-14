@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-import json
 from typing import List
 import uuid
 
@@ -28,30 +27,44 @@ class AppearanceSide(Side):
             inner_memo=inner_memo,
         )
 
-        self.register_client_endpoints()
+        self.register_catchers_and_endpoints()
 
         logger.info(
             f"🏳️‍🌈 Initialized `{self.name}` with acts `{self.acts}`"
             f" and inner memo `{self.inner_memo}`."
         )
 
-    def register_client_endpoints(self):
-        logger.info(f"🪶 Registering client endpoint(s) for `{self.name}`...")
+    def register_catchers_and_endpoints(self):
+        logger.info(
+            f"🪶 Registering the catchers and client endpoint(s)"
+            f" for `{self.name}`..."
+        )
 
         for act in self.acts:
-            self.register_client_endpoint(act)
+            self.act_register_catcher_and_endpoints(act)
 
         logger.info(
-            f"🪶 Registered the {len(self.acts)} client endpoint(s) for `{self.name}`."
+            f"🪶 Registered the catchers and client endpoint(s)"
+            f" for `{self.name}`, {len(self.acts)} acts."
         )
 
-    def register_client_endpoint(self, act: Act):
+    def act_register_catcher_and_endpoints(self, act: Act):
         logger.info(
-            f"🪶 Registering the client endpoint `{act.path}`"
-            f" for `{self.name}` act `{act.hid}`..."
+            f"🪶 Registering the catchers and endpoints for `{act.paths}`"
+            f" `{self.name}` act `{act.hid}`..."
         )
 
-        # task
+        self.task_act_register_endpoint(act)
+        self.request_progress_act_register_endpoint(act)
+        self.response_progress_register_catcher_and_endpoint(act)
+
+        logger.info(
+            f"🪶 Registered the catchers and endpoints for `{act.paths}`"
+            f" `{self.name}` act `{act.hid}`."
+        )
+
+    def task_act_register_endpoint(self, act: Act):
+        # publish task
         # catcher: Brain
         @self.router.get(
             path=act.path,
@@ -64,57 +77,6 @@ class AppearanceSide(Side):
         async def task_endpoint():
             logger.info(f"Call endpoint `{act.path}` for act `{act.hid}`.")
             return await self._publish_task(act)
-
-        # request progress endpoint
-        # catcher: Keeper
-        @self.router.get(
-            path=act.path_request_progress,
-            name=act.name_request_progress["en"],
-            summary=act.summary_request_progress["en"],
-            description=act.description_request_progress["en"],
-            tags=unwrapMultilangTextList(act.tags_request_progress, "en"),  # type: ignore[override]
-            # operation_id=act.hid,
-        )
-        async def request_progress_endpoint(uid_task: str):
-            path = act.path_request_progress.replace("{uid_task}", uid_task)
-            logger.info(f"Call the endpoint `{path}`.")
-            return await self._publish_request_progress(act, uid_task)
-
-        # response progress endpoint
-        # returns a progress value after call a request_progress_endpoint and
-        # catch a response in response_progress_catcher
-        @self.router.get(
-            path=act.path_response_progress,
-            name=act.name_response_progress["en"],
-            summary=act.summary_response_progress["en"],
-            description=act.description_response_progress["en"],
-            tags=unwrapMultilangTextList(act.tags_response_progress, "en"),  # type: ignore[override]
-            # operation_id=act.hid,
-        )
-        async def response_progress_endpoint(uid_task: str):
-            path = act.path_response_progress.replace("{uid_task}", uid_task)
-            logger.info(f"Call the endpoint `{path}`.")
-
-            key = f"{uid_task}.response_progress"
-
-            return self.inner_memo.get(key)
-
-        # response progress catcher
-        # memorize it to inner memory
-        @self.savant_router.broker.subscriber(
-            queue=self.savant_router.responseProgressQueue(),
-            exchange=self.savant_router.exchange(),
-        )
-        async def response_progress_catcher(progress: Progress):
-            logger.info(f"Catched a response progress `{progress}`.")
-            if isinstance(progress, dict):
-                progress = Progress.model_validate(progress)
-            self._response_progress_catched(progress)
-
-        logger.info(
-            f"🪶 Registered the client endpoints `{act.paths}`"
-            f" for `{self.name}` act `{act.hid}`."
-        )
 
     async def _publish_task(self, act: Act):
         exchange = self.savant_router.exchange()
@@ -134,6 +96,22 @@ class AppearanceSide(Side):
 
         return task.uid
 
+    def request_progress_act_register_endpoint(self, act: Act):
+        # request progress endpoint
+        # catcher: Keeper
+        @self.router.get(
+            path=act.path_request_progress,
+            name=act.name_request_progress["en"],
+            summary=act.summary_request_progress["en"],
+            description=act.description_request_progress["en"],
+            tags=unwrapMultilangTextList(act.tags_request_progress, "en"),  # type: ignore[override]
+            # operation_id=act.hid,
+        )
+        async def request_progress_endpoint(uid_task: str):
+            path = act.path_request_progress.replace("{uid_task}", uid_task)
+            logger.info(f"Call the endpoint `{path}`.")
+            return await self._publish_request_progress(act, uid_task)
+
     # Returns a generated endpoint string for take a progress later.
     async def _publish_request_progress(self, act: Act, uid_task: str):
         exchange = self.savant_router.exchange()
@@ -151,6 +129,38 @@ class AppearanceSide(Side):
         )
 
         return act.path_response_progress.replace("{uid_task}", uid_task)
+
+    def response_progress_register_catcher_and_endpoint(self, act: Act):
+        # response progress catcher
+        # memorize it to inner memory
+        @self.savant_router.broker.subscriber(
+            queue=self.savant_router.responseProgressQueue(),
+            exchange=self.savant_router.exchange(),
+        )
+        async def response_progress_catcher(progress: Progress):
+            logger.info(f"Catched a response progress `{progress}`.")
+            if isinstance(progress, dict):
+                progress = Progress.model_validate(progress)
+            self._response_progress_catched(progress)
+
+        # response progress endpoint
+        # returns a progress value after call a request_progress_endpoint and
+        # catch a response in response_progress_catcher
+        @self.router.get(
+            path=act.path_response_progress,
+            name=act.name_response_progress["en"],
+            summary=act.summary_response_progress["en"],
+            description=act.description_response_progress["en"],
+            tags=unwrapMultilangTextList(act.tags_response_progress, "en"),  # type: ignore[override]
+            # operation_id=act.hid,
+        )
+        async def response_progress_endpoint(uid_task: str):
+            path = act.path_response_progress.replace("{uid_task}", uid_task)
+            logger.info(f"Call the endpoint `{path}`.")
+
+            key = f"{uid_task}.response_progress"
+
+            return self.inner_memo.get(key)
 
     def _response_progress_catched(self, progress: Progress):
         key = f"{progress.uid_task}.response_progress"
