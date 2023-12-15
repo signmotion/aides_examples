@@ -90,42 +90,9 @@ class AideServer(FastAPI):
     def register_side(self):
         logger.info(f"🏳️‍🌈 Initializing the side `{self.sidename}`...")
 
-        # adding runs as external routers
+        # adding runs, endpoint and catchers for its as external routes
         router = APIRouter()
-
-        # TODO Wrap to factory.
-        name_inner_memo = f"{self.sidename}_inner_memo"
-        if self.sidename == "appearance":
-            default_inner_memo = InnerMemo(ShelveMemoBroker(name_inner_memo))
-            self.side = AppearanceSide(
-                router,
-                name_aide=self.name,
-                hid_aide=self.hid,
-                path_to_face=self.configure.path_to_face,
-                savant_router=self.savant_router,
-                acts=self.configure.acts,
-                context_memo=self.context_memo,
-                inner_memo=default_inner_memo
-                if isinstance(self.inner_memo, NoneInnerMemo)
-                else self.inner_memo,
-            )
-        elif self.sidename == "brain":
-            self.side = BrainSide(
-                router,
-                savant_router=self.savant_router,
-                acts=self.configure.acts,
-                runs=self.brain_runs,
-            )
-        elif self.sidename == "keeper":
-            default_inner_memo = InnerMemo(FilesystemMemoBroker(name_inner_memo))
-            self.side = KeeperSide(
-                router,
-                savant_router=self.savant_router,
-                acts=self.configure.acts,
-                inner_memo=default_inner_memo
-                if isinstance(self.inner_memo, NoneInnerMemo)
-                else self.inner_memo,
-            )
+        self.side = self.build_side(router)
 
         logger.info(f"🏳️‍🌈 Initialized the side `{self.sidename}`.")
 
@@ -176,6 +143,47 @@ class AideServer(FastAPI):
             )
 
         logger.info("🌱 Declared the channels.")
+
+    def build_side(self, router: APIRouter) -> Side:
+        name_inner_memo = f"{self.sidename}_inner_memo"
+
+        if self.sidename == "appearance":
+            default_inner_memo = InnerMemo(ShelveMemoBroker(name_inner_memo))
+
+            return AppearanceSide(
+                router,
+                name_aide=self.name,
+                hid_aide=self.hid,
+                path_to_face=self.configure.path_to_face,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                context_memo=self.context_memo,
+                inner_memo=default_inner_memo
+                if isinstance(self.inner_memo, NoneInnerMemo)
+                else self.inner_memo,
+            )
+
+        if self.sidename == "brain":
+            return BrainSide(
+                router,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                runs=self.brain_runs,
+            )
+
+        if self.sidename == "keeper":
+            default_inner_memo = InnerMemo(FilesystemMemoBroker(name_inner_memo))
+
+            return KeeperSide(
+                router,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                inner_memo=default_inner_memo
+                if isinstance(self.inner_memo, NoneInnerMemo)
+                else self.inner_memo,
+            )
+
+        raise Exception(f"Undeclared side `{self.sidename}`.")
 
     # properties
 

@@ -1,3 +1,4 @@
+from abc import ABC
 from fastapi import APIRouter
 from pydantic import Field
 from typing import List
@@ -8,7 +9,7 @@ from ..savant_router import SavantRouter
 
 
 # Functional part of server: endpoints, tasks, etc.
-class Side:
+class Side(ABC):
     def __init__(
         self,
         router: APIRouter,

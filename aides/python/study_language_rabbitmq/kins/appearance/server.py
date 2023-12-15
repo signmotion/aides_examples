@@ -9,9 +9,10 @@ from ..share.packages.aide_server.src.aide_server.server import AideServer
 
 class Appearance(AideServer):
     def __init__(self):
+        context_init = test_context_article() if use_test_context else Context()
         super().__init__(
             context_memo=ContextMemo(
-                test_context_article() if use_test_context else Context(),
+                context_init,
                 broker=FilesystemMemoBroker("appearance_context_memo"),
             ),
         )
