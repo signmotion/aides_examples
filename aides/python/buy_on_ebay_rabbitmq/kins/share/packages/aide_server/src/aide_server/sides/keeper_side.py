@@ -1,6 +1,5 @@
 import json
 from fastapi import APIRouter
-from pydantic import Field
 from typing import List
 
 from .side import Side
@@ -27,21 +26,21 @@ class KeeperSide(Side):
             inner_memo=inner_memo,
         )
 
-        self.register_catchers_for_acts()
+        self._register_catchers_for_acts()
 
         logger.info(
             f"🏳️‍🌈 Initialized `{self.name}` with inner memory `{self.inner_memo}`."
         )
 
-    def register_catchers_for_acts(self):
+    def _register_catchers_for_acts(self):
         logger.info("🪶 Registering catchers for act(s)...")
 
         for act in self.acts:
-            self.register_catchers_for_act(act)
+            self._register_catchers_for_act(act)
 
         logger.info(f"🪶 Registered catchers for {len(self.acts)} act(s).")
 
-    def register_catchers_for_act(self, act: Act):
+    def _register_catchers_for_act(self, act: Act):
         n = 1
 
         @self.savant_router.broker.subscriber(
@@ -52,7 +51,7 @@ class KeeperSide(Side):
             logger.info(f"Catched a progress `{progress}`.")
             if isinstance(progress, dict):
                 progress = Progress.model_validate(progress)
-            self.progress_catched(progress)
+            self._progress_catched(progress)
 
         n += 1
 
@@ -65,7 +64,7 @@ class KeeperSide(Side):
             logger.info(f"Catched a result `{result}`.")
             if isinstance(result, dict):
                 result = Result.model_validate(result)
-            await self.result_catched(result)
+            await self._result_catched(result)
 
         n += 1
 
@@ -75,7 +74,7 @@ class KeeperSide(Side):
         )
         async def request_progress_catcher(uid_task: str):
             logger.info(f"Catched a request progress for task `{uid_task}`.")
-            await self.request_progress_catched(uid_task)
+            await self._request_progress_catched(uid_task)
 
         n += 1
 
@@ -85,45 +84,27 @@ class KeeperSide(Side):
         )
         async def request_result_catcher(uid_task: str):
             logger.info(f"Catched a request result for task `{uid_task}`.")
-            await self.request_result_catched(uid_task)
+            await self._request_result_catched(uid_task)
 
         logger.info(f"🪶 Registered {n} catchers for act `{act.hid}`.")
 
-    def progress_catched(self, progress: Progress):
+    def _progress_catched(self, progress: Progress):
         key = f"{progress.uid_task}.progress"
         self.inner_memo.put(key, progress.value)
 
-    async def result_catched(self, result: Result):
+    async def _result_catched(self, result: Result):
         key = f"{result.uid_task}.result"
         self.inner_memo.put(key, result.value)
 
-    async def request_progress_catched(self, uid_task: str):
+    async def _request_progress_catched(self, uid_task: str):
         key = f"{uid_task}.progress"
         value = self.inner_memo.get(key)
         await self._publish_response_progress(uid_task, value=float(value))
 
-    async def request_result_catched(self, uid_task: str):
+    async def _request_result_catched(self, uid_task: str):
         key = f"{uid_task}.result"
         value = self.inner_memo.get(key)
         await self._publish_response_result(uid_task, value=json.loads(value))
-
-    # def catch_progress(self):
-    #     pass
-
-    # def catch_result(self):
-    #     pass
-
-    # def catch_requested_progress(self):
-    #     pass
-
-    def publish_requested_progress(self):
-        pass
-
-    def catch_requested_result(self):
-        pass
-
-    def publish_request_result(self):
-        pass
 
     # catcher: Appearance
     async def _publish_response_progress(self, uid_task: str, value: float):

@@ -29,7 +29,7 @@ class BrainSide(Side):
 
         self.runs = runs
 
-        self.register_catchers_for_acts()
+        self._register_catchers_for_acts()
 
         logger.info(
             f"🏳️‍🌈 Initialized `{self.name}` with runs `{self.runs}`"
@@ -42,15 +42,15 @@ class BrainSide(Side):
         description="The runs for Brain server. Each runs should be defined into `configure.json` with same name.",
     )
 
-    def register_catchers_for_acts(self):
+    def _register_catchers_for_acts(self):
         logger.info("🪶 Registering catchers for act(s)...")
 
         for act in self.acts:
-            self.register_catchers_for_act(act)
+            self._register_catchers_for_act(act)
 
         logger.info(f"🪶 Registered catchers for {len(self.acts)} act(s).")
 
-    def register_catchers_for_act(self, act: Act):
+    def _register_catchers_for_act(self, act: Act):
         n = 1
 
         @self.savant_router.broker.subscriber(
@@ -61,14 +61,14 @@ class BrainSide(Side):
             logger.info(f"Catched a task {type(task).__name__} -> {task}")
             if isinstance(task, dict):
                 task = Task.model_validate(task)
-            await self.run_task(task)
+            await self._run_task(task)
 
         logger.info(f"🪶 Registered {n} catcher for act `{act.hid}`.")
 
     # def catch_task(self):
     #     pass
 
-    async def run_task(self, task: Task):
+    async def _run_task(self, task: Task):
         found_run = None
         for run in self.runs:
             logger.info(f"Looking at act `{task.hid_act}` into run `{run.__name__}`...")

@@ -27,40 +27,40 @@ class AppearanceSide(Side):
             inner_memo=inner_memo,
         )
 
-        self.register_catchers_and_endpoints()
+        self._register_catchers_and_endpoints()
 
         logger.info(
             f"🏳️‍🌈 Initialized `{self.name}` with acts `{self.acts}`"
             f" and inner memo `{self.inner_memo}`."
         )
 
-    def register_catchers_and_endpoints(self):
+    def _register_catchers_and_endpoints(self):
         logger.info(
             f"🪶 Registering the catchers and client endpoint(s)"
             f" for `{self.name}`..."
         )
 
         for act in self.acts:
-            self.act_register_catcher_and_endpoints(act)
+            self._act_register_catcher_and_endpoints(act)
 
         logger.info(
             f"🪶 Registered the catchers and client endpoint(s)"
             f" for `{self.name}`, {len(self.acts)} acts."
         )
 
-    def act_register_catcher_and_endpoints(self, act: Act):
+    def _act_register_catcher_and_endpoints(self, act: Act):
         logger.info(
             f"🪶 Registering the catchers and endpoints for `{act.paths}`"
             f" `{self.name}` act `{act.hid}`..."
         )
 
-        self.task_act_register_endpoint(act)
+        self._task_act_register_endpoint(act)
 
-        self.request_progress_act_register_endpoint(act)
-        self.response_progress_register_catcher_and_endpoint(act)
+        self._request_progress_act_register_endpoint(act)
+        self._response_progress_register_catcher_and_endpoint(act)
 
-        self.request_result_act_register_endpoint(act)
-        self.response_result_register_catcher_and_endpoint(act)
+        self._request_result_act_register_endpoint(act)
+        self._response_result_register_catcher_and_endpoint(act)
 
         logger.info(
             f"🪶 Registered the catchers and endpoints for `{act.paths}`"
@@ -68,7 +68,7 @@ class AppearanceSide(Side):
         )
 
     # TASK
-    def task_act_register_endpoint(self, act: Act):
+    def _task_act_register_endpoint(self, act: Act):
         # publish task
         # catcher: Brain
         @self.router.get(
@@ -102,7 +102,7 @@ class AppearanceSide(Side):
         return task.uid
 
     # PROGRESS
-    def request_progress_act_register_endpoint(self, act: Act):
+    def _request_progress_act_register_endpoint(self, act: Act):
         # request progress endpoint
         # catcher: Keeper
         @self.router.get(
@@ -136,7 +136,7 @@ class AppearanceSide(Side):
 
         return act.path_response_progress.replace("{uid_task}", uid_task)
 
-    def response_progress_register_catcher_and_endpoint(self, act: Act):
+    def _response_progress_register_catcher_and_endpoint(self, act: Act):
         # response progress catcher
         # memorize it to inner memory
         @self.savant_router.broker.subscriber(
@@ -173,7 +173,7 @@ class AppearanceSide(Side):
         self.inner_memo.put(key, progress.value)
 
     # RESULT
-    def request_result_act_register_endpoint(self, act: Act):
+    def _request_result_act_register_endpoint(self, act: Act):
         # request result endpoint
         # catcher: Keeper
         @self.router.get(
@@ -207,7 +207,7 @@ class AppearanceSide(Side):
 
         return act.path_response_result.replace("{uid_task}", uid_task)
 
-    def response_result_register_catcher_and_endpoint(self, act: Act):
+    def _response_result_register_catcher_and_endpoint(self, act: Act):
         # response result catcher
         # memorize it to inner memory
         @self.savant_router.broker.subscriber(
