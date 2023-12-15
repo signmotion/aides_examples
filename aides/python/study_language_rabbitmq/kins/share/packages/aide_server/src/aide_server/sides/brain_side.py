@@ -20,6 +20,9 @@ class BrainSide(Side):
         acts: List[Act],
         runs: List[Callable],
     ):
+        assert bool(runs)
+        assert len(runs) == len(acts)
+
         super().__init__(
             router=router,
             savant_router=savant_router,
@@ -64,9 +67,6 @@ class BrainSide(Side):
             await self._run_task(task)
 
         logger.info(f"🪶 Registered {n} catcher for act `{act.hid}`.")
-
-    # def catch_task(self):
-    #     pass
 
     async def _run_task(self, task: Task):
         found_run = None

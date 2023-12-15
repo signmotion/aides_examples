@@ -5,7 +5,7 @@ from typing import List
 from .side import Side
 
 from ..act import Act
-from ..inner_memo import InnerMemo
+from ..inner_memo import InnerMemo, NoneInnerMemo
 from ..log import logger
 from ..savant_router import SavantRouter
 from ..task import Progress, Result
@@ -19,6 +19,10 @@ class KeeperSide(Side):
         acts: List[Act],
         inner_memo: InnerMemo,
     ):
+        assert not isinstance(
+            self.inner_memo, NoneInnerMemo
+        ), "The Keeper should have an inner memo."
+
         super().__init__(
             router=router,
             savant_router=savant_router,

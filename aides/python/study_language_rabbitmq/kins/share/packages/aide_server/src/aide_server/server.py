@@ -8,7 +8,6 @@ from .context_memo import ContextMemo, NoneContextMemo
 from .helpers import unwrapMultilangTextList, skip_check_route
 from .inner_memo import InnerMemo, NoneInnerMemo
 from .log import logger
-from .routers import about, context
 from .savant_router import SavantRouter
 from .sides.appearance_side import AppearanceSide
 from .sides.brain_side import BrainSide
@@ -82,7 +81,6 @@ class AideServer(FastAPI):
 
         self.register_side()
         self.declare_channels()
-        self.include_routers()
 
     def register_side(self):
         logger.info(f"🏳️‍🌈 Initializing the side `{self.sidename}`...")
@@ -92,22 +90,17 @@ class AideServer(FastAPI):
 
         # TODO Wrap to factory.
         if self.sidename == "appearance":
-            if isinstance(self.context_memo, NoneContextMemo):
-                raise Exception("The Appearance should have a context memo.")
-
-            # add context routers
-            self.include_router(context.router(self.context_memo))
-            logger.info("🍁 Added the router for `Context`.")
-
             self.side = AppearanceSide(
                 router,
+                name_aide=self.name,
+                hid_aide=self.hid,
+                path_to_face=self.configure.path_to_face,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
                 inner_memo=self.inner_memo,
+                context_memo=self.context_memo,
             )
         elif self.sidename == "brain":
-            assert bool(self.brain_runs)
-            assert len(self.brain_runs) == len(self.configure.acts)
             self.side = BrainSide(
                 router,
                 savant_router=self.savant_router,
@@ -171,22 +164,6 @@ class AideServer(FastAPI):
             )
 
         logger.info("🌱 Declared the channels.")
-
-    def include_routers(self):
-        logger.info("🍁 Adding the routers...")
-
-        # add about routers
-        self.include_router(
-            about.router(
-                name=self.name,
-                hid=self.hid,
-                sidename=self.sidename,
-                path_to_face=self.configure.path_to_face,
-            )
-        )
-        logger.info("🍁 Added the router for `About`.")
-
-        logger.info("🍁 Added the routers.")
 
     # properties
 

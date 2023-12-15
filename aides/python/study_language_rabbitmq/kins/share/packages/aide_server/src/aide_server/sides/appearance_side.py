@@ -1,13 +1,16 @@
 from fastapi import APIRouter
+from pydantic import Field
 from typing import List
 import uuid
 
 from .side import Side
 
 from ..act import Act
+from ..context_memo import ContextMemo, NoneContextMemo
 from ..inner_memo import InnerMemo
 from ..helpers import unwrapMultilangTextList
 from ..log import logger
+from ..routes import about, context
 from ..savant_router import SavantRouter
 from ..task import Progress, Result, Task
 
@@ -16,10 +19,18 @@ class AppearanceSide(Side):
     def __init__(
         self,
         router: APIRouter,
+        name_aide: str,
+        hid_aide: str,
+        path_to_face: str,
         savant_router: SavantRouter,
         acts: List[Act],
         inner_memo: InnerMemo,
+        context_memo: ContextMemo,
     ):
+        assert not isinstance(
+            context_memo, NoneContextMemo
+        ), "The Appearance should have a context memo."
+
         super().__init__(
             router=router,
             savant_router=savant_router,
@@ -27,19 +38,51 @@ class AppearanceSide(Side):
             inner_memo=inner_memo,
         )
 
-        self._register_catchers_and_endpoints()
+        self.context_memo = context_memo
+
+        self._register_catchers_and_endpoints(
+            name_aide=name_aide,
+            hid_aide=hid_aide,
+            path_to_face=path_to_face,
+        )
 
         logger.info(
             f"🏳️‍🌈 Initialized `{self.name}` with acts `{self.acts}`"
             f" and inner memo `{self.inner_memo}`."
         )
 
-    def _register_catchers_and_endpoints(self):
+    context_memo: ContextMemo = Field(
+        ...,
+        title="Context Memo",
+        description="The context memory.",
+    )
+
+    def _register_catchers_and_endpoints(
+        self,
+        name_aide: str,
+        hid_aide: str,
+        path_to_face: str,
+    ):
         logger.info(
             f"🪶 Registering the catchers and client endpoint(s)"
             f" for `{self.name}`..."
         )
 
+        # add about routes
+        about.add_routes(
+            self.router,
+            name=name_aide,
+            hid=hid_aide,
+            sidename=self.name,
+            path_to_face=path_to_face,
+        )
+        logger.info("🪶🍁 Added the routes for `About`.")
+
+        # add context routes
+        context.add_routes(self.router, context_memo=self.context_memo)
+        logger.info("🪶🍁 Added the routes for `Context`.")
+
+        # add acts routes
         for act in self.acts:
             self._act_register_catcher_and_endpoints(act)
 
@@ -86,7 +129,14 @@ class AppearanceSide(Side):
     async def _publish_task(self, act: Act):
         exchange = self.savant_router.exchange()
         queue = self.savant_router.taskQueue(act.hid)
-        task = Task(uid=str(uuid.uuid4()), hid_act=act.hid)
+        task = Task(
+            uid=str(uuid.uuid4()),
+            hid_act=act.hid,
+            context={
+                "languages": self.context_memo.context.languages,
+                "text": self.context_memo.context.text,
+            },
+        )
 
         logger.info(
             f"Publish a task `{task}` to Savant:"

@@ -1,5 +1,5 @@
 from ..share.config import *
-from ..share.context import Context
+from ..share.context import Context, test_context_article
 from ..share.packages.aide_server.src.aide_server.configure import Configure
 from ..share.packages.aide_server.src.aide_server.context_memo import ContextMemo
 from ..share.packages.aide_server.src.aide_server.inner_memo import InnerMemo
@@ -25,7 +25,7 @@ class Appearance(AideServer):
                 ShelveMemoBroker(path_prefix="appearance_inner_memo"),
             ),
             context_memo=ContextMemo(
-                Context(),
+                test_context_article() if use_test_context else Context(),
                 broker=FilesystemMemoBroker("appearance_context_memo"),
             ),
         )

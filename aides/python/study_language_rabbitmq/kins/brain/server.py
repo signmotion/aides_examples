@@ -3,7 +3,7 @@ from ..share.packages.aide_server.src.aide_server.configure import Configure
 from ..share.packages.aide_server.src.aide_server.server import (
     AideServer,
 )
-from ..share.routers.phrasal_verbs import phrasal_verbs
+from ..share.routes.phrasal_verbs import phrasal_verbs
 
 
 with open("kins/share/configure.json", "r") as file:

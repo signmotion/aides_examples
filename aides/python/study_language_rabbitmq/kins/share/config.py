@@ -5,9 +5,9 @@ import os
 
 is_production = False
 use_test_context = True
-fake_response = False
+fake_response = True
 
-use_chat_gpt = True
+use_chat_gpt = False
 
 include_context_in_answer = False
 include_raw_response_in_answer = True
