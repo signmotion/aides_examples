@@ -23,7 +23,7 @@ class AideServer(FastAPI):
     def __init__(
         self,
         *,
-        configure: Configure,
+        path_to_configure: str = "kins/share/configure.json",
         brain_runs: List[Callable] = [],
         inner_memo: InnerMemo = NoneInnerMemo(),
         context_memo: ContextMemo = NoneContextMemo(),
@@ -31,6 +31,9 @@ class AideServer(FastAPI):
         debug_level: int = logging.INFO,
     ):
         logging.basicConfig(level=debug_level)
+
+        with open(path_to_configure, "r") as file:
+            configure = Configure.model_validate_json(file.read())
 
         tags = unwrapMultilangTextList(configure.tags, language=language)
         openapi_tags = []
