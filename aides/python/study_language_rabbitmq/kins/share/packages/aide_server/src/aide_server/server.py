@@ -8,6 +8,8 @@ from .context_memo import ContextMemo, NoneContextMemo
 from .helpers import unwrapMultilangTextList, skip_check_route
 from .inner_memo import InnerMemo, NoneInnerMemo
 from .log import logger
+from .memo_brokers.filesystem import FilesystemMemoBroker
+from .memo_brokers.shelve import ShelveMemoBroker
 from .savant_router import SavantRouter
 from .sides.appearance_side import AppearanceSide
 from .sides.brain_side import BrainSide
@@ -25,8 +27,8 @@ class AideServer(FastAPI):
         *,
         path_to_configure: str = "kins/share/configure.json",
         brain_runs: List[Callable] = [],
-        inner_memo: InnerMemo = NoneInnerMemo(),
         context_memo: ContextMemo = NoneContextMemo(),
+        inner_memo: InnerMemo = NoneInnerMemo(),
         language: str = "en",
         debug_level: int = logging.INFO,
     ):
@@ -92,7 +94,9 @@ class AideServer(FastAPI):
         router = APIRouter()
 
         # TODO Wrap to factory.
+        name_inner_memo = f"{self.sidename}_inner_memo"
         if self.sidename == "appearance":
+            default_inner_memo = InnerMemo(ShelveMemoBroker(name_inner_memo))
             self.side = AppearanceSide(
                 router,
                 name_aide=self.name,
@@ -100,8 +104,10 @@ class AideServer(FastAPI):
                 path_to_face=self.configure.path_to_face,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
-                inner_memo=self.inner_memo,
                 context_memo=self.context_memo,
+                inner_memo=default_inner_memo
+                if isinstance(self.inner_memo, NoneInnerMemo)
+                else self.inner_memo,
             )
         elif self.sidename == "brain":
             self.side = BrainSide(
@@ -111,11 +117,14 @@ class AideServer(FastAPI):
                 runs=self.brain_runs,
             )
         elif self.sidename == "keeper":
+            default_inner_memo = InnerMemo(FilesystemMemoBroker(name_inner_memo))
             self.side = KeeperSide(
                 router,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
-                inner_memo=self.inner_memo,
+                inner_memo=default_inner_memo
+                if isinstance(self.inner_memo, NoneInnerMemo)
+                else self.inner_memo,
             )
 
         logger.info(f"🏳️‍🌈 Initialized the side `{self.sidename}`.")
