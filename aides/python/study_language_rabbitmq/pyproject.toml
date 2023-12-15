@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "study-language-rabbitmq"
+version = "0.1.0"
+description = "The server for learning language."
+authors = ["Andrii Syrokomskyi <signmotion@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.105.0"
+faststream = {extras = ["rabbit"], version = "^0.3.6"}
+g4f = "^0.1.9.3"
+# googletrans = "^4.0.0-rc1"
+load-dotenv = "^0.1.0"
+openai = "^1.4.0"
+pycaption = "^2.2.0"
+sanitize-filename = "^1.2.0"
+uvicorn = "^0.24.0.post1"
+watchfiles = "^0.21.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,56 @@
+{
+  "name": { "en": "Study Language" },
+  "hid": "study_language",
+  "summary": { "en": "The aide for studying language." },
+  "description": {
+    "en": "The aide for learning languages. For example, English."
+  },
+  "tags": [
+    { "en": "english" },
+    { "en": "language" },
+    { "en": "learn" },
+    { "en": "study" },
+    { "en": "teach" },
+    { "en": "ukrainian" }
+  ],
+  "_path_to_face": "Localy you can see a face of aide by path `http://127.0.0.1:8000/face`.",
+  "path_to_face": "kins/share/data/face.webp",
+  "characteristic": {
+    "age": 30,
+    "constitution": [
+      {
+        "en": "A composed and confident demeanor, possibly a medium build, reflecting a balance of approachability and authority."
+      }
+    ],
+    "clothing": [
+      {
+        "en": "Professional yet approachable attire, such as smart casual. Clothes should be neat and tidy, giving an impression of professionalism without being overly formal."
+      }
+    ],
+    "traits": [
+      {
+        "en": "Patience, articulate, encouraging, attentive, knowledgeable about language nuances, and culturally sensitive."
+      }
+    ]
+  },
+  "savantConnector": "amqp://guest:guest@localhost:5672/",
+  "acts": [
+    {
+      "name": { "en": "Phrasal Verbs" },
+      "hid": "phrasal_verbs",
+      "summary": {
+        "en": "Extracts phrasal verbs from [text] and translates these verbs."
+      },
+      "description": {
+        "en": "Returns extracted phrasal verbs from [text]. Also translates these verbs."
+      },
+      "tags": [
+        { "en": "extract" },
+        { "en": "phrasal verbs" },
+        { "en": "translate" }
+      ],
+      "version": "0.1.0"
+    }
+  ],
+  "version": "0.2.0"
+}

@@ -1,0 +1,21 @@
+@hostname = 127.0.0.1
+@port = 8000
+@host = {{hostname}}:{{port}}
+
+###
+
+GET http://{{host}}/face
+
+###
+
+GET http://{{host}}/schema
+
+###
+
+GET http://{{host}}/openapi.json
+
+###
+
+GET http://{{host}}/context
+
+###
