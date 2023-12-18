@@ -43,7 +43,7 @@ class FilesystemMemoBroker(MemoBroker):
     def get(self, key: str) -> Any:
         filename = sanitize(key)
         with open(self.path(filename), "r") as file:
-            return file.read()
+            return json.loads(file.read())
 
     def put(self, key: str, value: Any):
         filename = sanitize(key)

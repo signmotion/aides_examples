@@ -146,10 +146,12 @@ class AideServer(FastAPI):
 
     def build_side(self, router: APIRouter) -> Side:
         name_inner_memo = f"{self.sidename}_inner_memo"
+        default_inner_memo = InnerMemo(
+            FilesystemMemoBroker(name_inner_memo),
+            # ShelveMemoBroker(name_inner_memo),
+        )
 
         if self.sidename == "appearance":
-            default_inner_memo = InnerMemo(ShelveMemoBroker(name_inner_memo))
-
             return AppearanceSide(
                 router,
                 name_aide=self.name,
@@ -172,8 +174,6 @@ class AideServer(FastAPI):
             )
 
         if self.sidename == "keeper":
-            default_inner_memo = InnerMemo(FilesystemMemoBroker(name_inner_memo))
-
             return KeeperSide(
                 router,
                 savant_router=self.savant_router,
