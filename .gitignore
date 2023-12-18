@@ -6,5 +6,4 @@ settings.json
 /aides/python/buy_on_ebay_rabbitmq/local_storage
 /aides/python/buy_on_ebay_rabbitmq/keeper_inner_memo
 /aides/python/buy_on_ebay_rabbitmq/appearance_inner_memo
-/aides/python/study_language_rabbitmq/keeper_inner_memo
-/aides/python/study_language_rabbitmq/appearance_inner_memo
+/aides/python/study_language_rabbitmq/memo

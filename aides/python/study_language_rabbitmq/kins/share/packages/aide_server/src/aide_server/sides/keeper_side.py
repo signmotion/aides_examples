@@ -1,6 +1,6 @@
 import json
 from fastapi import APIRouter
-from typing import List
+from typing import Any, List
 
 from .side import Side
 
@@ -108,7 +108,7 @@ class KeeperSide(Side):
     async def _request_result_catched(self, uid_task: str):
         key = f"{uid_task}.result"
         value = self.inner_memo.get(key)
-        await self._publish_response_result(uid_task, value=json.loads(value))
+        await self._publish_response_result(uid_task, value=value)
 
     # catcher: Appearance
     async def _publish_response_progress(self, uid_task: str, value: float):
@@ -130,7 +130,7 @@ class KeeperSide(Side):
         return True
 
     # catcher: Appearance
-    async def _publish_response_result(self, uid_task: str, value: str):
+    async def _publish_response_result(self, uid_task: str, value: Any):
         exchange = self.savant_router.exchange()
         queue = self.savant_router.responseResultQueue()
 

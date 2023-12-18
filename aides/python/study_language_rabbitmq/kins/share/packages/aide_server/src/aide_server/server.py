@@ -1,5 +1,6 @@
 from fastapi import APIRouter, FastAPI, routing
 import logging
+import os
 from pydantic import Field
 from typing import Callable, List
 
@@ -145,9 +146,9 @@ class AideServer(FastAPI):
         logger.info("🌱 Declared the channels.")
 
     def build_side(self, router: APIRouter) -> Side:
-        name_inner_memo = f"{self.sidename}_inner_memo"
+        path_inner_memo = os.path.join("memo", f"{self.sidename}_inner_memo")
         default_inner_memo = InnerMemo(
-            FilesystemMemoBroker(name_inner_memo),
+            FilesystemMemoBroker(path_inner_memo),
             # ShelveMemoBroker(name_inner_memo),
         )
 

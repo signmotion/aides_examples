@@ -11,7 +11,7 @@ class MemoBroker(ABC):
         self.clear = clear
 
     @abstractmethod
-    def get(self, key: str) -> str:
+    def get(self, key: str) -> Any:
         pass
 
     @abstractmethod

@@ -13,6 +13,6 @@ class Appearance(AideServer):
         super().__init__(
             context_memo=ContextMemo(
                 context_init,
-                broker=FilesystemMemoBroker("appearance_context_memo"),
+                broker=FilesystemMemoBroker("memo/appearance_context_memo"),
             ),
         )

@@ -10,7 +10,7 @@ class InnerMemo:
         self.name = type(self).__name__
         self.broker = broker
 
-    def get(self, key: str) -> str:
+    def get(self, key: str) -> Any:
         try:
             return self.broker.get(key)
         except KeyError:
