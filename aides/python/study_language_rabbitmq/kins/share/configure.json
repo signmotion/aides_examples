@@ -50,6 +50,22 @@
         { "en": "translate" }
       ],
       "version": "0.1.0"
+    },
+    {
+      "name": { "en": "Translates Caption." },
+      "hid": "translate_caption",
+      "summary": {
+        "en": "Translates the caption and subtitle to other language."
+      },
+      "description": {
+        "en": "Return the translated caption and subtitle to other language."
+      },
+      "tags": [
+        { "en": "caption" },
+        { "en": "subtitle" },
+        { "en": "translate" }
+      ],
+      "version": "0.1.0"
     }
   ],
   "version": "0.2.0"

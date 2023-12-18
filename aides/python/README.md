@@ -66,7 +66,13 @@ python -m venv venv
 Install requirements from poetry:
 
 ```bash
-poetry install
+poetry install --no-root
+```
+
+or, when needed:
+
+```bash
+poetry lock
 ```
 
 ## Run Servers

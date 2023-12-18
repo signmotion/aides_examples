@@ -20,8 +20,10 @@ class BrainSide(Side):
         acts: List[Act],
         runs: List[Callable],
     ):
-        assert bool(runs)
-        assert len(runs) == len(acts)
+        assert bool(runs), "The runs should be able, as least 1."
+        assert len(runs) == len(
+            acts
+        ), "The count of runs doesn't much the count of acts."
 
         super().__init__(
             router=router,
