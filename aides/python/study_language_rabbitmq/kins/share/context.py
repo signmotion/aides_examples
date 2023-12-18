@@ -1,5 +1,7 @@
 from pydantic import BaseModel, Field
 
+from .config import test_nickname_act
+
 
 class Languages(BaseModel):
     native: str = Field(
@@ -70,7 +72,7 @@ The whole point of learning something is that you don't know what will happen ne
 
 
 def test_context_caption():
-    with open("app/data/five_nights_at_freddy_2023.srt", "r") as file:
+    with open("kins/test/data/five_nights_at_freddy_2023.srt", "r") as file:
         # with open("app/data/a.srt", "r") as file:
         data = file.read()
 
@@ -80,3 +82,13 @@ def test_context_caption():
             "text": data,
         }
     )
+
+
+def test_context_init():
+    if test_nickname_act == "phrasal_verbs":
+        return test_context_article()
+
+    if test_nickname_act == "translate_caption":
+        return test_context_caption()
+
+    raise Exception(f"Context for act {test_nickname_act} not defined.")

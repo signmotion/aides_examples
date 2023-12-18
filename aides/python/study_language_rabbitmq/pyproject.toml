@@ -9,12 +9,11 @@ readme = "README.md"
 python = "^3.9"
 fastapi = "^0.105.0"
 faststream = {extras = ["rabbit"], version = "^0.3.6"}
-g4f = "^0.1.9.3"
-# googletrans = "^4.0.0-rc1"
 load-dotenv = "^0.1.0"
 openai = "^1.4.0"
 pycaption = "^2.2.0"
 sanitize-filename = "^1.2.0"
+translate-api = "^4.9.5"
 uvicorn = "^0.24.0.post1"
 watchfiles = "^0.21.0"
 

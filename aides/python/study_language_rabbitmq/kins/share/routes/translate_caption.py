@@ -1,14 +1,14 @@
-from fastapi import APIRouter
-from googletrans import Translator
 import json
 from fastapi.encoders import jsonable_encoder
 import pycaption
 from pydantic import BaseModel, Field
 import re
 import traceback
+import translators as ts
 from typing import Any, Callable, Dict, Optional
 
 from ..config import *
+from ..context import Context
 from ..packages.aide_server.src.aide_server.log import logger
 from ..packages.aide_server.src.aide_server.task import Result, Task
 
@@ -19,23 +19,60 @@ async def translate_caption(
     publish_result: Callable,
 ):
     logger.info(f"Running `{__name__}`...")
+    logger.info(f"Running `{task}`...")
 
     await publish_progress(task=task, progress=0)
 
-    srt = task.context["text"]
-    captions = pycaption.SRTReader().read(srt)
+    r = None
+    error = None
+    try:
+        r = await _translate_caption(
+            task,
+            publish_progress=publish_progress,
+        )
+    except Exception as ex:
+        error = ex
+
+    value = _construct_answer(
+        r,  # type: ignore[override]
+        context=task.context,
+        error=error,  # type: ignore[override]
+    )
+
+    await publish_progress(task=task, progress=100)
+
+    return await publish_result(
+        task=task,
+        result=Result(uid_task=task.uid, value=value),
+    )
+
+
+async def _translate_caption(
+    task: Task,
+    publish_progress: Callable,
+) -> dict:
+    context = Context.model_validate(task.context)
+
+    captions = pycaption.SRTReader().read(context.text)
+
     # webvtt = pycaption.WebVTTWriter().write(captions)
     languages = captions.get_languages()
 
     sentences = _harvest_sentences(captions)
-    # targetLanguage = context().languages.target
-    targetLanguage = "de"
+
+    targetLanguage = context.languages.target
+    logger.info(f"Target language: `{targetLanguage}`")
+    i = 0
     for sentence in sentences:
         sentence.text[targetLanguage] = _translate_text(
             list(sentence.text.values())[0],
             targetLanguage=targetLanguage,
         )
-        print(sentence)
+
+        i += 1
+        progress = (i / (len(sentences) + 1) * 100,)
+        logger.info(f"{i} {progress}% {sentence}")
+        await publish_progress(task=task, progress=progress)
 
     r = {
         "sentences_count": len(sentences),
@@ -48,17 +85,7 @@ async def translate_caption(
         # json.dump(r, file)
         json.dump(r, file, ensure_ascii=False)
 
-    value = _construct_answer(
-        r,
-        context=task.context,
-    )
-
-    await publish_progress(task=task, progress=100)
-
-    return await publish_result(
-        task=task,
-        result=Result(uid_task=task.uid, value=value),
-    )
+    return r
 
 
 class Sentence(BaseModel):
@@ -69,10 +96,7 @@ class Sentence(BaseModel):
 
 
 def _translate_text(text: str, targetLanguage: str):
-    translator = Translator()
-    translated = translator.translate(text, dest=targetLanguage)
-
-    return translated.text
+    return ts.google(text, to_language=targetLanguage)
 
 
 def _harvest_sentences(captions):
@@ -142,7 +166,7 @@ def _construct_answer(
     result: dict,
     context: Dict[str, Any],
     error: Optional[Exception] = None,
-):
+) -> dict:
     o = {}
 
     if result:

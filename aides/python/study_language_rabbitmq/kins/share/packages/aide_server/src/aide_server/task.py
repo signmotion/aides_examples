@@ -18,7 +18,7 @@ class Task(BaseModel):
     context: Dict[str, Any] = Field(
         default={},
         title="Context Act",
-        description="Context as key-value of act aide.",
+        description="Context as key-value of act aide. Can be declared as concrete class for acts.",
     )
 
     def __str__(self):

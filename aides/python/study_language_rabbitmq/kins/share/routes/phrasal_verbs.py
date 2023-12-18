@@ -1,5 +1,3 @@
-from fastapi import APIRouter
-import g4f
 import openai
 import re
 import traceback
@@ -37,17 +35,7 @@ async def phrasal_verbs(
     error = None
     while True:
         try:
-            # automatic selection of provider
-            response = (
-                _queryChatGpt(task.context)
-                if use_chat_gpt
-                else _queryG4F(
-                    ignored_providers,
-                    context=task.context,
-                )
-            )
-
-            responseResult = response
+            responseResult = _queryChatGpt(task.context)
 
             if improve_answer:
                 improvedResult = _improve(responseResult)  # type: ignore[override]
@@ -105,20 +93,6 @@ def _queryChatGpt(context: Dict[str, Any]):
     logger.info(response)
 
     return response.choices[0].text
-
-
-def _queryG4F(
-    ignored_providers: list,
-    context: Dict[str, Any],
-):
-    if fake_response:
-        return _phrasal_verbs_demo_text(context)["result"]
-
-    return g4f.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": _prompt(context["text"])}],
-        ignored=ignored_providers,
-    )
 
 
 def _prompt(text: str):
