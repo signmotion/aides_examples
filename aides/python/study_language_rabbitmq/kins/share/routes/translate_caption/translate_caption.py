@@ -64,6 +64,7 @@ async def _translate_caption(
 
     targetLanguage = context.languages.target
     logger.info(f"Target language: `{targetLanguage}`")
+    # TODO optimize Translating many sentences at a time.
     for i, sentence in enumerate(sentences):
         sentence.text[targetLanguage] = _translate_text(
             list(sentence.text.values())[0],
@@ -82,7 +83,6 @@ async def _translate_caption(
     }
 
     with open("app/data/translated.json", "w", encoding="utf-8") as file:
-        # json.dump(r, file)
         json.dump(r, file, ensure_ascii=False)
 
     return r
