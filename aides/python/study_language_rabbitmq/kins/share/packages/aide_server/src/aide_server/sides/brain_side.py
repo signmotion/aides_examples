@@ -89,7 +89,7 @@ class BrainSide(Side):
             publish_result=self.publish_result,
         )
 
-    # catcher: Keeper
+    # catcher: Keeper, [Appearance]
     async def publish_progress(self, task: Task, progress: NonNegativeFloat):
         ts = short_json(task, exclude={"context"})
         logger.info(f"Progress for task `{ts}`: {progress.real}%")
@@ -109,7 +109,7 @@ class BrainSide(Side):
 
         return progress
 
-    # catcher: Keeper
+    # catcher: Keeper, [Appearance]
     async def publish_result(self, task: Task, result: Any):
         ts = short_json(task, exclude={"context"})
         logger.info(f"Result for task `{ts}`: `{result}`")

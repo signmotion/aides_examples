@@ -52,7 +52,7 @@
       "version": "0.1.0"
     },
     {
-      "name": { "en": "Translates Caption." },
+      "name": { "en": "Translate Caption." },
       "hid": "translate_caption",
       "summary": {
         "en": "Translates the caption and subtitle to other language."

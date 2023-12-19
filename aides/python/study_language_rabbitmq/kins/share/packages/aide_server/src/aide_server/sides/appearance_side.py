@@ -28,6 +28,8 @@ class AppearanceSide(Side):
         acts: List[Act],
         inner_memo: InnerMemo,
         context_memo: ContextMemo,
+        catch_progress: bool = True,
+        catch_result: bool = True,
     ):
         assert not isinstance(
             context_memo, NoneContextMemo
@@ -41,6 +43,8 @@ class AppearanceSide(Side):
         )
 
         self.context_memo = context_memo
+        self.catch_progress = catch_progress
+        self.catch_result = catch_result
 
         self._register_catchers_and_endpoints(
             name_aide=name_aide,
@@ -57,6 +61,18 @@ class AppearanceSide(Side):
         ...,
         title="Context Memo",
         description="The context memory.",
+    )
+
+    catch_progress: bool = Field(
+        ...,
+        title="Catch Progress",
+        description="Catch progress from Savant and save it to inner memory without additional request to Keeper.",
+    )
+
+    catch_result: bool = Field(
+        ...,
+        title="Catch Result",
+        description="Catch result from Savant and save it to inner memory without additional request to Keeper.",
     )
 
     def _register_catchers_and_endpoints(
@@ -86,29 +102,54 @@ class AppearanceSide(Side):
 
         # add acts routes
         for act in self.acts:
-            self._act_register_catcher_and_endpoints(act)
+            self._act_register_catchers_and_endpoints(act)
 
         logger.info(
-            f"🪶 Registered the catchers and client endpoint(s)"
+            f"🪶 Registered the catchers and client endpoints"
             f" for `{self.name}`, {len(self.acts)} acts."
         )
 
-    def _act_register_catcher_and_endpoints(self, act: Act):
+    def _act_register_catchers_and_endpoints(self, act: Act):
         logger.info(
-            f"🪶 Registering the catchers and endpoints for `{act.paths}`"
+            f"🪶 Registering the catchers and client endpoints"
+            f" for `{act.paths}`"
             f" `{self.name}` act `{act.hid}`..."
         )
 
+        n = 0
+
         self._task_act_register_endpoint(act)
+        n += 1
 
         self._request_progress_act_register_endpoint(act)
+        n += 1
         self._response_progress_register_catcher_and_endpoint(act)
+        n += 1
 
         self._request_result_act_register_endpoint(act)
+        n += 1
         self._response_result_register_catcher_and_endpoint(act)
+        n += 1
+
+        if self.catch_progress:
+
+            @self.progressCatcher(act.hid)
+            async def progress_catcher(progress: Progress):
+                await self._catch_progress(progress)
+
+            n += 1
+
+        if self.catch_result:
+
+            @self.resultCatcher(act.hid)
+            async def result_catcher(result: Result):
+                await self._catch_result(result)
+
+            n += 1
 
         logger.info(
-            f"🪶 Registered the catchers and endpoints for `{act.paths}`"
+            f"🪶 Registered {n} catchers and endpoints"
+            f" for `{act.paths}`"
             f" `{self.name}` act `{act.hid}`."
         )
 
@@ -178,11 +219,7 @@ class AppearanceSide(Side):
         # memorize it to inner memory
         @self.responseProgressCatcher()
         async def response_progress_catcher(progress: Progress):
-            logger.info(f"Catched a response progress `{progress}`.")
-            if isinstance(progress, dict):
-                progress = Progress.model_validate(progress)
-            key = f"{progress.uid_task}.response_progress"
-            self.inner_memo.put(key, progress.value)
+            await self._catch_progress(progress)
 
         # response progress endpoint
         # returns a progress value after call a request_progress_endpoint and
@@ -202,6 +239,13 @@ class AppearanceSide(Side):
             key = f"{uid_task}.response_progress"
 
             return self.inner_memo.get(key)
+
+    async def _catch_progress(self, progress: Progress):
+        logger.info(f"Catched a response progress `{progress}`.")
+        if isinstance(progress, dict):
+            progress = Progress.model_validate(progress)
+        key = f"{progress.uid_task}.response_progress"
+        self.inner_memo.put(key, progress.value)
 
     # RESULT
     def _request_result_act_register_endpoint(self, act: Act):
@@ -236,11 +280,7 @@ class AppearanceSide(Side):
         # memorize it to inner memory
         @self.responseResultCatcher()
         async def response_result_catcher(result: Result):
-            logger.info(f"Catched a response result `{result}`.")
-            if isinstance(result, dict):
-                result = Result.model_validate(result)
-            key = f"{result.uid_task}.response_result"
-            self.inner_memo.put(key, result.value)
+            await self._catch_result(result)
 
         # response result endpoint
         # returns a result value after call a request_result_endpoint and
@@ -260,3 +300,10 @@ class AppearanceSide(Side):
             key = f"{uid_task}.response_result"
 
             return self.inner_memo.get(key)
+
+    async def _catch_result(self, result: Result):
+        logger.info(f"Catched a response result `{result}`.")
+        if isinstance(result, dict):
+            result = Result.model_validate(result)
+        key = f"{result.uid_task}.response_result"
+        self.inner_memo.put(key, result.value)
