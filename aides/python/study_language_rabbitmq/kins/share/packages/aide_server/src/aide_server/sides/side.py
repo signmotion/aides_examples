@@ -60,7 +60,6 @@ class Side(ABC):
     def catcher(
         self,
         queue: Union[str, RabbitQueue],
-        exchange: Union[str, RabbitExchange, None],
     ) -> Callable[
         [Callable[P_HandlerParams, T_HandlerReturn]],
         HandlerCallWrapper[aio_pika.IncomingMessage, P_HandlerParams, T_HandlerReturn],
@@ -77,5 +76,5 @@ class Side(ABC):
         """
         return self.savant_router.broker.subscriber(
             queue=queue,
-            exchange=exchange,
+            exchange=self.savant_router.exchange(),
         )

@@ -47,10 +47,7 @@ class KeeperSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.catcher(
-            queue=self.savant_router.progressQueue(act.hid),
-            exchange=self.savant_router.exchange(),
-        )
+        @self.catcher(self.savant_router.progressQueue(act.hid))
         async def progress_catcher(progress: Progress):
             logger.info(f"Catched a progress `{progress}`.")
             if isinstance(progress, dict):
@@ -60,10 +57,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.catcher(
-            queue=self.savant_router.resultQueue(act.hid),
-            exchange=self.savant_router.exchange(),
-        )
+        @self.catcher(self.savant_router.resultQueue(act.hid))
         async def result_catcher(result: Result):
             logger.info(f"Catched a result `{result}`.")
             if isinstance(result, dict):
@@ -73,10 +67,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.catcher(
-            queue=self.savant_router.requestProgressQueue(),
-            exchange=self.savant_router.exchange(),
-        )
+        @self.catcher(self.savant_router.requestProgressQueue())
         async def request_progress_catcher(uid_task: str):
             logger.info(f"Catched a request progress for task `{uid_task}`.")
             key = f"{uid_task}.progress"
@@ -85,10 +76,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.catcher(
-            queue=self.savant_router.requestResultQueue(),
-            exchange=self.savant_router.exchange(),
-        )
+        @self.catcher(self.savant_router.requestResultQueue())
         async def request_result_catcher(uid_task: str):
             logger.info(f"Catched a request result for task `{uid_task}`.")
             key = f"{uid_task}.result"

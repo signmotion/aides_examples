@@ -191,15 +191,13 @@ class AppearanceSide(Side):
     def _response_progress_register_catcher_and_endpoint(self, act: Act):
         # response progress catcher
         # memorize it to inner memory
-        @self.catcher(
-            queue=self.savant_router.responseProgressQueue(),
-            exchange=self.savant_router.exchange(),
-        )
+        @self.catcher(self.savant_router.responseProgressQueue())
         async def response_progress_catcher(progress: Progress):
             logger.info(f"Catched a response progress `{progress}`.")
             if isinstance(progress, dict):
                 progress = Progress.model_validate(progress)
-            self._response_progress_catched(progress)
+            key = f"{progress.uid_task}.response_progress"
+            self.inner_memo.put(key, progress.value)
 
         # response progress endpoint
         # returns a progress value after call a request_progress_endpoint and
@@ -219,10 +217,6 @@ class AppearanceSide(Side):
             key = f"{uid_task}.response_progress"
 
             return self.inner_memo.get(key)
-
-    def _response_progress_catched(self, progress: Progress):
-        key = f"{progress.uid_task}.response_progress"
-        self.inner_memo.put(key, progress.value)
 
     # RESULT
     def _request_result_act_register_endpoint(self, act: Act):
@@ -262,15 +256,13 @@ class AppearanceSide(Side):
     def _response_result_register_catcher_and_endpoint(self, act: Act):
         # response result catcher
         # memorize it to inner memory
-        @self.catcher(
-            queue=self.savant_router.responseResultQueue(),
-            exchange=self.savant_router.exchange(),
-        )
+        @self.catcher(self.savant_router.responseResultQueue())
         async def response_result_catcher(result: Result):
             logger.info(f"Catched a response result `{result}`.")
             if isinstance(result, dict):
                 result = Result.model_validate(result)
-            self._response_result_catched(result)
+            key = f"{result.uid_task}.response_result"
+            self.inner_memo.put(key, result.value)
 
         # response result endpoint
         # returns a result value after call a request_result_endpoint and
@@ -290,7 +282,3 @@ class AppearanceSide(Side):
             key = f"{uid_task}.response_result"
 
             return self.inner_memo.get(key)
-
-    def _response_result_catched(self, result: Result):
-        key = f"{result.uid_task}.response_result"
-        self.inner_memo.put(key, result.value)
