@@ -105,7 +105,7 @@ class BrainSide(Side):
         )
 
         # test
-        # time.sleep(2)
+        time.sleep(0.2)
 
         return progress
 
@@ -124,6 +124,7 @@ class BrainSide(Side):
             queue=queue,
         )
 
-        time.sleep(2)
+        # test
+        time.sleep(0.2)
 
         return result
