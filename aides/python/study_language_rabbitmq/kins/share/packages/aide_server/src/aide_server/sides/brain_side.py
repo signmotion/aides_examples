@@ -3,6 +3,8 @@ from pydantic import Field, NonNegativeFloat
 import time
 from typing import Any, Callable, List
 
+from kins.share.packages.short_json.src.short_json.short_json import short_json
+
 from .side import Side
 
 from ..act import Act
@@ -63,7 +65,7 @@ class BrainSide(Side):
             exchange=self.savant_router.exchange(),
         )
         async def task_catcher(task: Task):
-            logger.info(f"Catched a task {type(task).__name__} -> {task}")
+            logger.info(f"Catched a task {type(task).__name__} -> {short_json(task)}")
             if isinstance(task, dict):
                 task = Task.model_validate(task)
             await self._run_task(task)
@@ -80,7 +82,7 @@ class BrainSide(Side):
                 break
 
         if not found_run:
-            raise Exception(f"Not found a run for task `{task}`.")
+            raise Exception(f"Not found a run for task `{short_json(task)}`.")
 
         await found_run(
             task=task,
@@ -90,13 +92,13 @@ class BrainSide(Side):
 
     # catcher: Keeper
     async def publish_progress(self, task: Task, progress: NonNegativeFloat):
-        logger.info(f"Progress for task `{task}`: {progress} %")
+        logger.info(f"Progress for task `{short_json(task)}`: {progress} %")
 
         exchange = self.savant_router.exchange()
         queue = self.savant_router.progressQueue(task.hid_act)
 
         logger.info(
-            f"Publish a progress of task `{task}` to Savant:"
+            f"Publish a progress of task `{short_json(task)}` to Savant:"
             f" exchange `{exchange.name}`, queue `{queue.name}`."
         )
         await self.savant_router.broker.publish(
@@ -112,13 +114,13 @@ class BrainSide(Side):
 
     # catcher: Keeper
     async def publish_result(self, task: Task, result: Any):
-        logger.info(f"Result for task `{task}`: `{result}`")
+        logger.info(f"Result for task `{short_json(task)}`: `{result}`")
 
         exchange = self.savant_router.exchange()
         queue = self.savant_router.resultQueue(task.hid_act)
 
         logger.info(
-            f"Publish a result of task `{task}` to Savant:"
+            f"Publish a result of task `{short_json(task)}` to Savant:"
             f" exchange `{exchange.name}`, queue `{queue.name}`."
         )
         await self.savant_router.broker.publish(

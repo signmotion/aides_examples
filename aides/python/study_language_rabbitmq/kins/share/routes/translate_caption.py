@@ -7,6 +7,8 @@ import traceback
 import translators as ts
 from typing import Any, Callable, Dict, Optional
 
+from kins.share.packages.short_json.src.short_json.short_json import short_json
+
 from ..config import *
 from ..context import Context
 from ..packages.aide_server.src.aide_server.log import logger
@@ -19,7 +21,7 @@ async def translate_caption(
     publish_result: Callable,
 ):
     logger.info(f"Running `{__name__}`...")
-    logger.info(f"Running `{task}`...")
+    logger.info(f"Running `{short_json(task)}`...")
 
     await publish_progress(task=task, progress=0)
 

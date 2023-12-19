@@ -3,6 +3,8 @@ from pydantic import Field
 from typing import List
 import uuid
 
+from kins.share.packages.short_json.src.short_json.short_json import short_json
+
 from .side import Side
 
 from ..act import Act
@@ -139,7 +141,7 @@ class AppearanceSide(Side):
         )
 
         logger.info(
-            f"Publish a task `{task}` to Savant:"
+            f"Publish a task `{short_json(task)}` to Savant:"
             f" exchange `{exchange.name}`, queue `{queue.name}`."
         )
         await self.savant_router.broker.publish(
