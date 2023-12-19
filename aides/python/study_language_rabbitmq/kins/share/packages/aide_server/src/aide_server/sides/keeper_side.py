@@ -47,7 +47,7 @@ class KeeperSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.savant_router.broker.subscriber(
+        @self.catcher(
             queue=self.savant_router.progressQueue(act.hid),
             exchange=self.savant_router.exchange(),
         )
@@ -60,8 +60,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        # TODO Replace to `self.savant_broker.subscriber()` or `self.catcher()`.
-        @self.savant_router.broker.subscriber(
+        @self.catcher(
             queue=self.savant_router.resultQueue(act.hid),
             exchange=self.savant_router.exchange(),
         )
@@ -74,7 +73,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.savant_router.broker.subscriber(
+        @self.catcher(
             queue=self.savant_router.requestProgressQueue(),
             exchange=self.savant_router.exchange(),
         )
@@ -86,7 +85,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.savant_router.broker.subscriber(
+        @self.catcher(
             queue=self.savant_router.requestResultQueue(),
             exchange=self.savant_router.exchange(),
         )

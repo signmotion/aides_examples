@@ -1,7 +1,11 @@
 from abc import ABC
+import aio_pika
 from fastapi import APIRouter
+from faststream.broker.types import P_HandlerParams, T_HandlerReturn
+from faststream.broker.wrapper import HandlerCallWrapper
+from faststream.rabbit import RabbitExchange, RabbitQueue
 from pydantic import Field
-from typing import List
+from typing import Callable, List, Union
 
 from ..act import Act
 from ..inner_memo import InnerMemo, NoneInnerMemo
@@ -52,3 +56,26 @@ class Side(ABC):
         title="Inner Memo",
         description="The inner memory.",
     )
+
+    def catcher(
+        self,
+        queue: Union[str, RabbitQueue],
+        exchange: Union[str, RabbitExchange, None],
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[aio_pika.IncomingMessage, P_HandlerParams, T_HandlerReturn],
+    ]:
+        """
+        Decorator to define a message catcher (a subscriber in the FastAPI terminology).
+
+        Args:
+            queue (Union[str, RabbitQueue]): The name of the RabbitMQ queue.
+            exchange (Union[str, RabbitExchange, None], optional): The name of the RabbitMQ exchange.
+
+        Returns:
+            Callable: A decorator function for defining message catcher.
+        """
+        return self.savant_router.broker.subscriber(
+            queue=queue,
+            exchange=exchange,
+        )

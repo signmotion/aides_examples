@@ -60,7 +60,7 @@ class BrainSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.savant_router.broker.subscriber(
+        @self.catcher(
             queue=self.savant_router.taskQueue(act.hid),
             exchange=self.savant_router.exchange(),
         )

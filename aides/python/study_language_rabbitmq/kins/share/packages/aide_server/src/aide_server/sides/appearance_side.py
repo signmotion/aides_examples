@@ -191,7 +191,7 @@ class AppearanceSide(Side):
     def _response_progress_register_catcher_and_endpoint(self, act: Act):
         # response progress catcher
         # memorize it to inner memory
-        @self.savant_router.broker.subscriber(
+        @self.catcher(
             queue=self.savant_router.responseProgressQueue(),
             exchange=self.savant_router.exchange(),
         )
@@ -262,7 +262,7 @@ class AppearanceSide(Side):
     def _response_result_register_catcher_and_endpoint(self, act: Act):
         # response result catcher
         # memorize it to inner memory
-        @self.savant_router.broker.subscriber(
+        @self.catcher(
             queue=self.savant_router.responseResultQueue(),
             exchange=self.savant_router.exchange(),
         )
