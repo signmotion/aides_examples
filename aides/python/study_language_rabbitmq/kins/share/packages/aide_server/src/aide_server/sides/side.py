@@ -3,7 +3,7 @@ import aio_pika
 from fastapi import APIRouter
 from faststream.broker.types import P_HandlerParams, T_HandlerReturn
 from faststream.broker.wrapper import HandlerCallWrapper
-from faststream.rabbit import RabbitExchange, RabbitQueue
+from faststream.rabbit import RabbitQueue
 from pydantic import BaseModel, Field
 from typing import Any, Callable, Dict, List, Union
 
