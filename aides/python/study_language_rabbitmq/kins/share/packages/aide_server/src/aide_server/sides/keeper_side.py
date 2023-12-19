@@ -55,7 +55,8 @@ class KeeperSide(Side):
             logger.info(f"Catched a progress `{progress}`.")
             if isinstance(progress, dict):
                 progress = Progress.model_validate(progress)
-            self._progress_catched(progress)
+            key = f"{progress.uid_task}.progress"
+            self.inner_memo.put(key, progress.value)
 
         n += 1
 
@@ -68,7 +69,8 @@ class KeeperSide(Side):
             logger.info(f"Catched a result `{result}`.")
             if isinstance(result, dict):
                 result = Result.model_validate(result)
-            await self._result_catched(result)
+            key = f"{result.uid_task}.result"
+            self.inner_memo.put(key, result.value)
 
         n += 1
 
@@ -78,7 +80,9 @@ class KeeperSide(Side):
         )
         async def request_progress_catcher(uid_task: str):
             logger.info(f"Catched a request progress for task `{uid_task}`.")
-            await self._request_progress_catched(uid_task)
+            key = f"{uid_task}.progress"
+            value = self.inner_memo.get(key)
+            await self._publish_response_progress(uid_task, value=float(value))
 
         n += 1
 
@@ -88,27 +92,11 @@ class KeeperSide(Side):
         )
         async def request_result_catcher(uid_task: str):
             logger.info(f"Catched a request result for task `{uid_task}`.")
-            await self._request_result_catched(uid_task)
+            key = f"{uid_task}.result"
+            value = self.inner_memo.get(key)
+            await self._publish_response_result(uid_task, value=value)
 
         logger.info(f"🪶 Registered {n} catchers for act `{act.hid}`.")
-
-    def _progress_catched(self, progress: Progress):
-        key = f"{progress.uid_task}.progress"
-        self.inner_memo.put(key, progress.value)
-
-    async def _result_catched(self, result: Result):
-        key = f"{result.uid_task}.result"
-        self.inner_memo.put(key, result.value)
-
-    async def _request_progress_catched(self, uid_task: str):
-        key = f"{uid_task}.progress"
-        value = self.inner_memo.get(key)
-        await self._publish_response_progress(uid_task, value=float(value))
-
-    async def _request_result_catched(self, uid_task: str):
-        key = f"{uid_task}.result"
-        value = self.inner_memo.get(key)
-        await self._publish_response_result(uid_task, value=value)
 
     # catcher: Appearance
     async def _publish_response_progress(self, uid_task: str, value: float):
