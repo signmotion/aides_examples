@@ -60,7 +60,7 @@ class BrainSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.catcher(self.savant_router.taskQueue(act.hid))
+        @self.taskCatcher(act.hid)
         async def task_catcher(task: Task):
             ts = short_json(task, exclude={"context"})
             logger.info(f"Catched a task {type(task).__name__} -> {ts}")

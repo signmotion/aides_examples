@@ -47,7 +47,7 @@ class KeeperSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.catcher(self.savant_router.progressQueue(act.hid))
+        @self.progressCatcher(act.hid)
         async def progress_catcher(progress: Progress):
             logger.info(f"Catched a progress `{progress}`.")
             if isinstance(progress, dict):
@@ -57,7 +57,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.catcher(self.savant_router.resultQueue(act.hid))
+        @self.resultCatcher(act.hid)
         async def result_catcher(result: Result):
             logger.info(f"Catched a result `{result}`.")
             if isinstance(result, dict):
@@ -67,7 +67,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.catcher(self.savant_router.requestProgressQueue())
+        @self.requestProgressCatcher()
         async def request_progress_catcher(uid_task: str):
             logger.info(f"Catched a request progress for task `{uid_task}`.")
             key = f"{uid_task}.progress"
@@ -76,7 +76,7 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.catcher(self.savant_router.requestResultQueue())
+        @self.requestResultCatcher()
         async def request_result_catcher(uid_task: str):
             logger.info(f"Catched a request result for task `{uid_task}`.")
             key = f"{uid_task}.result"

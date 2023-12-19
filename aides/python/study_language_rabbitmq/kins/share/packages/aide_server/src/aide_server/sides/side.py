@@ -57,12 +57,103 @@ class Side(ABC):
         description="The inner memory.",
     )
 
+    def taskCatcher(
+        self,
+        hid_act: str,
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
+    ]:
+        return self.catcher(self.savant_router.taskQueue(hid_act))
+
+    def progressCatcher(
+        self,
+        hid_act: str,
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
+    ]:
+        return self.catcher(self.savant_router.progressQueue(hid_act))
+
+    def resultCatcher(
+        self,
+        hid_act: str,
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
+    ]:
+        return self.catcher(self.savant_router.resultQueue(hid_act))
+
+    def requestProgressCatcher(
+        self,
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
+    ]:
+        return self.catcher(self.savant_router.requestProgressQueue())
+
+    def responseProgressCatcher(
+        self,
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
+    ]:
+        return self.catcher(self.savant_router.responseProgressQueue())
+
+    def requestResultCatcher(
+        self,
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
+    ]:
+        return self.catcher(self.savant_router.requestResultQueue())
+
+    def responseResultCatcher(
+        self,
+    ) -> Callable[
+        [Callable[P_HandlerParams, T_HandlerReturn]],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
+    ]:
+        return self.catcher(self.savant_router.responseResultQueue())
+
     def catcher(
         self,
         queue: Union[str, RabbitQueue],
     ) -> Callable[
         [Callable[P_HandlerParams, T_HandlerReturn]],
-        HandlerCallWrapper[aio_pika.IncomingMessage, P_HandlerParams, T_HandlerReturn],
+        HandlerCallWrapper[
+            aio_pika.IncomingMessage,
+            P_HandlerParams,
+            T_HandlerReturn,
+        ],
     ]:
         """
         Decorator to define a message catcher (a subscriber in the FastAPI terminology).

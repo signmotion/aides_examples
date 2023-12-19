@@ -191,7 +191,7 @@ class AppearanceSide(Side):
     def _response_progress_register_catcher_and_endpoint(self, act: Act):
         # response progress catcher
         # memorize it to inner memory
-        @self.catcher(self.savant_router.responseProgressQueue())
+        @self.responseProgressCatcher()
         async def response_progress_catcher(progress: Progress):
             logger.info(f"Catched a response progress `{progress}`.")
             if isinstance(progress, dict):
@@ -256,7 +256,7 @@ class AppearanceSide(Side):
     def _response_result_register_catcher_and_endpoint(self, act: Act):
         # response result catcher
         # memorize it to inner memory
-        @self.catcher(self.savant_router.responseResultQueue())
+        @self.responseResultCatcher()
         async def response_result_catcher(result: Result):
             logger.info(f"Catched a response result `{result}`.")
             if isinstance(result, dict):
