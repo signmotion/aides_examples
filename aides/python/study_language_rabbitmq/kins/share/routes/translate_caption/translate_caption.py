@@ -2,17 +2,17 @@ from deep_translator import GoogleTranslator
 from fastapi.encoders import jsonable_encoder
 import json
 import pycaption
-from pydantic import BaseModel, Field
 import re
 import traceback
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional
 
-from kins.share.packages.short_json.src.short_json.short_json import short_json
+from .sentence import Sentence
 
-from ..config import *
-from ..context import Context
-from ..packages.aide_server.src.aide_server.log import logger
-from ..packages.aide_server.src.aide_server.task import Result, Task
+from ...config import *
+from ...context import Context
+from ...packages.aide_server.src.aide_server.log import logger
+from ...packages.aide_server.src.aide_server.task import Result, Task
+from ...packages.short_json.src.short_json.short_json import short_json
 
 
 async def translate_caption(
@@ -52,7 +52,7 @@ async def translate_caption(
 async def _translate_caption(
     task: Task,
     publish_progress: Callable,
-) -> dict:
+) -> Dict[str, Any]:
     context = Context.model_validate(task.context)
 
     captions = pycaption.SRTReader().read(context.text)
@@ -90,13 +90,6 @@ async def _translate_caption(
     return r
 
 
-class Sentence(BaseModel):
-    # whole sentence (value) on the language (key)
-    text: dict = Field(default={})
-    # node start (key) and count of chunks this harvested sentence in the node (value)
-    chunks: dict = Field(default={})
-
-
 def _translate_text(text: str, targetLanguage: str):
     return GoogleTranslator(target=targetLanguage).translate(text)
 
@@ -106,7 +99,7 @@ def _harvest_sentences(captions):
     language = languages[0]
 
     cl = captions.get_captions(language)
-    sentences = []
+    sentences: List[Sentence] = []
     sentence = Sentence(text={language: ""})
     for caption in cl:
         start = caption.start
@@ -168,7 +161,7 @@ def _construct_answer(
     result: dict,
     context: Dict[str, Any],
     error: Optional[Exception] = None,
-) -> dict:
+) -> Dict[str, Any]:
     o = {}
 
     if result:

@@ -3,8 +3,6 @@ from pydantic import Field, NonNegativeFloat
 import time
 from typing import Any, Callable, List
 
-from kins.share.packages.short_json.src.short_json.short_json import short_json
-
 from .side import Side
 
 from ..act import Act
@@ -12,6 +10,8 @@ from ..inner_memo import NoneInnerMemo
 from ..log import logger
 from ..savant_router import SavantRouter
 from ..task import Progress, Result, Task
+
+from .....short_json.src.short_json.short_json import short_json
 
 
 class BrainSide(Side):
