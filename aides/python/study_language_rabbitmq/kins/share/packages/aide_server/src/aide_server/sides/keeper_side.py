@@ -87,38 +87,28 @@ class KeeperSide(Side):
 
     # catcher: Appearance
     async def _publish_response_progress(self, uid_task: str, value: float):
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.responseProgressQueue()
-
         logger.info(
             f"Publish a response progress for task `{uid_task}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f" queue `{queue.name}`."
         )
-        # TODO Replace to `self.savant_broker.publish()` or `self.publish()`.
-        await self.savant_router.broker.publish(
+        await self.push(
             Progress(uid_task=uid_task, value=value),
             queue=queue,
-            exchange=exchange,
-            timeout=6,
         )
 
         return True
 
     # catcher: Appearance
     async def _publish_response_result(self, uid_task: str, value: Any):
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.responseResultQueue()
-
         logger.info(
             f"Publish a response result for task `{uid_task}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f" queue `{queue.name}`."
         )
-        # TODO Replace to `self.savant_broker.publish()` or `self.publish()`.
-        await self.savant_router.broker.publish(
+        await self.push(
             Result(uid_task=uid_task, value=value),
             queue=queue,
-            exchange=exchange,
-            timeout=6,
         )
 
         return True

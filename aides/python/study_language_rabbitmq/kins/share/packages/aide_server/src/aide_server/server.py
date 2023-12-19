@@ -129,7 +129,8 @@ class AideServer(FastAPI):
                 message,
                 queue=self.savant_router.logQueue(),
                 exchange=self.savant_router.exchange(),
-                timeout=5,
+                # need for production
+                timeout=6,
             )
 
         @self.savant_router.broker.subscriber(

@@ -4,8 +4,8 @@ from fastapi import APIRouter
 from faststream.broker.types import P_HandlerParams, T_HandlerReturn
 from faststream.broker.wrapper import HandlerCallWrapper
 from faststream.rabbit import RabbitExchange, RabbitQueue
-from pydantic import Field
-from typing import Callable, List, Union
+from pydantic import BaseModel, Field
+from typing import Any, Callable, Dict, List, Union
 
 from ..act import Act
 from ..inner_memo import InnerMemo, NoneInnerMemo
@@ -66,6 +66,19 @@ class Side(ABC):
         title="Inner Memo",
         description="The inner memory.",
     )
+
+    async def push(
+        self,
+        message: Union[BaseModel, Dict[str, Any], str],
+        queue: Union[str, RabbitQueue],
+    ):
+        return await self.savant_router.broker.publish(
+            message,
+            queue=queue,
+            exchange=self.savant_router.exchange(),
+            # need for production
+            timeout=6,
+        )
 
     def taskCatcher(self, hid_act: str) -> CatcherReturn:
         return self.catcher(self.savant_router.taskQueue(hid_act))

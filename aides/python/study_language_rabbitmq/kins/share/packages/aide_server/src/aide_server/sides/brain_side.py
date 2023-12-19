@@ -94,18 +94,14 @@ class BrainSide(Side):
         ts = short_json(task, exclude={"context"})
         logger.info(f"Progress for task `{ts}`: {progress.real}%")
 
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.progressQueue(task.hid_act)
-
         logger.info(
             f"Publish a progress of task `{task.hid_act}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f" queue `{queue.name}`."
         )
-        await self.savant_router.broker.publish(
+        await self.push(
             Progress(uid_task=task.uid, value=progress),
             queue=queue,
-            exchange=exchange,
-            timeout=6,
         )
 
         # test
@@ -118,18 +114,14 @@ class BrainSide(Side):
         ts = short_json(task, exclude={"context"})
         logger.info(f"Result for task `{ts}`: `{result}`")
 
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.resultQueue(task.hid_act)
-
         logger.info(
             f"Publish a result of task `{task.hid_act}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f" queue `{queue.name}`."
         )
-        await self.savant_router.broker.publish(
+        await self.push(
             Result(uid_task=task.uid, value=result),
             queue=queue,
-            exchange=exchange,
-            timeout=6,
         )
 
         time.sleep(2)

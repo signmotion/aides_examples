@@ -129,7 +129,6 @@ class AppearanceSide(Side):
             return await self._publish_task(act)
 
     async def _publish_task(self, act: Act):
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.taskQueue(act.hid)
         task = Task(
             uid=str(uuid.uuid4()),
@@ -139,17 +138,10 @@ class AppearanceSide(Side):
                 "text": self.context_memo.context.text,
             },
         )
-
         logger.info(
-            f"Publish a task `{short_json(task)}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f"Publish a task `{short_json(task)}` to Savant:" f" queue `{queue.name}`."
         )
-        await self.savant_router.broker.publish(
-            task,
-            queue=queue,
-            exchange=exchange,
-            timeout=6,
-        )
+        await self.push(task, queue=queue)
 
         return task.uid
 
@@ -172,19 +164,12 @@ class AppearanceSide(Side):
 
     # Returns a generated endpoint string for take a progress later.
     async def _publish_request_progress(self, act: Act, uid_task: str):
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.requestProgressQueue()
-
         logger.info(
             f"Publish a request progress of task `{uid_task}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f" queue `{queue.name}`."
         )
-        await self.savant_router.broker.publish(
-            uid_task,
-            queue=queue,
-            exchange=exchange,
-            timeout=6,
-        )
+        await self.push(uid_task, queue=queue)
 
         return act.path_response_progress.replace("{uid_task}", uid_task)
 
@@ -237,19 +222,12 @@ class AppearanceSide(Side):
 
     # Returns a generated endpoint string for take a result later.
     async def _publish_request_result(self, act: Act, uid_task: str):
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.requestResultQueue()
-
         logger.info(
             f"Publish a request result of task `{uid_task}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f" queue `{queue.name}`."
         )
-        await self.savant_router.broker.publish(
-            uid_task,
-            queue=queue,
-            exchange=exchange,
-            timeout=6,
-        )
+        await self.push(uid_task, queue=queue)
 
         return act.path_response_result.replace("{uid_task}", uid_task)
 
