@@ -64,14 +64,12 @@ async def _translate_caption(
 
     targetLanguage = context.languages.target
     logger.info(f"Target language: `{targetLanguage}`")
-    i = 0
-    for sentence in sentences:
+    for i, sentence in enumerate(sentences):
         sentence.text[targetLanguage] = _translate_text(
             list(sentence.text.values())[0],
             targetLanguage=targetLanguage,
         )
 
-        i += 1
         progress = round(100 * i / (len(sentences) + 1), 2)
         logger.info(f"{i} {progress}% {sentence}")
         await publish_progress(task=task, progress=progress)
