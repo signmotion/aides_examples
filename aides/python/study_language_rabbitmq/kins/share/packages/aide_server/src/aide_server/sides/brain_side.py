@@ -65,7 +65,8 @@ class BrainSide(Side):
             exchange=self.savant_router.exchange(),
         )
         async def task_catcher(task: Task):
-            logger.info(f"Catched a task {type(task).__name__} -> {short_json(task)}")
+            ts = short_json(task, exclude={"context"})
+            logger.info(f"Catched a task {type(task).__name__} -> {ts}")
             if isinstance(task, dict):
                 task = Task.model_validate(task)
             await self._run_task(task)
@@ -77,12 +78,13 @@ class BrainSide(Side):
         for run in self.runs:
             logger.info(f"Looking at act `{task.hid_act}` into run `{run.__name__}`...")
             if task.hid_act in run.__name__:
-                logger.info(f"Run for act `{task.hid_act}` found.")
+                logger.info(f"A run for act `{task.hid_act}` found.")
                 found_run = run
                 break
 
         if not found_run:
-            raise Exception(f"Not found a run for task `{short_json(task)}`.")
+            ts = short_json(task, exclude={"context"})
+            raise Exception(f"Not found a run for task `{ts}`.")
 
         await found_run(
             task=task,
@@ -92,13 +94,14 @@ class BrainSide(Side):
 
     # catcher: Keeper
     async def publish_progress(self, task: Task, progress: NonNegativeFloat):
-        logger.info(f"Progress for task `{short_json(task)}`: {progress} %")
+        ts = short_json(task, exclude={"context"})
+        logger.info(f"Progress for task `{ts}`: {progress.real}%")
 
         exchange = self.savant_router.exchange()
         queue = self.savant_router.progressQueue(task.hid_act)
 
         logger.info(
-            f"Publish a progress of task `{short_json(task)}` to Savant:"
+            f"Publish a progress of task `{task.hid_act}` to Savant:"
             f" exchange `{exchange.name}`, queue `{queue.name}`."
         )
         await self.savant_router.broker.publish(
@@ -108,19 +111,21 @@ class BrainSide(Side):
             timeout=6,
         )
 
-        time.sleep(2)
+        # test
+        # time.sleep(2)
 
         return progress
 
     # catcher: Keeper
     async def publish_result(self, task: Task, result: Any):
-        logger.info(f"Result for task `{short_json(task)}`: `{result}`")
+        ts = short_json(task, exclude={"context"})
+        logger.info(f"Result for task `{ts}`: `{result}`")
 
         exchange = self.savant_router.exchange()
         queue = self.savant_router.resultQueue(task.hid_act)
 
         logger.info(
-            f"Publish a result of task `{short_json(task)}` to Savant:"
+            f"Publish a result of task `{task.hid_act}` to Savant:"
             f" exchange `{exchange.name}`, queue `{queue.name}`."
         )
         await self.savant_router.broker.publish(

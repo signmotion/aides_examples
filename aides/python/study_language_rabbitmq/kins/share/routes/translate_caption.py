@@ -1,10 +1,10 @@
-import json
+from deep_translator import GoogleTranslator
 from fastapi.encoders import jsonable_encoder
+import json
 import pycaption
 from pydantic import BaseModel, Field
 import re
 import traceback
-import translators as ts
 from typing import Any, Callable, Dict, Optional
 
 from kins.share.packages.short_json.src.short_json.short_json import short_json
@@ -72,7 +72,7 @@ async def _translate_caption(
         )
 
         i += 1
-        progress = (i / (len(sentences) + 1) * 100,)
+        progress = round(100 * i / (len(sentences) + 1), 2)
         logger.info(f"{i} {progress}% {sentence}")
         await publish_progress(task=task, progress=progress)
 
@@ -98,7 +98,7 @@ class Sentence(BaseModel):
 
 
 def _translate_text(text: str, targetLanguage: str):
-    return ts.google(text, to_language=targetLanguage)
+    return GoogleTranslator(target=targetLanguage).translate(text)
 
 
 def _harvest_sentences(captions):
