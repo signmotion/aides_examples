@@ -141,6 +141,20 @@ class Act(BaseModel):
         description="Version of act aide.",
     )
 
+    def brief_unwrapped_multilang_texts(self, lang: str) -> Dict[str, Any]:
+        u = self.unwrapped_multilang_texts(lang)
+        r: Dict[str, Any] = {}
+        r["hid"] = u["hid"]
+        name = u["name"]
+        summary = u["summary"]
+        description = u["description"]
+        note = f"{name}. {description or summary}".strip()
+        if not note.endswith((".", "!", "?")):
+            note = f"{note}."
+        r["note"] = note
+
+        return r
+
     def unwrapped_multilang_texts(self, lang: str) -> Dict[str, Any]:
         r = self.model_dump()
         r["name"] = unwrap_multilang_text(r["name"], lang)

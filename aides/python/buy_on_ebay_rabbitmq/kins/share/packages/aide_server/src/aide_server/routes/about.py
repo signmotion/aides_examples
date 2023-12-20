@@ -18,12 +18,20 @@ def add_routes(
         }
 
     @router.get("/acts", include_in_schema=False)
-    def about():
-        return about_lang("en")
+    def acts():
+        return acts_lang("en")
 
     @router.get("/acts/{lang}", include_in_schema=False)
-    def about_lang(lang: str):
+    def acts_lang(lang: str):
         return [act.unwrapped_multilang_texts(lang) for act in configure.acts]
+
+    @router.get("/brief-acts", include_in_schema=False)
+    def brief_acts():
+        return brief_acts_lang("en")
+
+    @router.get("/brief-acts/{lang}", include_in_schema=False)
+    def brief_acts_lang(lang: str):
+        return [act.brief_unwrapped_multilang_texts(lang) for act in configure.acts]
 
     if configure.path_to_face:
 
