@@ -4,7 +4,11 @@ import os
 
 is_production = False
 use_test_context = True
-use_fake_response = True
+fake_response = True
+
+include_context_in_answer = True
+include_raw_response_in_answer = True
+
 include_original_response_in_response = False
 
 load_dotenv(dotenv_path=".env" if is_production else ".sandbox.env")

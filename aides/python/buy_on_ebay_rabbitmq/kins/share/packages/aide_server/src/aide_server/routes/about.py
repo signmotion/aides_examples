@@ -2,15 +2,14 @@ from fastapi import APIRouter
 from fastapi.responses import FileResponse
 
 
-def router(
+def add_routes(
+    router: APIRouter,
     name: str,
     hid: str,
     sidename: str,
     path_to_face: str,
 ):
-    api = APIRouter()
-
-    @api.get(
+    @router.get(
         "/",
         operation_id="root",
     )
@@ -23,11 +22,9 @@ def router(
 
     if path_to_face:
 
-        @api.get("/face", include_in_schema=False)
+        @router.get("/face", include_in_schema=False)
         def face():
             return FileResponse(path_to_face)
-
-    return api
 
 
 # You can declare any public info about Aide.
@@ -36,9 +33,7 @@ def router(
 #
 # from fastapi import APIRouter
 #
-# def router():
-#     r = APIRouter()
-#
+# def include_routes(router: APIRouter):
 #     @r.get("/place", include_in_schema=False)
 #     def place():
 #         return FileResponse("app/data/place.webp")

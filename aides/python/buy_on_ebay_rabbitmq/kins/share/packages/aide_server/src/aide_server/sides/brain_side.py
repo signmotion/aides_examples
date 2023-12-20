@@ -11,6 +11,8 @@ from ..log import logger
 from ..savant_router import SavantRouter
 from ..task import Progress, Result, Task
 
+from .....short_json.src.short_json.short_json import short_json
+
 
 class BrainSide(Side):
     def __init__(
@@ -20,6 +22,11 @@ class BrainSide(Side):
         acts: List[Act],
         runs: List[Callable],
     ):
+        assert bool(runs), "The runs should be able, as least 1."
+        assert len(runs) == len(
+            acts
+        ), "The count of runs doesn't much the count of acts."
+
         super().__init__(
             router=router,
             savant_router=savant_router,
@@ -53,32 +60,28 @@ class BrainSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.savant_router.broker.subscriber(
-            queue=self.savant_router.taskQueue(act.hid),
-            exchange=self.savant_router.exchange(),
-        )
+        @self.taskCatcher(act.hid)
         async def task_catcher(task: Task):
-            logger.info(f"Catched a task {type(task).__name__} -> {task}")
+            ts = short_json(task, exclude={"context"})
+            logger.info(f"Catched a task {type(task).__name__} -> {ts}")
             if isinstance(task, dict):
                 task = Task.model_validate(task)
             await self._run_task(task)
 
         logger.info(f"🪶 Registered {n} catcher for act `{act.hid}`.")
 
-    # def catch_task(self):
-    #     pass
-
     async def _run_task(self, task: Task):
         found_run = None
         for run in self.runs:
             logger.info(f"Looking at act `{task.hid_act}` into run `{run.__name__}`...")
             if task.hid_act in run.__name__:
-                logger.info(f"Run for act `{task.hid_act}` found.")
+                logger.info(f"A run for act `{task.hid_act}` found.")
                 found_run = run
                 break
 
         if not found_run:
-            raise Exception(f"Not found a run for task `{task}`.")
+            ts = short_json(task, exclude={"context"})
+            raise Exception(f"Not found a run for task `{ts}`.")
 
         await found_run(
             task=task,
@@ -86,46 +89,42 @@ class BrainSide(Side):
             publish_result=self.publish_result,
         )
 
-    # catcher: Keeper
+    # catcher: Keeper, [Appearance]
     async def publish_progress(self, task: Task, progress: NonNegativeFloat):
-        logger.info(f"Progress for task `{task}`: {progress} %")
+        ts = short_json(task, exclude={"context"})
+        logger.info(f"Progress for task `{ts}`: {progress.real}%")
 
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.progressQueue(task.hid_act)
-
         logger.info(
-            f"Publish a progress of task `{task}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f"Publish a progress of task `{task.hid_act}` to Savant:"
+            f" queue `{queue.name}`."
         )
-        await self.savant_router.broker.publish(
+        await self.push(
             Progress(uid_task=task.uid, value=progress),
             queue=queue,
-            exchange=exchange,
-            timeout=6,
         )
 
-        time.sleep(2)
+        # test
+        time.sleep(0.2)
 
         return progress
 
-    # catcher: Keeper
+    # catcher: Keeper, [Appearance]
     async def publish_result(self, task: Task, result: Any):
-        logger.info(f"Result for task `{task}`: `{result}`")
+        ts = short_json(task, exclude={"context"})
+        logger.info(f"Result for task `{ts}`: `{result}`")
 
-        exchange = self.savant_router.exchange()
         queue = self.savant_router.resultQueue(task.hid_act)
-
         logger.info(
-            f"Publish a result of task `{task}` to Savant:"
-            f" exchange `{exchange.name}`, queue `{queue.name}`."
+            f"Publish a result of task `{task.hid_act}` to Savant:"
+            f" queue `{queue.name}`."
         )
-        await self.savant_router.broker.publish(
+        await self.push(
             Result(uid_task=task.uid, value=result),
             queue=queue,
-            exchange=exchange,
-            timeout=6,
         )
 
-        time.sleep(2)
+        # test
+        time.sleep(0.2)
 
         return result

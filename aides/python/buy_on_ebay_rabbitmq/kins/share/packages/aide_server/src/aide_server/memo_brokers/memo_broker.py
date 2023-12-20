@@ -1,19 +1,22 @@
+from abc import ABC, abstractmethod
 from pydantic import Field
 from typing import Any
 
 from ..log import logger
 
 
-class MemoBroker:
+class MemoBroker(ABC):
     def __init__(self, clear: bool = False):
         self.name = type(self).__name__
         self.clear = clear
 
-    def get(self, key: str) -> str:
-        raise Exception("Should be implemented.")
+    @abstractmethod
+    def get(self, key: str) -> Any:
+        pass
 
+    @abstractmethod
     def put(self, key: str, value: Any) -> None:
-        raise Exception("Should be implemented.")
+        pass
 
     name: str = Field(
         ...,

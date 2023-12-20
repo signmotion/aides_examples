@@ -1,5 +1,6 @@
 from fastapi import APIRouter, FastAPI, routing
 import logging
+import os
 from pydantic import Field
 from typing import Callable, List
 
@@ -8,7 +9,8 @@ from .context_memo import ContextMemo, NoneContextMemo
 from .helpers import unwrapMultilangTextList, skip_check_route
 from .inner_memo import InnerMemo, NoneInnerMemo
 from .log import logger
-from .routers import about, context
+from .memo_brokers.filesystem import FilesystemMemoBroker
+from .memo_brokers.shelve import ShelveMemoBroker
 from .savant_router import SavantRouter
 from .sides.appearance_side import AppearanceSide
 from .sides.brain_side import BrainSide
@@ -24,14 +26,17 @@ class AideServer(FastAPI):
     def __init__(
         self,
         *,
-        configure: Configure,
+        path_to_configure: str = "kins/share/configure.json",
         brain_runs: List[Callable] = [],
-        inner_memo: InnerMemo = NoneInnerMemo(),
         context_memo: ContextMemo = NoneContextMemo(),
+        inner_memo: InnerMemo = NoneInnerMemo(),
         language: str = "en",
         debug_level: int = logging.INFO,
     ):
         logging.basicConfig(level=debug_level)
+
+        with open(path_to_configure, "r") as file:
+            configure = Configure.model_validate_json(file.read())
 
         tags = unwrapMultilangTextList(configure.tags, language=language)
         openapi_tags = []
@@ -82,45 +87,13 @@ class AideServer(FastAPI):
 
         self.register_side()
         self.declare_channels()
-        self.include_routers()
 
     def register_side(self):
         logger.info(f"🏳️‍🌈 Initializing the side `{self.sidename}`...")
 
-        # adding runs as external routers
+        # adding runs, endpoint and catchers for its as external routes
         router = APIRouter()
-
-        # TODO Wrap to factory.
-        if self.sidename == "appearance":
-            if isinstance(self.context_memo, NoneContextMemo):
-                raise Exception("The Appearance should have a context memo.")
-
-            # add context routers
-            self.include_router(context.router(self.context_memo))
-            logger.info("🍁 Added the router for `Context`.")
-
-            self.side = AppearanceSide(
-                router,
-                savant_router=self.savant_router,
-                acts=self.configure.acts,
-                inner_memo=self.inner_memo,
-            )
-        elif self.sidename == "brain":
-            assert bool(self.brain_runs)
-            assert len(self.brain_runs) == len(self.configure.acts)
-            self.side = BrainSide(
-                router,
-                savant_router=self.savant_router,
-                acts=self.configure.acts,
-                runs=self.brain_runs,
-            )
-        elif self.sidename == "keeper":
-            self.side = KeeperSide(
-                router,
-                savant_router=self.savant_router,
-                acts=self.configure.acts,
-                inner_memo=self.inner_memo,
-            )
+        self.side = self.build_side(router)
 
         logger.info(f"🏳️‍🌈 Initialized the side `{self.sidename}`.")
 
@@ -156,7 +129,8 @@ class AideServer(FastAPI):
                 message,
                 queue=self.savant_router.logQueue(),
                 exchange=self.savant_router.exchange(),
-                timeout=5,
+                # need for production
+                timeout=6,
             )
 
         @self.savant_router.broker.subscriber(
@@ -172,21 +146,46 @@ class AideServer(FastAPI):
 
         logger.info("🌱 Declared the channels.")
 
-    def include_routers(self):
-        logger.info("🍁 Adding the routers...")
-
-        # add about routers
-        self.include_router(
-            about.router(
-                name=self.name,
-                hid=self.hid,
-                sidename=self.sidename,
-                path_to_face=self.configure.path_to_face,
-            )
+    def build_side(self, router: APIRouter) -> Side:
+        path_inner_memo = os.path.join("memo", f"{self.sidename}_inner_memo")
+        default_inner_memo = InnerMemo(
+            FilesystemMemoBroker(path_inner_memo),
+            # ShelveMemoBroker(name_inner_memo),
         )
-        logger.info("🍁 Added the router for `About`.")
 
-        logger.info("🍁 Added the routers.")
+        if self.sidename == "appearance":
+            return AppearanceSide(
+                router,
+                name_aide=self.name,
+                hid_aide=self.hid,
+                path_to_face=self.configure.path_to_face,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                context_memo=self.context_memo,
+                inner_memo=default_inner_memo
+                if isinstance(self.inner_memo, NoneInnerMemo)
+                else self.inner_memo,
+            )
+
+        if self.sidename == "brain":
+            return BrainSide(
+                router,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                runs=self.brain_runs,
+            )
+
+        if self.sidename == "keeper":
+            return KeeperSide(
+                router,
+                savant_router=self.savant_router,
+                acts=self.configure.acts,
+                inner_memo=default_inner_memo
+                if isinstance(self.inner_memo, NoneInnerMemo)
+                else self.inner_memo,
+            )
+
+        raise Exception(f"Undeclared side `{self.sidename}`.")
 
     # properties
 

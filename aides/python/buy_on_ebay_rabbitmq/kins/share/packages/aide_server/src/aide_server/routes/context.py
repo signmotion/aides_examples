@@ -4,29 +4,27 @@ import json
 from ..context_memo import ContextMemo
 
 
-def router(memo: ContextMemo):
-    api = APIRouter()
-
-    @api.get("/schema")
+def add_routes(router: APIRouter, context_memo: ContextMemo):
+    @router.get("/schema")
     def schema():
-        return json.loads(memo.context.schema_json())
+        return json.loads(context_memo.context.schema_json())
 
-    @api.get(
+    @router.get(
         "/get-context",
         operation_id="get_context",
     )
     def get_context():
-        return memo.context
+        return context_memo.context
 
-    @api.get(
+    @router.get(
         "/get-context-value/{hid}",
         operation_id="get_context_value",
     )
     def get_context_value(hid: str):
-        return getattr(memo.context, hid)
+        return getattr(context_memo.context, hid)
 
     # See [schema].
-    @api.put(
+    @router.put(
         "/set-context-value",
         operation_id="set_context_value",
     )
@@ -42,7 +40,5 @@ def router(memo: ContextMemo):
             description="Value for set by HID.",
         ),
     ):
-        setattr(memo.context, hid, value)
+        setattr(context_memo.context, hid, value)
         return True
-
-    return api

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, NonNegativeFloat
-from typing import Any
+from typing import Any, Dict
 
 
 class Task(BaseModel):
@@ -15,8 +15,14 @@ class Task(BaseModel):
         description="Nick name of act aide.",
     )
 
+    context: Dict[str, Any] = Field(
+        default={},
+        title="Context Act",
+        description="Context as key-value of act aide. Can be declared as concrete class for acts.",
+    )
+
     def __str__(self):
-        return f"{self.uid} : {self.hid_act}"
+        return f"{self.uid} : {self.hid_act} : {self.context}"
 
 
 class Progress(BaseModel):

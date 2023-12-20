@@ -1,7 +1,7 @@
 import json
 import httpx
 import traceback
-from typing import Callable
+from typing import Any, Callable, Dict, Optional
 
 from ..config import *
 from ..packages.aide_server.src.aide_server.log import logger
@@ -10,7 +10,6 @@ from ..packages.aide_server.src.aide_server.task import Result, Task
 
 async def products_today(
     task: Task,
-    # TODO memo: ContextMemo,
     publish_progress: Callable,
     publish_result: Callable,
 ):
@@ -18,14 +17,57 @@ async def products_today(
 
     await publish_progress(task=task, progress=0)
 
-    if use_fake_response:
-        value = _products_today_demo_ebay_json()
-        await publish_progress(task=task, progress=100)
+    response_result: Optional[Dict[str, Any]] = None
+    improved_result: Optional[Dict[str, Any]] = None
+    error: Optional[Exception] = None
+    while True:
+        try:
+            r = _query(task.context)
+            response_result = {
+                "total": r["total"],
+                "href": r["href"],
+                "next": r["next"],
+                "offset": r["offset"],
+                "limit": r["limit"],
+                "products": [
+                    {
+                        "title": item["title"] if "title" in item else None,
+                        "condition": item["condition"] if "condition" in item else None,
+                        "price": item["price"] if "price" in item else None,
+                        "currentBidPrice": item["currentBidPrice"]
+                        if "currentBidPrice" in item
+                        else None,
+                    }
+                    for item in r["itemSummaries"]
+                ],
+            }
 
-        return await publish_result(
-            task=task,
-            result=Result(uid_task=task.uid, value=value),
-        )
+            break
+
+        except Exception as ex:
+            logger.error(f"{ex} :: {traceback.format_exc()}")
+            error = ex
+
+            break
+
+    value = _construct_answer(
+        improved_result=improved_result,
+        raw_result=response_result if include_raw_response_in_answer else None,
+        context=task.context if include_raw_response_in_answer else None,
+        error=error,
+    )
+
+    await publish_progress(task=task, progress=100)
+
+    return await publish_result(
+        task=task,
+        result=Result(uid_task=task.uid, value=value),
+    )
+
+
+def _query(context: Dict[str, Any]) -> Dict[str, Any]:
+    if fake_response:
+        return _products_today_demo_ebay_json()
 
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
 
@@ -36,7 +78,7 @@ async def products_today(
     }
 
     params = {
-        "q": app().memo.context.query,  # type: ignore
+        "q": context.query,  # type: ignore
         "sort": "newlyListed",
         "limit": "2",
     }
@@ -52,55 +94,47 @@ async def products_today(
     with httpx.Client(headers=headers) as client:
         response = client.get(url, params=params)
 
-    r = response.json()
-    try:
-        if response.status_code != 200:
-            raise Exception("Failed to retrieve data.")
+    if response.status_code != 200:
+        raise Exception("Failed to retrieve data.")
 
-        o = {
-            "total": r["total"],
-            "href": r["href"],
-            "next": r["next"],
-            "offset": r["offset"],
-            "limit": r["limit"],
-            "products": [
-                {
-                    "title": item["title"] if "title" in item else None,
-                    "condition": item["condition"] if "condition" in item else None,
-                    "price": item["price"] if "price" in item else None,
-                    "currentBidPrice": item["currentBidPrice"]
-                    if "currentBidPrice" in item
-                    else None,
-                }
-                for item in r["itemSummaries"]
-            ],
+    logger.info(response)
+
+    return response.json()
+
+
+def _construct_answer(
+    mapped_result: Optional[Dict[str, Any]] = None,
+    improved_result: Optional[Dict[str, Any]] = None,
+    raw_result: Optional[Dict[str, Any]] = None,
+    context: Optional[Dict[str, Any]] = None,
+    error: Optional[Exception] = None,
+) -> Dict[str, Any]:
+    o = {}
+
+    if bool(mapped_result):
+        o["mapped_result"] = mapped_result
+
+    if bool(improved_result):
+        o["improved_result"] = improved_result
+
+    if bool(raw_result) or (not bool(improved_result) and not bool(mapped_result)):
+        o["raw_result"] = raw_result
+
+    if bool(context):
+        o["context"] = context
+
+    if error:
+        logger.error(error)
+        o["error"] = {
+            "key": f"{error}",
+            "traceback": f"{traceback.format_exc()}",
         }
-    except Exception as e:
-        o = {
-            "error": {
-                "key": f"{e}",
-                "traceback": f"{traceback.format_exc()}",
-            },
-        }
-        logger.error(o)
 
-    if include_original_response_in_response:
-        o["original_response"] = r
-
-    value = {
-        "result": o,
-        "context": app().memo.context,  # type: ignore[override]
-    }
-    await publish_progress(task=task, progress=100)
-
-    return await publish_result(
-        task=task,
-        result=Result(uid_task=task.uid, value=value),
-    )
+    return o
 
 
-def _products_today_demo_ebay_json():
-    with open("kins/appearance/data/examples/responses/1.json", "r") as file:
+def _products_today_demo_ebay_json() -> Dict[str, Any]:
+    with open("kins/share/data/examples/responses/1.json", "r") as file:
         data = file.read()
 
     return json.loads(data)

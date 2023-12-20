@@ -19,7 +19,7 @@ class Context(BaseModel):
     )
 
 
-def test_context_smarthone():
+def test_context_smarthone_init():
     return Context.model_validate(
         {
             "hours": 24,
