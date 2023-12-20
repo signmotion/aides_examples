@@ -75,7 +75,10 @@ or, when needed:
 poetry lock
 ```
 
-## Run Servers
+If the error appears after run the first command above then delete
+the file `poetry.lock` and run the command again.
+
+# ## Run Serverss
 
 ### Run All Together
 
