@@ -1,30 +1,35 @@
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 
+from ..configure import Configure
+
 
 def add_routes(
     router: APIRouter,
-    name: str,
-    hid: str,
+    configure: Configure,
     sidename: str,
-    path_to_face: str,
 ):
-    @router.get(
-        "/",
-        operation_id="root",
-    )
+    @router.get("/", operation_id="root", include_in_schema=False)
     def root():
         return {
-            "name": name,
-            "hid": hid,
+            "name": configure.name,
+            "hid": configure.hid,
             "sidename": sidename,
         }
 
-    if path_to_face:
+    @router.get("/acts", include_in_schema=False)
+    def about():
+        return about_lang("en")
+
+    @router.get("/acts/{lang}", include_in_schema=False)
+    def about_lang(lang: str):
+        return [act.unwrapped_multilang_texts(lang) for act in configure.acts]
+
+    if configure.path_to_face:
 
         @router.get("/face", include_in_schema=False)
         def face():
-            return FileResponse(path_to_face)
+            return FileResponse(configure.path_to_face)
 
 
 # You can declare any public info about Aide.

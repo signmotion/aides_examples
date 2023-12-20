@@ -44,19 +44,15 @@ def skip_check_route(route: routing.APIRoute) -> bool:
     )
 
 
-def unwrapMultilangText(
+def unwrap_multilang_text(
     multilangText: Dict[str, str],
     language: str,
 ) -> str:
-    return multilangText.get(language) or ""
+    return multilangText.get(language) or multilangText.get("en") or ""
 
 
-def unwrapMultilangTextList(
+def unwrap_multilang_text_list(
     multilangTextList: List[Dict[str, str]],
     language: str,
 ) -> List[str]:
-    return [
-        unwrapMultilangText(mlt, language)
-        for mlt in multilangTextList
-        if language in mlt
-    ]
+    return [unwrap_multilang_text(mlt, language) for mlt in multilangTextList]

@@ -4,15 +4,12 @@ import os
 from pydantic import Field
 from typing import Callable, List
 
-from kins.share.packages.aide_server.src.aide_server.sides.type_side import TypeSide
-
 from .configure import Configure
 from .context_memo import ContextMemo, NoneContextMemo
-from .helpers import unwrapMultilangTextList, skip_check_route
+from .helpers import unwrap_multilang_text_list, skip_check_route
 from .inner_memo import InnerMemo, NoneInnerMemo
 from .log import logger
 from .memo_brokers.filesystem import FilesystemMemoBroker
-from .memo_brokers.shelve import ShelveMemoBroker
 from .savant_router import SavantRouter
 from .sides.appearance_side import AppearanceSide
 from .sides.brain_side import BrainSide
@@ -40,7 +37,7 @@ class AideServer(FastAPI):
         with open(path_to_configure, "r") as file:
             configure = Configure.model_validate_json(file.read())
 
-        tags = unwrapMultilangTextList(configure.tags, language=language)
+        tags = unwrap_multilang_text_list(configure.tags, language=language)
         openapi_tags = []
         if bool(tags):
             openapi_tags.append(
@@ -164,11 +161,8 @@ class AideServer(FastAPI):
         if self.sidename == "appearance":
             return AppearanceSide(
                 router,
-                name_aide=self.name,
-                hid_aide=self.hid,
-                path_to_face=self.configure.path_to_face,
+                configure=self.configure,
                 savant_router=self.savant_router,
-                acts=self.configure.acts,
                 context_memo=self.context_memo,
                 inner_memo=default_inner_memo
                 if isinstance(self.inner_memo, NoneInnerMemo)
