@@ -2,7 +2,7 @@
 
 @echo Starting the Docker...
 start "" /B "C:\Program Files\Docker\Docker\Docker Desktop.exe"
-timeout /t 6 /nobreak
+timeout /t 12 /nobreak
 
 @echo Stopping the Savant...
 docker stop rabbitmq
