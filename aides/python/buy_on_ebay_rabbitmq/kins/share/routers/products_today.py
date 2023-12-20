@@ -18,13 +18,13 @@ async def products_today(
 
     await publish_progress(task=task, progress=0)
 
-    response_result: Optional[Dict[str, Any]] = None
     improved_result: Optional[Dict[str, Any]] = None
+    raw_result: Optional[Dict[str, Any]] = None
     error: Optional[Exception] = None
     while True:
         try:
             r = _query(task.context)
-            response_result = {
+            raw_result = {
                 "total": r["total"],
                 "href": r["href"],
                 "next": r["next"],
@@ -53,8 +53,8 @@ async def products_today(
 
     value = construct_answer(
         improved_result=improved_result,
-        raw_result=response_result if include_raw_response_in_answer else None,
-        context=task.context if include_raw_response_in_answer else None,
+        raw_result=raw_result if include_raw_response_in_answer else None,
+        context=task.context if include_context_in_answer else None,
         error=error,
     )
 
