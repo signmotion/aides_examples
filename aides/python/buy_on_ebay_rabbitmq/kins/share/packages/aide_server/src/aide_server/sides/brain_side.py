@@ -1,9 +1,12 @@
+import queue
 from fastapi import APIRouter
 from pydantic import Field, NonNegativeFloat
 import time
 from typing import Any, Callable, List
+from faststream.rabbit import RabbitQueue
 
 from .side import Side
+from .type_side import TypeSide
 
 from ..act import Act
 from ..inner_memo import NoneInnerMemo
@@ -39,7 +42,7 @@ class BrainSide(Side):
         self._register_catchers_for_acts()
 
         logger.info(
-            f"🏳️‍🌈 Initialized `{self.name}` with runs `{self.runs}`"
+            f"🏳️‍🌈 Initialized `{self.type.name}` with runs `{self.runs}`"
             f" and inner memo `{self.inner_memo}`."
         )
 
@@ -60,7 +63,9 @@ class BrainSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.taskCatcher(act.hid)
+        @self.taskCatcher(
+            act.hid, pusher_side=TypeSide.APPEARANCE, catcher_side=self.type
+        )
         async def task_catcher(task: Task):
             ts = short_json(task, exclude={"context"})
             logger.info(f"Catched a task {type(task).__name__} -> {ts}")
@@ -91,10 +96,37 @@ class BrainSide(Side):
 
     # catcher: Keeper, [Appearance]
     async def publish_progress(self, task: Task, progress: NonNegativeFloat):
+        await self._publish_progress(
+            task=task,
+            progress=progress,
+            queue=self.savant_router.progressQueue(
+                task.hid_act,
+                pusher_side=TypeSide.BRAIN,
+                catcher_side=TypeSide.KEEPER,
+            ),
+        )
+
+        await self._publish_progress(
+            task=task,
+            progress=progress,
+            queue=self.savant_router.progressQueue(
+                task.hid_act,
+                pusher_side=TypeSide.BRAIN,
+                catcher_side=TypeSide.APPEARANCE,
+            ),
+        )
+
+        return progress
+
+    async def _publish_progress(
+        self,
+        task: Task,
+        progress: NonNegativeFloat,
+        queue: RabbitQueue,
+    ):
         ts = short_json(task, exclude={"context"})
         logger.info(f"Progress for task `{ts}`: {progress.real}%")
 
-        queue = self.savant_router.progressQueue(task.hid_act)
         logger.info(
             f"Publish a progress of task `{task.hid_act}` to Savant:"
             f" queue `{queue.name}`."
@@ -111,10 +143,37 @@ class BrainSide(Side):
 
     # catcher: Keeper, [Appearance]
     async def publish_result(self, task: Task, result: Any):
+        await self._publish_result(
+            task=task,
+            result=result,
+            queue=self.savant_router.resultQueue(
+                task.hid_act,
+                pusher_side=TypeSide.BRAIN,
+                catcher_side=TypeSide.KEEPER,
+            ),
+        )
+
+        await self._publish_result(
+            task=task,
+            result=result,
+            queue=self.savant_router.resultQueue(
+                task.hid_act,
+                pusher_side=TypeSide.BRAIN,
+                catcher_side=TypeSide.APPEARANCE,
+            ),
+        )
+
+        return result
+
+    async def _publish_result(
+        self,
+        task: Task,
+        result: Any,
+        queue: RabbitQueue,
+    ):
         ts = short_json(task, exclude={"context"})
         logger.info(f"Result for task `{ts}`: `{result}`")
 
-        queue = self.savant_router.resultQueue(task.hid_act)
         logger.info(
             f"Publish a result of task `{task.hid_act}` to Savant:"
             f" queue `{queue.name}`."

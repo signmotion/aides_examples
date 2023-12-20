@@ -7,6 +7,8 @@ from faststream.rabbit import RabbitQueue
 from pydantic import BaseModel, Field
 from typing import Any, Callable, Dict, List, Union
 
+from .type_side import TypeSide
+
 from ..act import Act
 from ..inner_memo import InnerMemo, NoneInnerMemo
 from ..savant_router import SavantRouter
@@ -31,16 +33,18 @@ class Side(ABC):
         acts: List[Act],
         inner_memo: InnerMemo,
     ):
-        self.name = type(self).__name__.replace("Side", "").lower()
+        name = type(self).__name__.replace("Side", "").upper()
+        self.type = TypeSide[name]
+
         self.router = router
         self.savant_router = savant_router
         self.acts = acts
         self.inner_memo = inner_memo
 
-    name: str = Field(
+    type: TypeSide = Field(
         ...,
-        title="Name",
-        description="The name for side of aide. Set by class. Lowercase.",
+        title="Type",
+        description="The type for side of aide. Set by class.",
     )
 
     router: APIRouter = Field(
@@ -80,26 +84,95 @@ class Side(ABC):
             timeout=6,
         )
 
-    def taskCatcher(self, hid_act: str) -> CatcherReturn:
-        return self.catcher(self.savant_router.taskQueue(hid_act))
+    def taskCatcher(
+        self,
+        hid_act: str,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ) -> CatcherReturn:
+        return self.catcher(
+            self.savant_router.taskQueue(
+                hid_act,
+                pusher_side=pusher_side,
+                catcher_side=catcher_side,
+            )
+        )
 
-    def progressCatcher(self, hid_act: str) -> CatcherReturn:
-        return self.catcher(self.savant_router.progressQueue(hid_act))
+    def progressCatcher(
+        self,
+        hid_act: str,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ) -> CatcherReturn:
+        return self.catcher(
+            self.savant_router.progressQueue(
+                hid_act,
+                pusher_side=pusher_side,
+                catcher_side=catcher_side,
+            )
+        )
 
-    def resultCatcher(self, hid_act: str) -> CatcherReturn:
-        return self.catcher(self.savant_router.resultQueue(hid_act))
+    def resultCatcher(
+        self,
+        hid_act: str,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ) -> CatcherReturn:
+        return self.catcher(
+            self.savant_router.resultQueue(
+                hid_act,
+                pusher_side=pusher_side,
+                catcher_side=catcher_side,
+            )
+        )
 
-    def requestProgressCatcher(self) -> CatcherReturn:
-        return self.catcher(self.savant_router.requestProgressQueue())
+    def requestProgressCatcher(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ) -> CatcherReturn:
+        return self.catcher(
+            self.savant_router.requestProgressQueue(
+                pusher_side=pusher_side,
+                catcher_side=catcher_side,
+            )
+        )
 
-    def responseProgressCatcher(self) -> CatcherReturn:
-        return self.catcher(self.savant_router.responseProgressQueue())
+    def responseProgressCatcher(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ) -> CatcherReturn:
+        return self.catcher(
+            self.savant_router.responseProgressQueue(
+                pusher_side=pusher_side,
+                catcher_side=catcher_side,
+            )
+        )
 
-    def requestResultCatcher(self) -> CatcherReturn:
-        return self.catcher(self.savant_router.requestResultQueue())
+    def requestResultCatcher(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ) -> CatcherReturn:
+        return self.catcher(
+            self.savant_router.requestResultQueue(
+                pusher_side=pusher_side,
+                catcher_side=catcher_side,
+            )
+        )
 
-    def responseResultCatcher(self) -> CatcherReturn:
-        return self.catcher(self.savant_router.responseResultQueue())
+    def responseResultCatcher(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ) -> CatcherReturn:
+        return self.catcher(
+            self.savant_router.responseResultQueue(
+                pusher_side=pusher_side,
+                catcher_side=catcher_side,
+            )
+        )
 
     def catcher(self, queue: Union[str, RabbitQueue]) -> CatcherReturn:
         """
