@@ -10,6 +10,7 @@ from .sentence import Sentence
 
 from ...config import *
 from ...context import Context
+from ...packages.aide_server.src.aide_server.helpers import construct_answer
 from ...packages.aide_server.src.aide_server.log import logger
 from ...packages.aide_server.src.aide_server.task import Result, Task
 from ...packages.short_json.src.short_json.short_json import short_json
@@ -25,20 +26,20 @@ async def translate_caption(
 
     await publish_progress(task=task, progress=0)
 
-    r = None
-    error = None
+    raw_result: Optional[Dict[str, Any]] = None
+    error: Optional[Exception] = None
     try:
-        r = await _translate_caption(
+        raw_result = await _translate_caption(
             task,
             publish_progress=publish_progress,
         )
     except Exception as ex:
         error = ex
 
-    value = _construct_answer(
-        r,  # type: ignore[override]
-        context=task.context,
-        error=error,  # type: ignore[override]
+    value = construct_answer(
+        raw_result=raw_result,
+        context=task.context if include_context_in_answer else None,
+        error=error,
     )
 
     await publish_progress(task=task, progress=100)
@@ -153,26 +154,3 @@ def _prepare_line(s: str):
         return None
 
     return s
-
-
-def _construct_answer(
-    result: dict,
-    context: Dict[str, Any],
-    error: Optional[Exception] = None,
-) -> Dict[str, Any]:
-    o = {}
-
-    if result:
-        o["result"] = result
-
-    if error:
-        logger.error(error)
-        o["error"] = {
-            "key": f"{error}",
-            "traceback": f"{traceback.format_exc()}",
-        }
-
-    if include_context_in_answer:
-        o["context"] = context
-
-    return o

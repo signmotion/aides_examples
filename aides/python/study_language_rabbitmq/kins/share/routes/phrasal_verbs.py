@@ -5,6 +5,7 @@ from typing import Any, Callable, Dict, Optional
 
 from ..config import *
 from ..context import Context
+from ..packages.aide_server.src.aide_server.helpers import construct_answer
 from ..packages.aide_server.src.aide_server.log import logger
 from ..packages.aide_server.src.aide_server.task import Result, Task
 
@@ -31,19 +32,19 @@ async def phrasal_verbs(
     ]
 
     mapped_result: Optional[Dict[str, Any]] = None
-    response_result: Optional[Dict[str, Any]] = None
     improved_result: Optional[Dict[str, Any]] = None
+    raw_result: Optional[Dict[str, Any]] = None
     error: Optional[Exception] = None
     while True:
         try:
-            response_result = _queryChatGpt(Context.model_validate(task.context))
+            raw_result = _queryChatGpt(Context.model_validate(task.context))
 
             if improve_answer:
-                improved_result = _improve(response_result)  # type: ignore[override]
+                improved_result = _improve(raw_result)  # type: ignore[override]
 
             if map_answer:
                 mapped_result = _map(
-                    improved_result if improved_result else _improve(response_result)  # type: ignore[override]
+                    improved_result if improved_result else _improve(raw_result)  # type: ignore[override]
                 )
 
             break
@@ -62,10 +63,10 @@ async def phrasal_verbs(
             if count_request_errors >= max_count_request_errors:
                 break
 
-    value = _construct_answer(
+    value = construct_answer(
         mapped_result=mapped_result,
         improved_result=improved_result,
-        raw_result=response_result if include_raw_response_in_answer else None,
+        raw_result=raw_result if include_raw_response_in_answer else None,
         context=task.context if include_context_in_answer else None,
         error=error,
     )
@@ -195,37 +196,6 @@ def _map(improvedText: str) -> Dict[str, Any]:
         r[a] = b
 
     return r
-
-
-def _construct_answer(
-    mapped_result: Optional[Dict[str, Any]] = None,
-    improved_result: Optional[Dict[str, Any]] = None,
-    raw_result: Optional[Dict[str, Any]] = None,
-    context: Optional[Dict[str, Any]] = None,
-    error: Optional[Exception] = None,
-) -> Dict[str, Any]:
-    o = {}
-
-    if bool(mapped_result):
-        o["mapped_result"] = mapped_result
-
-    if bool(improved_result):
-        o["improved_result"] = improved_result
-
-    if bool(raw_result) or (not bool(mapped_result) and not bool(improved_result)):
-        o["raw_result"] = raw_result
-
-    if bool(context):
-        o["context"] = context
-
-    if error:
-        logger.error(error)
-        o["error"] = {
-            "key": f"{error}",
-            "traceback": f"{traceback.format_exc()}",
-        }
-
-    return o
 
 
 def _phrasal_verbs_demo_text(context: Context) -> Dict[str, Any]:

@@ -170,15 +170,14 @@ class AppearanceSide(Side):
             return await self._publish_task(act)
 
     async def _publish_task(self, act: Act):
-        queue = self.savant_router.taskQueue(act.hid)
+        uid = str(uuid.uuid4())
+        logger.info(f"Publish task `{uid}` with context `{self.context_memo.context}`.")
         task = Task(
-            uid=str(uuid.uuid4()),
+            uid=uid,
             hid_act=act.hid,
-            context={
-                "languages": self.context_memo.context.languages,
-                "text": self.context_memo.context.text,
-            },
+            context=self.context_memo.context.dict(),
         )
+        queue = self.savant_router.taskQueue(act.hid)
         logger.info(
             f"Publish a task `{short_json(task)}` to Savant:" f" queue `{queue.name}`."
         )
