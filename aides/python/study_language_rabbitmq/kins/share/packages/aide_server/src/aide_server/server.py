@@ -4,6 +4,8 @@ import os
 from pydantic import Field
 from typing import Callable, List
 
+from kins.share.packages.aide_server.src.aide_server.sides.type_side import TypeSide
+
 from .configure import Configure
 from .context_memo import ContextMemo, NoneContextMemo
 from .helpers import unwrapMultilangTextList, skip_check_route
@@ -127,14 +129,20 @@ class AideServer(FastAPI):
             )
             await self.savant_router.broker.publish(
                 message,
-                queue=self.savant_router.logQueue(),
+                queue=self.savant_router.logQueue(
+                    pusher_side=self.side.type,
+                    catcher_side=self.side.type,
+                ),
                 exchange=self.savant_router.exchange(),
                 # need for production
                 timeout=6,
             )
 
         @self.savant_router.broker.subscriber(
-            self.savant_router.logQueue(),
+            self.savant_router.logQueue(
+                pusher_side=self.side.type,
+                catcher_side=self.side.type,
+            ),
             self.savant_router.exchange(),
         )
         async def check_connection_to_savant(message: str):

@@ -4,7 +4,7 @@
 start "" /B "C:\Program Files\Docker\Docker\Docker Desktop.exe"
 timeout /t 12 /nobreak
 
-@echo Stopping the Savant...
+@echo Stopping the Savant and deleted it container...
 docker stop rabbitmq
 timeout /t 6 /nobreak
 docker rm rabbitmq

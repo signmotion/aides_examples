@@ -3,9 +3,8 @@ from pydantic import Field
 from typing import List
 import uuid
 
-from kins.share.packages.short_json.src.short_json.short_json import short_json
-
 from .side import Side
+from .type_side import TypeSide
 
 from ..act import Act
 from ..context_memo import ContextMemo, NoneContextMemo
@@ -15,6 +14,8 @@ from ..log import logger
 from ..routes import about, context
 from ..savant_router import SavantRouter
 from ..task import Progress, Result, Task
+
+from .....short_json.src.short_json.short_json import short_json
 
 
 class AppearanceSide(Side):
@@ -53,7 +54,7 @@ class AppearanceSide(Side):
         )
 
         logger.info(
-            f"🏳️‍🌈 Initialized `{self.name}` with acts `{self.acts}`"
+            f"🏳️‍🌈 Initialized `{self.type.name}` with acts `{self.acts}`"
             f" and inner memo `{self.inner_memo}`."
         )
 
@@ -83,7 +84,7 @@ class AppearanceSide(Side):
     ):
         logger.info(
             f"🪶 Registering the catchers and client endpoint(s)"
-            f" for `{self.name}`..."
+            f" for `{self.type.name}`..."
         )
 
         # add about routes
@@ -91,7 +92,7 @@ class AppearanceSide(Side):
             self.router,
             name=name_aide,
             hid=hid_aide,
-            sidename=self.name,
+            sidename=self.type.name,
             path_to_face=path_to_face,
         )
         logger.info("🪶🍁 Added the routes for `About`.")
@@ -106,14 +107,14 @@ class AppearanceSide(Side):
 
         logger.info(
             f"🪶 Registered the catchers and client endpoints"
-            f" for `{self.name}`, {len(self.acts)} acts."
+            f" for `{self.type.name}`, {len(self.acts)} acts."
         )
 
     def _act_register_catchers_and_endpoints(self, act: Act):
         logger.info(
             f"🪶 Registering the catchers and client endpoints"
             f" for `{act.paths}`"
-            f" `{self.name}` act `{act.hid}`..."
+            f" `{self.type.name}` act `{act.hid}`..."
         )
 
         n = 0
@@ -133,7 +134,11 @@ class AppearanceSide(Side):
 
         if self.catch_progress:
 
-            @self.progressCatcher(act.hid)
+            @self.progressCatcher(
+                act.hid,
+                pusher_side=TypeSide.BRAIN,
+                catcher_side=TypeSide.APPEARANCE,
+            )
             async def progress_catcher(progress: Progress):
                 await self._catch_progress(progress)
 
@@ -141,7 +146,11 @@ class AppearanceSide(Side):
 
         if self.catch_result:
 
-            @self.resultCatcher(act.hid)
+            @self.resultCatcher(
+                act.hid,
+                pusher_side=TypeSide.BRAIN,
+                catcher_side=TypeSide.APPEARANCE,
+            )
             async def result_catcher(result: Result):
                 await self._catch_result(result)
 
@@ -150,7 +159,7 @@ class AppearanceSide(Side):
         logger.info(
             f"🪶 Registered {n} catchers and endpoints"
             f" for `{act.paths}`"
-            f" `{self.name}` act `{act.hid}`."
+            f" `{self.type.name}` act `{act.hid}`."
         )
 
     # TASK
@@ -177,7 +186,11 @@ class AppearanceSide(Side):
             hid_act=act.hid,
             context=self.context_memo.context.dict(),
         )
-        queue = self.savant_router.taskQueue(act.hid)
+        queue = self.savant_router.taskQueue(
+            act.hid,
+            pusher_side=self.type,
+            catcher_side=TypeSide.BRAIN,
+        )
         logger.info(
             f"Publish a task `{short_json(task)}` to Savant:" f" queue `{queue.name}`."
         )
@@ -204,7 +217,10 @@ class AppearanceSide(Side):
 
     # Returns a generated endpoint string for take a progress later.
     async def _publish_request_progress(self, act: Act, uid_task: str):
-        queue = self.savant_router.requestProgressQueue()
+        queue = self.savant_router.requestProgressQueue(
+            pusher_side=TypeSide.APPEARANCE,
+            catcher_side=TypeSide.BRAIN,
+        )
         logger.info(
             f"Publish a request progress of task `{uid_task}` to Savant:"
             f" queue `{queue.name}`."
@@ -216,7 +232,10 @@ class AppearanceSide(Side):
     def _response_progress_register_catcher_and_endpoint(self, act: Act):
         # response progress catcher
         # memorize it to inner memory
-        @self.responseProgressCatcher()
+        @self.responseProgressCatcher(
+            pusher_side=TypeSide.BRAIN,
+            catcher_side=TypeSide.APPEARANCE,
+        )
         async def response_progress_catcher(progress: Progress):
             await self._catch_progress(progress)
 
@@ -265,7 +284,10 @@ class AppearanceSide(Side):
 
     # Returns a generated endpoint string for take a result later.
     async def _publish_request_result(self, act: Act, uid_task: str):
-        queue = self.savant_router.requestResultQueue()
+        queue = self.savant_router.requestResultQueue(
+            pusher_side=TypeSide.APPEARANCE,
+            catcher_side=TypeSide.BRAIN,
+        )
         logger.info(
             f"Publish a request result of task `{uid_task}` to Savant:"
             f" queue `{queue.name}`."
@@ -277,7 +299,10 @@ class AppearanceSide(Side):
     def _response_result_register_catcher_and_endpoint(self, act: Act):
         # response result catcher
         # memorize it to inner memory
-        @self.responseResultCatcher()
+        @self.responseResultCatcher(
+            pusher_side=TypeSide.BRAIN,
+            catcher_side=TypeSide.APPEARANCE,
+        )
         async def response_result_catcher(result: Result):
             await self._catch_result(result)
 

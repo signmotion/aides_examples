@@ -8,6 +8,8 @@ from pydantic import Field
 import time
 from typing import List
 
+from kins.share.packages.aide_server.src.aide_server.sides.type_side import TypeSide
+
 from .act import Act
 from .log import logger
 from .type_queue import TypeQueue
@@ -54,67 +56,109 @@ class SavantRouter(fastapi.RabbitRouter):
             "aide",
             auto_delete=True,
             type=ExchangeType.TOPIC,
+            timeout=6,
         )
 
     def taskQueue(
         self,
         hid_act: str,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
     ):
         return queue(
             type=TypeQueue.TASK,
             hid_act=hid_act,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
     def progressQueue(
         self,
         hid_act: str,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
     ):
         return queue(
             type=TypeQueue.PROGRESS,
             hid_act=hid_act,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
     def resultQueue(
         self,
         hid_act: str,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
     ):
         return queue(
             type=TypeQueue.RESULT,
             hid_act=hid_act,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
-    def requestProgressQueue(self):
+    def requestProgressQueue(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ):
         return queue(
             type=TypeQueue.REQUEST_PROGRESS,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
-    def requestResultQueue(self):
+    def requestResultQueue(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ):
         return queue(
             type=TypeQueue.REQUEST_RESULT,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
-    def responseProgressQueue(self):
+    def responseProgressQueue(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ):
         return queue(
             type=TypeQueue.RESPONSE_PROGRESS,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
-    def responseResultQueue(self):
+    def responseResultQueue(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ):
         return queue(
             type=TypeQueue.RESPONSE_RESULT,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
-    def logQueue(self):
+    def logQueue(
+        self,
+        pusher_side: TypeSide,
+        catcher_side: TypeSide,
+    ):
         return queue(
             type=TypeQueue.LOG,
-            sidename_server=self.sidename_server,
             hid_server=self.hid_server,
+            pusher_side=pusher_side,
+            catcher_side=catcher_side,
         )
 
     async def declare_exchange(self):
@@ -131,15 +175,59 @@ class SavantRouter(fastapi.RabbitRouter):
         logger.info(f"🌱 Declaring services queues...")
 
         n = 0
-        await self.declare_queue(self.requestProgressQueue())
+
+        await self.declare_queue(
+            self.requestProgressQueue(
+                pusher_side=TypeSide.APPEARANCE,
+                catcher_side=TypeSide.KEEPER,
+            )
+        )
         n += 1
-        await self.declare_queue(self.requestResultQueue())
+
+        await self.declare_queue(
+            self.requestResultQueue(
+                pusher_side=TypeSide.APPEARANCE,
+                catcher_side=TypeSide.KEEPER,
+            )
+        )
         n += 1
-        await self.declare_queue(self.responseProgressQueue())
+
+        await self.declare_queue(
+            self.responseProgressQueue(
+                pusher_side=TypeSide.APPEARANCE,
+                catcher_side=TypeSide.KEEPER,
+            )
+        )
         n += 1
-        await self.declare_queue(self.responseResultQueue())
+
+        await self.declare_queue(
+            self.responseResultQueue(
+                pusher_side=TypeSide.APPEARANCE,
+                catcher_side=TypeSide.KEEPER,
+            )
+        )
         n += 1
-        await self.declare_queue(self.logQueue())
+
+        await self.declare_queue(
+            self.logQueue(
+                pusher_side=TypeSide.APPEARANCE,
+                catcher_side=TypeSide.APPEARANCE,
+            )
+        )
+        n += 1
+        await self.declare_queue(
+            self.logQueue(
+                pusher_side=TypeSide.BRAIN,
+                catcher_side=TypeSide.BRAIN,
+            )
+        )
+        n += 1
+        await self.declare_queue(
+            self.logQueue(
+                pusher_side=TypeSide.KEEPER,
+                catcher_side=TypeSide.KEEPER,
+            )
+        )
         n += 1
 
         logger.info(f"🌱 Declared {n} service(s) queues.")
@@ -151,11 +239,48 @@ class SavantRouter(fastapi.RabbitRouter):
             logger.info(f"🌱 Declaring queues for act `{act.name['en']}`...")
 
             n = 0
-            await self.declare_queue(self.taskQueue(act.hid))
+
+            await self.declare_queue(
+                self.taskQueue(
+                    act.hid,
+                    pusher_side=TypeSide.APPEARANCE,
+                    catcher_side=TypeSide.BRAIN,
+                )
+            )
             n += 1
-            await self.declare_queue(self.progressQueue(act.hid))
+
+            await self.declare_queue(
+                self.progressQueue(
+                    act.hid,
+                    pusher_side=TypeSide.BRAIN,
+                    catcher_side=TypeSide.KEEPER,
+                )
+            )
             n += 1
-            await self.declare_queue(self.resultQueue(act.hid))
+            await self.declare_queue(
+                self.progressQueue(
+                    act.hid,
+                    pusher_side=TypeSide.BRAIN,
+                    catcher_side=TypeSide.APPEARANCE,
+                )
+            )
+            n += 1
+
+            await self.declare_queue(
+                self.resultQueue(
+                    act.hid,
+                    pusher_side=TypeSide.BRAIN,
+                    catcher_side=TypeSide.KEEPER,
+                )
+            )
+            n += 1
+            await self.declare_queue(
+                self.resultQueue(
+                    act.hid,
+                    pusher_side=TypeSide.BRAIN,
+                    catcher_side=TypeSide.APPEARANCE,
+                )
+            )
             n += 1
 
             time.sleep(0.2)
@@ -167,14 +292,16 @@ class SavantRouter(fastapi.RabbitRouter):
 
 def queue(
     type: TypeQueue,
+    hid_server: str,
+    pusher_side: TypeSide,
+    catcher_side: TypeSide,
     hid_act: str = "",
-    sidename_server: str = "",
-    hid_server: str = "",
 ):
     keys = [
         type.name.lower(),
         hid_act,
-        sidename_server.lower() if sidename_server else None,
+        pusher_side.name.lower(),
+        catcher_side.name.lower(),
         hid_server,
     ]
     name = ".".join(filter(None, keys))

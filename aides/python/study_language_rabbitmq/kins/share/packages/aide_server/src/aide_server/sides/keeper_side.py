@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from typing import Any, List
 
 from .side import Side
+from .type_side import TypeSide
 
 from ..act import Act
 from ..inner_memo import InnerMemo, NoneInnerMemo
@@ -32,7 +33,7 @@ class KeeperSide(Side):
         self._register_catchers_for_acts()
 
         logger.info(
-            f"🏳️‍🌈 Initialized `{self.name}` with inner memory `{self.inner_memo}`."
+            f"🏳️‍🌈 Initialized `{self.type.name}` with inner memory `{self.inner_memo}`."
         )
 
     def _register_catchers_for_acts(self):
@@ -46,7 +47,11 @@ class KeeperSide(Side):
     def _register_catchers_for_act(self, act: Act):
         n = 1
 
-        @self.progressCatcher(act.hid)
+        @self.progressCatcher(
+            act.hid,
+            pusher_side=TypeSide.BRAIN,
+            catcher_side=TypeSide.KEEPER,
+        )
         async def progress_catcher(progress: Progress):
             logger.info(f"Catched a progress `{progress}`.")
             if isinstance(progress, dict):
@@ -56,7 +61,11 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.resultCatcher(act.hid)
+        @self.resultCatcher(
+            act.hid,
+            pusher_side=TypeSide.BRAIN,
+            catcher_side=TypeSide.KEEPER,
+        )
         async def result_catcher(result: Result):
             logger.info(f"Catched a result `{result}`.")
             if isinstance(result, dict):
@@ -66,7 +75,10 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.requestProgressCatcher()
+        @self.requestProgressCatcher(
+            pusher_side=TypeSide.APPEARANCE,
+            catcher_side=TypeSide.KEEPER,
+        )
         async def request_progress_catcher(uid_task: str):
             logger.info(f"Catched a request progress for task `{uid_task}`.")
             key = f"{uid_task}.progress"
@@ -75,7 +87,10 @@ class KeeperSide(Side):
 
         n += 1
 
-        @self.requestResultCatcher()
+        @self.requestResultCatcher(
+            pusher_side=TypeSide.APPEARANCE,
+            catcher_side=TypeSide.KEEPER,
+        )
         async def request_result_catcher(uid_task: str):
             logger.info(f"Catched a request result for task `{uid_task}`.")
             key = f"{uid_task}.result"
@@ -86,7 +101,10 @@ class KeeperSide(Side):
 
     # catcher: Appearance
     async def _publish_response_progress(self, uid_task: str, value: float):
-        queue = self.savant_router.responseProgressQueue()
+        queue = self.savant_router.responseProgressQueue(
+            pusher_side=TypeSide.KEEPER,
+            catcher_side=TypeSide.APPEARANCE,
+        )
         logger.info(
             f"Publish a response progress for task `{uid_task}` to Savant:"
             f" queue `{queue.name}`."
@@ -100,7 +118,10 @@ class KeeperSide(Side):
 
     # catcher: Appearance
     async def _publish_response_result(self, uid_task: str, value: Any):
-        queue = self.savant_router.responseResultQueue()
+        queue = self.savant_router.responseResultQueue(
+            pusher_side=TypeSide.KEEPER,
+            catcher_side=TypeSide.APPEARANCE,
+        )
         logger.info(
             f"Publish a response result for task `{uid_task}` to Savant:"
             f" queue `{queue.name}`."
