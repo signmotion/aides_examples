@@ -1,9 +1,3 @@
 __pycache__
 *.env
-/aides/python/buy_on_ebay_fastapi/.vscode/settings.json
 /.vscode/settings.json
-settings.json
-/aides/python/buy_on_ebay_rabbitmq/local_storage
-/aides/python/buy_on_ebay_rabbitmq/keeper_inner_memo
-/aides/python/buy_on_ebay_rabbitmq/appearance_inner_memo
-/aides/python/study_language_rabbitmq/memo
