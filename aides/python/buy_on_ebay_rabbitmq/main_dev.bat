@@ -6,6 +6,9 @@ timeout /t 12 /nobreak
 
 @echo Stopping the Savant...
 docker stop rabbitmq
+timeout /t 6 /nobreak
+docker rm rabbitmq
+timeout /t 3 /nobreak
 
 @echo Starting the Savant...
 start "Savant"     docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
