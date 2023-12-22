@@ -2,17 +2,17 @@ from deep_translator import GoogleTranslator
 from fastapi.encoders import jsonable_encoder
 import json
 import pycaption
+from pydantic import NonNegativeFloat
 import re
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, List
 
 from .sentence import Sentence
 
 from ...config import *
 from ...context import Context
-from ...packages.aide_server.src.aide_server.helpers import construct_answer
+from ...packages.aide_server.src.aide_server.helpers import construct_and_publish
 from ...packages.aide_server.src.aide_server.log import logger
-from ...packages.aide_server.src.aide_server.task_progress_result import Result, Task
-from ...packages.short_json.src.short_json.short_json import short_json
+from ...packages.aide_server.src.aide_server.task_progress_result import Task
 
 
 async def translate_caption(
@@ -20,39 +20,22 @@ async def translate_caption(
     publish_progress: Callable,
     publish_result: Callable,
 ):
-    logger.info(f"Running `{__name__}`...")
-    logger.info(f"Running `{short_json(task)}`...")
-
-    await publish_progress(task=task, progress=0)
-
-    raw_result: Optional[Dict[str, Any]] = None
-    error: Optional[Exception] = None
-    try:
-        raw_result = await _translate_caption(
-            task,
-            publish_progress=publish_progress,
-        )
-    except Exception as ex:
-        error = ex
-
-    value = construct_answer(
-        raw_result=raw_result,
-        context=task.context if include_context_in_answer else None,
-        error=error,
-    )
-
-    await publish_progress(task=task, progress=100)
-
-    return await publish_result(
+    return await construct_and_publish(
+        __name__,
         task=task,
-        result=Result(uid_task=task.uid, value=value),
+        construct_raw_result=_construct_raw_result,
+        publish_progress=publish_progress,
+        publish_result=publish_result,
     )
 
 
-async def _translate_caption(
+async def _construct_raw_result(
     task: Task,
     publish_progress: Callable,
-) -> Dict[str, Any]:
+    publish_result: Callable,
+    start_progress: NonNegativeFloat,
+    stop_progress: NonNegativeFloat,
+) -> Any:
     context = Context.model_validate(task.context)
 
     captions = pycaption.SRTReader().read(context.text)
@@ -82,7 +65,7 @@ async def _translate_caption(
         # "raw": captions,
     }
 
-    with open("app/data/translated.json", "w", encoding="utf-8") as file:
+    with open("memo/translated.json", "w", encoding="utf-8") as file:
         json.dump(r, file, ensure_ascii=False)
 
     return r
