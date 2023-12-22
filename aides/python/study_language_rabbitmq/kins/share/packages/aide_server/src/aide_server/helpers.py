@@ -1,10 +1,12 @@
 from fastapi import routing
 from pydantic import NonNegativeFloat, NonNegativeInt
-from .log import logger
 import traceback
 from typing import Any, Callable, Dict, List, Optional
 
+from .log import logger
 from .task_progress_result import Result, Task
+
+from ....short_json.src.short_json.short_json import short_json
 
 
 def construct_answer(
@@ -47,6 +49,7 @@ def construct_answer(
 
 
 async def construct_and_publish(
+    act_hid: str,
     task: Task,
     publish_progress: Callable,
     publish_result: Callable,
@@ -56,11 +59,16 @@ async def construct_and_publish(
     include_raw_response_in_answer: bool = True,
     include_context_in_answer: bool = True,
     start_progress_raw_result: NonNegativeFloat = 100.0 / 3 * 0,
+    stop_progress_raw_result: NonNegativeFloat = 100.0 / 3 * 1 - 1,
     start_progress_improved_result: NonNegativeFloat = 100.0 / 3 * 1,
+    stop_progress_improved_result: NonNegativeFloat = 100.0 / 3 * 2 - 1,
     start_progress_mapped_result: NonNegativeFloat = 100.0 / 3 * 2,
+    stop_progress_mapped_result: NonNegativeFloat = 100.0 / 3 * 3 - 1,
     fake_raw_result: Optional[Any] = None,
     count_attempts_for_get_result: NonNegativeInt = 1,
 ):
+    logger.info(f"Running act `{act_hid}` with task `{short_json(task)}`...")
+
     count_request_errors = 0
 
     raw_result: Optional[Any] = None
@@ -70,31 +78,31 @@ async def construct_and_publish(
     while True:
         try:
             await publish_progress(task, start_progress_raw_result)
-            raw_result = fake_raw_result or construct_raw_result(
+            raw_result = fake_raw_result or await construct_raw_result(
                 task=task,
                 publish_progress=publish_progress,
                 publish_result=publish_result,
                 start_progress=start_progress_raw_result,
-                stop_progress=start_progress_improved_result - 1,
+                stop_progress=stop_progress_raw_result,
             )
-            await publish_progress(task, start_progress_improved_result - 1)
+            await publish_progress(task, stop_progress_raw_result)
 
             if construct_improved_result:
                 await publish_progress(task, start_progress_improved_result)
-                improved_result = construct_improved_result(
+                improved_result = await construct_improved_result(
                     source=raw_result,
                     task=task,
                     raw_result=raw_result,
                     publish_progress=publish_progress,
                     publish_result=publish_result,
                     start_progress=start_progress_improved_result,
-                    stop_progress=start_progress_mapped_result - 1,
+                    stop_progress=stop_progress_improved_result,
                 )
-            await publish_progress(task, start_progress_mapped_result - 1)
+            await publish_progress(task, stop_progress_improved_result)
 
             if construct_mapped_result:
                 await publish_progress(task, start_progress_mapped_result)
-                mapped_result = construct_mapped_result(
+                mapped_result = await construct_mapped_result(
                     source=improved_result,
                     task=task,
                     raw_result=raw_result,
@@ -102,9 +110,9 @@ async def construct_and_publish(
                     publish_progress=publish_progress,
                     publish_result=publish_result,
                     start_progress=start_progress_mapped_result,
-                    stop_progress=100.0 - 1,
+                    stop_progress=stop_progress_mapped_result,
                 )
-            await publish_progress(task, 100.0 - 1)
+            await publish_progress(task, stop_progress_mapped_result)
 
             break
 

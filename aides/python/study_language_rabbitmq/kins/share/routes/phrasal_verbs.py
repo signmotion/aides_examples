@@ -11,17 +11,16 @@ from ..packages.aide_server.src.aide_server.log import logger
 from ..packages.aide_server.src.aide_server.task_progress_result import Task
 
 
-def phrasal_verbs(
+async def phrasal_verbs(
     task: Task,
     publish_progress: Callable,
     publish_result: Callable,
 ):
-    logger.info(f"Running `{__name__}`...")
-
     context = Context.model_validate(task.context)
 
-    return construct_and_publish(
-        task,
+    return await construct_and_publish(
+        __name__,
+        task=task,
         construct_raw_result=_construct_raw_result,
         construct_improved_result=_construct_improved_result
         if improve_answer
@@ -35,7 +34,7 @@ def phrasal_verbs(
     )
 
 
-def _construct_raw_result(
+async def _construct_raw_result(
     task: Task,
     publish_progress: Callable,
     publish_result: Callable,
@@ -56,7 +55,7 @@ def _construct_raw_result(
     return response.choices[0].text
 
 
-def _construct_improved_result(
+async def _construct_improved_result(
     source: Any,
     task: Task,
     raw_result: Any,
@@ -68,7 +67,7 @@ def _construct_improved_result(
     return _improve(raw_result)  # type: ignore[override]
 
 
-def _construct_mapped_result(
+async def _construct_mapped_result(
     source: Any,
     task: Task,
     raw_result: Any,

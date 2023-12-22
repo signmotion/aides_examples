@@ -4,8 +4,8 @@ import os
 
 is_production = False
 
-test_nickname_act = "phrasal_verbs"
-# test_nickname_act = "translate_caption"
+# test_nickname_act = "phrasal_verbs"
+test_nickname_act = "translate_caption"
 use_test_context = bool(test_nickname_act)
 
 fake_response = True
