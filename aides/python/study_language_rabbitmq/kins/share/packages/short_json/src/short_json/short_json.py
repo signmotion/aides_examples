@@ -1,14 +1,14 @@
 import json
 from pydantic import BaseModel
 import textwrap
-from typing import Any, Dict, Set, Union
+from typing import Any, Dict, List, Set, Union
 
 
 def short_json(
-    o: Union[BaseModel, Dict[str, Any], str],
+    o: Union[BaseModel, Dict[str, Any], List[Any], str],
     truncate_dict_to_length: int = 12,
     truncate_list_to_length: int = 4,
-    truncate_string_to_length: int = 120,
+    truncate_str_to_length: int = 120,
     include: Union[Set[int], Set[str], Dict[int, Any], Dict[str, Any], None] = None,
     exclude: Union[Set[int], Set[str], Dict[int, Any], Dict[str, Any], None] = None,
     exclude_unset: bool = True,
@@ -51,15 +51,18 @@ def short_json(
                 v.append(("...", "..."))
                 v = dict(v)
             r[k] = short_json(v)
-        elif isinstance(v, str) and truncate_string_to_length > 0:
-            r[k] = textwrap.shorten(
-                v,
-                width=truncate_string_to_length,
-                placeholder="...",
-            )
-        elif isinstance(v, list) and truncate_list_to_length > 0:
-            r[k] = v[slice(truncate_list_to_length)]
-            if len(r[k]) > truncate_list_to_length:
-                r[k].append("...")
+        elif isinstance(v, list):
+            if truncate_list_to_length > 0 and len(r[k]) > truncate_list_to_length:
+                v = v[slice(truncate_list_to_length)]
+                v.append("...")
+            r[k] = short_json(v)
+        elif isinstance(v, str):
+            if truncate_str_to_length > 0 and len(v) > truncate_str_to_length:
+                v = textwrap.shorten(
+                    v,
+                    width=truncate_str_to_length,
+                    placeholder="...",
+                )
+            r[k] = v
 
     return r

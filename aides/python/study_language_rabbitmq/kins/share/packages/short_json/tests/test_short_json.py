@@ -19,7 +19,7 @@ Abs, you ready?
 """,
         },
     }
-    assert expected == short_json(a, truncate_string_to_length=48)
+    assert expected == short_json(a, truncate_str_to_length=48)
 
 
 class A(BaseModel):
