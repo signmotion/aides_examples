@@ -63,20 +63,18 @@ def short_json(
         return dict((k, short_json(v)) for k, v in d)
 
     if isinstance(d, list):
-        d = _sliced(d, slice_list_to_length)
-        return [short_json(v) for v in d]
+        return _sliced_and_shorted(d, slice_list_to_length)
 
     if isinstance(d, set):
-        d = _sliced(d, slice_list_to_length)
-        return set([short_json(v) for v in d])
+        return set(_sliced_and_shorted(d, slice_list_to_length))
 
     return d
 
 
-def _sliced(v: Union[List[Any], Set[Any]], limit: int) -> List[Any]:
+def _sliced_and_shorted(v: Union[List[Any], Set[Any]], limit: int) -> List[Any]:
     r: List[Any] = v if isinstance(v, list) else list(v)
     if limit > 0 and len(v) > limit:
         r = r[slice(limit)]
         r.append("...")
 
-    return r
+    return [short_json(v) for v in r]
