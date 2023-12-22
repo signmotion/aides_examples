@@ -1,12 +1,20 @@
 import json
 import httpx
-import traceback
-from typing import Any, Callable, Dict, Optional
+from pydantic import NonNegativeFloat
+from typing import Any, Callable, Dict
 
-from ..config import *
-from ..packages.aide_server.src.aide_server.helpers import construct_answer
+from ..config import (
+    api_domain,
+    ebay_oauth_app_token,
+    fake_response,
+    include_context_in_answer,
+    include_raw_response_in_answer,
+    is_production,
+)
+from ..context import Context
+from ..packages.aide_server.src.aide_server.helpers import construct_and_publish
 from ..packages.aide_server.src.aide_server.log import logger
-from ..packages.aide_server.src.aide_server.task import Result, Task
+from ..packages.aide_server.src.aide_server.task_progress_result import Task
 
 
 async def products_today(
@@ -14,72 +22,37 @@ async def products_today(
     publish_progress: Callable,
     publish_result: Callable,
 ):
-    logger.info(f"Running `{__name__}`...")
+    context = Context.model_validate(task.context)
 
-    await publish_progress(task=task, progress=0)
-
-    improved_result: Optional[Dict[str, Any]] = None
-    raw_result: Optional[Dict[str, Any]] = None
-    error: Optional[Exception] = None
-    while True:
-        try:
-            r = _query(task.context)
-            raw_result = {
-                "total": r["total"],
-                "href": r["href"],
-                "next": r["next"],
-                "offset": r["offset"],
-                "limit": r["limit"],
-                "products": [
-                    {
-                        "title": item["title"] if "title" in item else None,
-                        "condition": item["condition"] if "condition" in item else None,
-                        "price": item["price"] if "price" in item else None,
-                        "currentBidPrice": item["currentBidPrice"]
-                        if "currentBidPrice" in item
-                        else None,
-                    }
-                    for item in r["itemSummaries"]
-                ],
-            }
-
-            break
-
-        except Exception as ex:
-            logger.error(f"{ex} :: {traceback.format_exc()}")
-            error = ex
-
-            break
-
-    value = construct_answer(
-        improved_result=improved_result,
-        raw_result=raw_result if include_raw_response_in_answer else None,
-        context=task.context if include_context_in_answer else None,
-        error=error,
-    )
-
-    await publish_progress(task=task, progress=100)
-
-    return await publish_result(
+    return await construct_and_publish(
+        __name__,
         task=task,
-        result=Result(uid_task=task.uid, value=value),
+        construct_raw_result=_construct_raw_result,
+        publish_progress=publish_progress,
+        publish_result=publish_result,
+        fake_raw_result=_products_today_ebay_demo_json() if fake_response else None,
+        include_raw_response_in_answer=include_raw_response_in_answer,
+        include_context_in_answer=include_context_in_answer,
     )
 
 
-def _query(context: Dict[str, Any]) -> Dict[str, Any]:
-    if fake_response:
-        return _products_today_demo_ebay_json()
+async def _construct_raw_result(
+    task: Task,
+    publish_progress: Callable,
+    publish_result: Callable,
+    start_progress: NonNegativeFloat,
+    stop_progress: NonNegativeFloat,
+) -> Any:
+    context = Context.model_validate(task.context)
 
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"
-
     headers = {
         "Authorization": f"Bearer {ebay_oauth_app_token}",
         "X-EBAY-C-MARKETPLACE-ID": "EBAY_ENCA",
         "X-EBAY-C-ENDUSERCTX": "affiliateCampaignId=<ePNCampaignId>,affiliateReferenceId=<referenceId>",
     }
-
-    params = {
-        "q": context.query,  # type: ignore
+    params: Dict[str, Any] = {
+        "q": context.query,
         "sort": "newlyListed",
         "limit": "2",
     }
@@ -100,10 +73,29 @@ def _query(context: Dict[str, Any]) -> Dict[str, Any]:
 
     logger.info(response)
 
-    return response.json()
+    r = response.json()
+
+    return {
+        "total": r["total"],
+        "href": r["href"],
+        "next": r["next"],
+        "offset": r["offset"],
+        "limit": r["limit"],
+        "products": [
+            {
+                "title": item["title"] if "title" in item else None,
+                "condition": item["condition"] if "condition" in item else None,
+                "price": item["price"] if "price" in item else None,
+                "currentBidPrice": item["currentBidPrice"]
+                if "currentBidPrice" in item
+                else None,
+            }
+            for item in r["itemSummaries"]
+        ],
+    }
 
 
-def _products_today_demo_ebay_json() -> Dict[str, Any]:
+def _products_today_ebay_demo_json() -> Dict[str, Any]:
     with open("kins/share/data/examples/responses/1.json", "r") as file:
         data = file.read()
 

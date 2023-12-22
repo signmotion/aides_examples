@@ -12,7 +12,7 @@ from ..act import Act
 from ..inner_memo import NoneInnerMemo
 from ..log import logger
 from ..savant_router import SavantRouter
-from ..task import Progress, Result, Task
+from ..task_progress_result import Progress, Result, Task
 
 from .....short_json.src.short_json.short_json import short_json
 
@@ -125,7 +125,8 @@ class BrainSide(Side):
         queue: RabbitQueue,
     ):
         ts = short_json(task, exclude={"context"})
-        logger.info(f"Progress for task `{ts}`: {progress.real}%")
+        p = "{:.2f}".format(progress.real)
+        logger.info(f"Progress for task `{ts}`: {p}%")
 
         logger.info(
             f"Publish a progress of task `{task.hid_act}` to Savant:"
@@ -172,7 +173,7 @@ class BrainSide(Side):
         queue: RabbitQueue,
     ):
         ts = short_json(task, exclude={"context"})
-        logger.info(f"Result for task `{ts}`: `{result}`")
+        logger.info(f"Result for task `{ts}`: `{short_json(result)}`")
 
         logger.info(
             f"Publish a result of task `{task.hid_act}` to Savant:"

@@ -6,7 +6,10 @@ from .memo_brokers.memo_broker import MemoBroker, NoneMemoBroker
 
 
 class InnerMemo:
-    def __init__(self, broker: MemoBroker):
+    def __init__(
+        self,
+        broker: MemoBroker,
+    ):
         self.name = type(self).__name__
         self.broker = broker
 

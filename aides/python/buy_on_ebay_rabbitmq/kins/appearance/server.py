@@ -12,6 +12,6 @@ class Appearance(AideServer):
         super().__init__(
             context_memo=ContextMemo(
                 test_context_smarthone_init() if use_test_context else Context(),
-                broker=FilesystemMemoBroker("memo/appearance_context_memo"),
+                broker=FilesystemMemoBroker("memo/appearance_context"),
             ),
         )

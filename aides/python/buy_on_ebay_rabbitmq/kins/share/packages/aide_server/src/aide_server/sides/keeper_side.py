@@ -8,7 +8,7 @@ from ..act import Act
 from ..inner_memo import InnerMemo, NoneInnerMemo
 from ..log import logger
 from ..savant_router import SavantRouter
-from ..task import Progress, Result
+from ..task_progress_result import Progress, Result
 
 
 class KeeperSide(Side):

@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from pydantic import Field
-from typing import List
 import uuid
 
 from .side import Side
@@ -14,7 +13,7 @@ from ..helpers import unwrap_multilang_text_list
 from ..log import logger
 from ..routes import about, context
 from ..savant_router import SavantRouter
-from ..task import Progress, Result, Task
+from ..task_progress_result import Progress, Result, Task
 
 from .....short_json.src.short_json.short_json import short_json
 
@@ -313,7 +312,7 @@ class AppearanceSide(Side):
             return self.inner_memo.get(key)
 
     async def _catch_result(self, result: Result):
-        logger.info(f"Catched a response result `{result}`.")
+        logger.info(f"Catched a response result `{short_json(result)}`.")
         if isinstance(result, dict):
             result = Result.model_validate(result)
         key = f"{result.uid_task}.response_result"
