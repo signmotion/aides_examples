@@ -62,7 +62,7 @@ class AideServer(FastAPI):
 
         name = configure.name.get(language) or "Aide Server"
         savant_router = SavantRouter(
-            configure.savantConnector,
+            configure.savant_connector,
             hid_server=configure.hid,
             sidename_server=sidename,
             acts=configure.acts,

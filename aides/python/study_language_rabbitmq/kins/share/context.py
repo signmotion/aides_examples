@@ -24,8 +24,8 @@ class Context(BaseModel):
     )
     text: str = Field(
         default="",
-        title="Text",
-        description="The text for processing.",
+        title="Text Source",
+        description="The source with text format for processing.",
     )
 
 
