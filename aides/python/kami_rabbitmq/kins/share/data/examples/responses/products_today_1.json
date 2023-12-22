@@ -1,0 +1,14 @@
+[
+  {
+    "aide": {
+      "hid": "auction_ebay",
+      "connector": "http://127.0.0.1:12001"
+    },
+    "act": {
+      "hid": "products_today",
+      "context": {
+        "optional": ["Hours", "Location", "Query"]
+      }
+    }
+  }
+]
