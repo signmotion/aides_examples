@@ -12,7 +12,7 @@ from ..act import Act
 from ..inner_memo import NoneInnerMemo
 from ..log import logger
 from ..savant_router import SavantRouter
-from ..task import Progress, Result, Task
+from ..task_progress_result import Progress, Result, Task
 
 from .....short_json.src.short_json.short_json import short_json
 

@@ -3,7 +3,6 @@ from fastapi.encoders import jsonable_encoder
 import json
 import pycaption
 import re
-import traceback
 from typing import Any, Callable, Dict, List, Optional
 
 from .sentence import Sentence
@@ -12,7 +11,7 @@ from ...config import *
 from ...context import Context
 from ...packages.aide_server.src.aide_server.helpers import construct_answer
 from ...packages.aide_server.src.aide_server.log import logger
-from ...packages.aide_server.src.aide_server.task import Result, Task
+from ...packages.aide_server.src.aide_server.task_progress_result import Result, Task
 from ...packages.short_json.src.short_json.short_json import short_json
 
 

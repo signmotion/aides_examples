@@ -11,7 +11,7 @@ class Appearance(AideServer):
     def __init__(self):
         super().__init__(
             context_memo=ContextMemo(
-                test_context_init() if use_test_context else Context(),
                 broker=FilesystemMemoBroker("memo/appearance_context_memo"),
+                context=test_context_init() if use_test_context else Context(),
             ),
         )

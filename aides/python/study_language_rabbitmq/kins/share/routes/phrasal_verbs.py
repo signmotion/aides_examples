@@ -1,89 +1,49 @@
 import openai
+from pydantic import NonNegativeFloat
 import re
 import traceback
-from typing import Any, Callable, Dict, Optional
+from typing import Any, Callable, Dict
 
-from ..config import *
+from ..config import fake_response, improve_answer, open_api_key, map_answer
 from ..context import Context
-from ..packages.aide_server.src.aide_server.helpers import construct_answer
+from ..packages.aide_server.src.aide_server.helpers import construct_and_publish
 from ..packages.aide_server.src.aide_server.log import logger
-from ..packages.aide_server.src.aide_server.task import Result, Task
+from ..packages.aide_server.src.aide_server.task_progress_result import Task
 
 
-async def phrasal_verbs(
+def phrasal_verbs(
     task: Task,
     publish_progress: Callable,
     publish_result: Callable,
 ):
     logger.info(f"Running `{__name__}`...")
 
-    await publish_progress(task=task, progress=0)
+    context = Context.model_validate(task.context)
 
-    count_request_errors = 0
-    ignored_providers = [
-        # confidently
-        # "ChatAnywhere",
-        # "ChatBase",
-        # "ChatgptX",
-        # "GptGo",
-        # maybe
-        # "GptForLove",
-        # "Chatgpt4Online",
-    ]
-
-    mapped_result: Optional[Dict[str, Any]] = None
-    improved_result: Optional[Dict[str, Any]] = None
-    raw_result: Optional[Dict[str, Any]] = None
-    error: Optional[Exception] = None
-    while True:
-        try:
-            raw_result = _queryChatGpt(Context.model_validate(task.context))
-
-            if improve_answer:
-                improved_result = _improve(raw_result)  # type: ignore[override]
-
-            if map_answer:
-                mapped_result = _map(
-                    improved_result if improved_result else _improve(raw_result)  # type: ignore[override]
-                )
-
-            break
-
-        except Exception as ex:
-            # provider_error = get_provider_from_error(ex)
-            # if provider_error:
-            #     ignored_providers.append(provider_error)
-            #     logger.info(f"Added `{provider_error}` to ignored list.")
-
-            count_request_errors += 1
-            logger.warn(
-                f"ATTEMPT {count_request_errors} {ex} :: {traceback.format_exc()}"
-            )
-            error = ex
-            if count_request_errors >= max_count_request_errors:
-                break
-
-    value = construct_answer(
-        mapped_result=mapped_result,
-        improved_result=improved_result,
-        raw_result=raw_result if include_raw_response_in_answer else None,
-        context=task.context if include_context_in_answer else None,
-        error=error,
-    )
-
-    await publish_progress(task=task, progress=100)
-
-    return await publish_result(
-        task=task,
-        result=Result(uid_task=task.uid, value=value),
+    return construct_and_publish(
+        task,
+        construct_raw_result=_construct_raw_result,
+        construct_improved_result=_construct_improved_result
+        if improve_answer
+        else None,
+        construct_mapped_result=_construct_mapped_result if map_answer else None,
+        publish_progress=publish_progress,
+        publish_result=publish_result,
+        fake_raw_result=_phrasal_verbs_demo_text(context)["result"]
+        if fake_response
+        else None,
     )
 
 
-def _queryChatGpt(context: Context) -> Dict[str, Any]:
-    if fake_response:
-        return _phrasal_verbs_demo_text(Context.model_validate(context))["result"]
-
+def _construct_raw_result(
+    task: Task,
+    publish_progress: Callable,
+    publish_result: Callable,
+    start_progress: NonNegativeFloat,
+    stop_progress: NonNegativeFloat,
+) -> Any:
     openai.api_key = open_api_key
+    context = Context.model_validate(task.context)
     response = openai.Completion.create(  # type: ignore
         engine="text-davinci-003",
         prompt=_prompt(context.text),
@@ -94,6 +54,31 @@ def _queryChatGpt(context: Context) -> Dict[str, Any]:
     logger.info(response)
 
     return response.choices[0].text
+
+
+def _construct_improved_result(
+    source: Any,
+    task: Task,
+    raw_result: Any,
+    publish_progress: Callable,
+    publish_result: Callable,
+    start_progress: NonNegativeFloat,
+    stop_progress: NonNegativeFloat,
+) -> Any:
+    return _improve(raw_result)  # type: ignore[override]
+
+
+def _construct_mapped_result(
+    source: Any,
+    task: Task,
+    raw_result: Any,
+    improved_result: Any,
+    publish_progress: Callable,
+    publish_result: Callable,
+    start_progress: NonNegativeFloat,
+    stop_progress: NonNegativeFloat,
+) -> Dict[str, Any]:
+    return _map(improved_result)
 
 
 def _prompt(text: str):
@@ -108,17 +93,6 @@ TEXT:
 
 {text}
 """
-
-
-def _get_provider_from_error(ex: Exception):
-    splitted = f"{ex}".split(":")
-    r = None
-    if len(splitted) > 1:
-        r = splitted[1].strip()
-        if len(r.split(" ")) != 0 or r == "RetryProvider":
-            r = None
-
-    return r
 
 
 # 1. make out (translation: зрозуміти)\n

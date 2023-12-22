@@ -1,19 +1,19 @@
 from fastapi import APIRouter
 from pydantic import Field
-from typing import List
 import uuid
 
 from .side import Side
 from .type_side import TypeSide
 
 from ..act import Act
+from ..configure import Configure
 from ..context_memo import ContextMemo, NoneContextMemo
 from ..inner_memo import InnerMemo
-from ..helpers import unwrapMultilangTextList
+from ..helpers import unwrap_multilang_text_list
 from ..log import logger
 from ..routes import about, context
 from ..savant_router import SavantRouter
-from ..task import Progress, Result, Task
+from ..task_progress_result import Progress, Result, Task
 
 from .....short_json.src.short_json.short_json import short_json
 
@@ -22,11 +22,8 @@ class AppearanceSide(Side):
     def __init__(
         self,
         router: APIRouter,
-        name_aide: str,
-        hid_aide: str,
-        path_to_face: str,
+        configure: Configure,
         savant_router: SavantRouter,
-        acts: List[Act],
         inner_memo: InnerMemo,
         context_memo: ContextMemo,
         catch_progress: bool = True,
@@ -39,7 +36,7 @@ class AppearanceSide(Side):
         super().__init__(
             router=router,
             savant_router=savant_router,
-            acts=acts,
+            acts=configure.acts,
             inner_memo=inner_memo,
         )
 
@@ -47,11 +44,7 @@ class AppearanceSide(Side):
         self.catch_progress = catch_progress
         self.catch_result = catch_result
 
-        self._register_catchers_and_endpoints(
-            name_aide=name_aide,
-            hid_aide=hid_aide,
-            path_to_face=path_to_face,
-        )
+        self._register_catchers_and_endpoints(configure)
 
         logger.info(
             f"🏳️‍🌈 Initialized `{self.type.name}` with acts `{self.acts}`"
@@ -76,12 +69,7 @@ class AppearanceSide(Side):
         description="Catch result from Savant and save it to inner memory without additional request to Keeper.",
     )
 
-    def _register_catchers_and_endpoints(
-        self,
-        name_aide: str,
-        hid_aide: str,
-        path_to_face: str,
-    ):
+    def _register_catchers_and_endpoints(self, configure: Configure):
         logger.info(
             f"🪶 Registering the catchers and client endpoint(s)"
             f" for `{self.type.name}`..."
@@ -90,10 +78,8 @@ class AppearanceSide(Side):
         # add about routes
         about.add_routes(
             self.router,
-            name=name_aide,
-            hid=hid_aide,
+            configure=configure,
             sidename=self.type.name,
-            path_to_face=path_to_face,
         )
         logger.info("🪶🍁 Added the routes for `About`.")
 
@@ -171,7 +157,7 @@ class AppearanceSide(Side):
             name=act.name["en"],
             summary=act.summary["en"],
             description=act.description["en"],
-            tags=unwrapMultilangTextList(act.tags, "en"),  # type: ignore[override]
+            tags=unwrap_multilang_text_list(act.tags, "en"),  # type: ignore[override]
             # operation_id=act.hid,
         )
         async def task_endpoint():
@@ -207,7 +193,7 @@ class AppearanceSide(Side):
             name=act.name_request_progress["en"],
             summary=act.summary_request_progress["en"],
             description=act.description_request_progress["en"],
-            tags=unwrapMultilangTextList(act.tags_request_progress, "en"),  # type: ignore[override]
+            tags=unwrap_multilang_text_list(act.tags_request_progress, "en"),  # type: ignore[override]
             # operation_id=act.hid,
         )
         async def request_progress_endpoint(uid_task: str):
@@ -247,7 +233,7 @@ class AppearanceSide(Side):
             name=act.name_response_progress["en"],
             summary=act.summary_response_progress["en"],
             description=act.description_response_progress["en"],
-            tags=unwrapMultilangTextList(act.tags_response_progress, "en"),  # type: ignore[override]
+            tags=unwrap_multilang_text_list(act.tags_response_progress, "en"),  # type: ignore[override]
             # operation_id=act.hid,
         )
         async def response_progress_endpoint(uid_task: str):
@@ -274,7 +260,7 @@ class AppearanceSide(Side):
             name=act.name_request_result["en"],
             summary=act.summary_request_result["en"],
             description=act.description_request_result["en"],
-            tags=unwrapMultilangTextList(act.tags_request_result, "en"),  # type: ignore[override]
+            tags=unwrap_multilang_text_list(act.tags_request_result, "en"),  # type: ignore[override]
             # operation_id=act.hid,
         )
         async def request_result_endpoint(uid_task: str):
@@ -314,7 +300,7 @@ class AppearanceSide(Side):
             name=act.name_response_result["en"],
             summary=act.summary_response_result["en"],
             description=act.description_response_result["en"],
-            tags=unwrapMultilangTextList(act.tags_response_result, "en"),  # type: ignore[override]
+            tags=unwrap_multilang_text_list(act.tags_response_result, "en"),  # type: ignore[override]
             # operation_id=act.hid,
         )
         async def response_result_endpoint(uid_task: str):
