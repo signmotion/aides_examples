@@ -48,7 +48,7 @@ class Configure(BaseModel):
         description="Characteristic of aide.",
     )
 
-    savantConnector: str = Field(
+    savant_connector: str = Field(
         ...,
         examples=["amqp://guest:guest@localhost:5672/"],
         title="Savant Connector",

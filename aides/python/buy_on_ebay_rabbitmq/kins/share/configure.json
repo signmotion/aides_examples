@@ -9,7 +9,7 @@
     { "en": "eBay" },
     { "en": "purchase" }
   ],
-  "_path_to_face": "Localy you can see a face of aide by path `http://127.0.0.1:8000/face`.",
+  "_path_to_face": "Localy you can see a face of aide by path `http://127.0.0.1:*/face`.",
   "path_to_face": "kins/share/data/face.webp",
   "characteristic": {
     "age": 19,
@@ -39,7 +39,7 @@
       }
     ]
   },
-  "savantConnector": "amqp://guest:guest@localhost:5672/",
+  "savant_connector": "amqp://guest:guest@localhost:5672/",
   "acts": [
     {
       "name": { "en": "Products Today" },
@@ -55,6 +55,9 @@
         { "en": "products" },
         { "en": "today" }
       ],
+      "context": {
+        "optional": ["Hours", "Location", "Query"]
+      },
       "version": "0.1.0"
     }
   ],
