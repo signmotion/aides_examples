@@ -312,7 +312,7 @@ class AppearanceSide(Side):
             return self.inner_memo.get(key)
 
     async def _catch_result(self, result: Result):
-        logger.info(f"Catched a response result `{result}`.")
+        logger.info(f"Catched a response result `{short_json(result)}`.")
         if isinstance(result, dict):
             result = Result.model_validate(result)
         key = f"{result.uid_task}.response_result"
