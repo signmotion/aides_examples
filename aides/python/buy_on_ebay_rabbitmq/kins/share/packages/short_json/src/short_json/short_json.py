@@ -17,6 +17,7 @@ def short_json(
     exclude_unset: bool = True,
     exclude_defaults: bool = False,
     exclude_none: bool = True,
+    _depth: int = 0,
 ) -> Union[Dict[str, Any], List[Any], Set[Any], str, int, float, None]:
     """
     Truncate the values into JSON, exclude unused, empty or default values.
@@ -50,6 +51,9 @@ def short_json(
     else:
         d = o
 
+    is_root = _depth > 0
+    next_depth = _depth + 1
+
     if isinstance(d, str):
         if slice_str_to_length > 0 and len(d) > slice_str_to_length:
             d = f"{d[:slice_str_to_length]}..."
@@ -57,24 +61,28 @@ def short_json(
 
     if isinstance(d, dict):
         d = list(d.items())
-        if slice_dict_to_length > 0 and len(d) > slice_dict_to_length:
+        if not is_root and slice_dict_to_length > 0 and len(d) > slice_dict_to_length:
             d = d[slice(slice_dict_to_length)]
             d.append(("...", "..."))
-        return dict((k, short_json(v)) for k, v in d)
+        return dict((k, short_json(v, _depth=next_depth)) for k, v in d)
 
     if isinstance(d, list):
-        return _sliced_and_shorted(d, slice_list_to_length)
+        return _sliced_and_shorted(d, slice_list_to_length, next_depth=next_depth)
 
     if isinstance(d, set):
-        return set(_sliced_and_shorted(d, slice_list_to_length))
+        return set(_sliced_and_shorted(d, slice_list_to_length, next_depth=next_depth))
 
     return d
 
 
-def _sliced_and_shorted(v: Union[List[Any], Set[Any]], limit: int) -> List[Any]:
+def _sliced_and_shorted(
+    v: Union[List[Any], Set[Any]],
+    limit: int,
+    next_depth: int,
+) -> List[Any]:
     r: List[Any] = v if isinstance(v, list) else list(v)
     if limit > 0 and len(v) > limit:
         r = r[slice(limit)]
         r.append("...")
 
-    return [short_json(v) for v in r]
+    return [short_json(v, _depth=next_depth) for v in r]
