@@ -1,4 +1,4 @@
-# Aides on the Python
+# Aides on Python
 
 ## Conventions
 
@@ -131,4 +131,18 @@ Or use `Exec` tab into the Docker Desktop.
 
 ```bash
 rabbitmqctl list_queues
+```
+
+## Tests
+
+Run tests from the project folder:
+
+```bash
+cd ./buy_on_ebay_rabbitmq/kins/share/packages
+```
+
+Example for tests local package `short_json`:
+
+```bash
+python -m unittest short_json.tests.test_short_json
 ```
