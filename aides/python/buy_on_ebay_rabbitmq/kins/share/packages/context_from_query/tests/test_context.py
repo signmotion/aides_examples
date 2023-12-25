@@ -54,6 +54,34 @@ class TestContext(unittest.TestCase):
         self.assertEqual(expected.queries, context.queries)
         self.assertEqual(expected.slice, context.slice)
 
+    def test_context_with_give_me_products_from_ebay(self):
+        query = "Give me eBay auction items from the last 2 hours in Canada."
+        expected = Context.model_validate(
+            {
+                "slice": {
+                    "raw": {
+                        MeaningData.GPE: [
+                            {"i": 0, "v": "Canada"},
+                        ],
+                        MeaningData.ORG: [
+                            {"i": 0, "v": "eBay"},
+                        ],
+                        MeaningData.TIME: [
+                            {"i": 0, "v": "the last 2 hours"},
+                        ],
+                    },
+                },
+                "queries": [
+                    query,
+                ],
+            }
+        )
+
+        context: Context = Context()
+        context.add(query)
+        self.assertEqual(expected.queries, context.queries)
+        self.assertEqual(expected.slice, context.slice)
+
 
 if __name__ == "main":
     unittest.main()

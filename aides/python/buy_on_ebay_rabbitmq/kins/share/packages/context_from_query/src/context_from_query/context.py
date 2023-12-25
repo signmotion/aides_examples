@@ -81,7 +81,7 @@ def default_extract_data(
             Label(
                 value=detect_meaning_data(label.value),
                 score=label.score,
-                data=label.data_point.tokens[0].text,
+                data=label.data_point.text,
             )
         )
 
@@ -180,13 +180,14 @@ class Context(BaseModel):
         # analyze & fill
         query = self.queries[-1]
         labeled_query = self.extract(query)
-        print(labeled_query)
         for translate in self.translates:
             translate(
                 len(self.queries) - 1,
                 labeled_query,
                 self.slice,
             )
+
+        self.slice.sort()
 
     def _tagging_entities_demo(self, sentence: Sentence):
         # Dictionary with 20 tags: <unk>, O, S-ORG, S-MISC, B-PER, E-PER, S-LOC, B-ORG,

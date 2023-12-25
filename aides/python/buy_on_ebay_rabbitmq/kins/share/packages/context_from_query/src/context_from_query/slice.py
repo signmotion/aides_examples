@@ -27,14 +27,12 @@ class Slice(BaseModel):
     We can work with this class like with dict where a key has a name from `MeaningData`.
     """
 
-    def __getitem__(self, key: str):
+    def __getitem__(self, key: str) -> List[ValueSlice]:
         if key not in self.raw:
             self.raw[key] = []
         return self.raw[key]
 
-    def __setitem__(self, key: str, value: Any):
-        if key not in self.raw:
-            self.raw[key] = []
+    def __setitem__(self, key: str, value: List[ValueSlice]):
         self.raw[key] = value
 
     def __delitem__(self, key: str):
@@ -43,6 +41,10 @@ class Slice(BaseModel):
 
     def has(self, key: str) -> bool:
         return hasattr(self.raw, key)
+
+    def sort(self):
+        """Sort by key."""
+        self.raw = dict(sorted(self.raw.items()))
 
     raw: Dict[str, List[ValueSlice]] = Field(
         default={},
