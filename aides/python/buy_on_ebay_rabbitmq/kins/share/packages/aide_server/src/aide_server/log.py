@@ -1,4 +1,4 @@
 import logging
 
 
-logger = logging.getLogger("uvicorn.error") or logging.root
+logger = logging.getLogger("uvicorn.error")

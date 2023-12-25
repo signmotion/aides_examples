@@ -1,10 +1,6 @@
 import json
-import logging
 from pydantic import BaseModel
 from typing import Any, Dict, List, Set, Union
-
-
-logger = logging.getLogger("uvicorn.error") or logging.root
 
 
 def short_json(
