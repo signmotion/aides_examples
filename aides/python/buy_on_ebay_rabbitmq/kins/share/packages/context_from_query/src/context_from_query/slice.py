@@ -28,13 +28,21 @@ class Slice(BaseModel):
     """
 
     def __getitem__(self, key: str):
+        if key not in self.raw:
+            self.raw[key] = []
         return self.raw[key]
 
     def __setitem__(self, key: str, value: Any):
+        if key not in self.raw:
+            self.raw[key] = []
         self.raw[key] = value
 
     def __delitem__(self, key: str):
-        del self.raw[key]
+        if key in self.raw:
+            del self.raw[key]
+
+    def has(self, key: str) -> bool:
+        return hasattr(self.raw, key)
 
     raw: Dict[str, List[ValueSlice]] = Field(
         default={},

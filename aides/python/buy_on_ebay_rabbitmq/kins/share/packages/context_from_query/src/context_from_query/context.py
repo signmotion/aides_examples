@@ -95,8 +95,6 @@ def default_translate_labeled_data(
 ):
     for label in labeled_query.labels:
         key = label.value.value
-        if not hasattr(slice, key):
-            slice[key] = []
         slice[key].append(ValueSlice(i=index_query, v=label.data))
 
 
@@ -182,6 +180,7 @@ class Context(BaseModel):
         # analyze & fill
         query = self.queries[-1]
         labeled_query = self.extract(query)
+        print(labeled_query)
         for translate in self.translates:
             translate(
                 len(self.queries) - 1,

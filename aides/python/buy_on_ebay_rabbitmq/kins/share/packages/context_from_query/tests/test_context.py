@@ -9,9 +9,8 @@ class TestContext(unittest.TestCase):
         super().__init__(methodName=methodName)
         self.maxDiff = None
 
-    query_1 = "Tell me about Ukraine."
-
     def test_context_with_one_country(self):
+        query = "Tell me about Ukraine."
         expected = Context.model_validate(
             {
                 "slice": {
@@ -22,15 +21,36 @@ class TestContext(unittest.TestCase):
                     }
                 },
                 "queries": [
-                    self.query_1,
+                    query,
                 ],
             }
         )
 
         context: Context = Context()
-        context.add(self.query_1)
-        print(expected)
-        print(context)
+        context.add(query)
+        self.assertEqual(expected.queries, context.queries)
+        self.assertEqual(expected.slice, context.slice)
+
+    def test_context_with_two_country(self):
+        query = "Tell me about Ukraine and Germany."
+        expected = Context.model_validate(
+            {
+                "slice": {
+                    "raw": {
+                        MeaningData.GPE: [
+                            {"i": 0, "v": "Ukraine"},
+                            {"i": 0, "v": "Germany"},
+                        ],
+                    }
+                },
+                "queries": [
+                    query,
+                ],
+            }
+        )
+
+        context: Context = Context()
+        context.add(query)
         self.assertEqual(expected.queries, context.queries)
         self.assertEqual(expected.slice, context.slice)
 
