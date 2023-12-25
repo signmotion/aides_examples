@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "buy-on-ebay-rabbitmq"
 version = "0.1.0"
-description = "The server for appraise purchase the items on eBay."
+description = "The aide for appraise purchase the items on eBay."
 authors = ["Andrii Syrokomskyi <signmotion@gmail.com>"]
 readme = "README.md"
 
@@ -9,6 +9,7 @@ readme = "README.md"
 load-dotenv = "^0.1.0"
 fastapi = "^0.105.0"
 faststream = {extras = ["rabbit"], version = "^0.3.6"}
+flair = "^0.13.1"
 httpx = "^0.26.0"
 python = "^3.9"
 sanitize-filename = "^1.2.0"
