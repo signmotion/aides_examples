@@ -4,21 +4,25 @@ import json
 import pycaption
 from pydantic import NonNegativeFloat
 import re
-from typing import Any, Callable, List
+from typing import Any, List
 
 from .sentence import Sentence
 
 from ...config import *
 from ...context import Context
-from ...packages.aide_server.src.aide_server.helpers import construct_and_publish
+from ...packages.aide_server.src.aide_server.helpers import (
+    construct_and_publish,
+    PublishProgressFn,
+    PublishResultFn,
+)
 from ...packages.aide_server.src.aide_server.log import logger
 from ...packages.aide_server.src.aide_server.task_progress_result import Task
 
 
 async def translate_caption(
     task: Task,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
 ):
     return await construct_and_publish(
         __name__,
@@ -31,8 +35,8 @@ async def translate_caption(
 
 async def _construct_raw_result(
     task: Task,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
 ) -> Any:
@@ -56,7 +60,7 @@ async def _construct_raw_result(
 
         progress = round(100 * i / (len(sentences) + 1), 2)
         logger.info(f"{i} {progress}% {sentence}")
-        await publish_progress(task=task, progress=progress)
+        await publish_progress(task, progress)
 
     r = {
         "sentences_count": len(sentences),

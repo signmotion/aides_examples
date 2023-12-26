@@ -1,20 +1,20 @@
 import json
 from pydantic import BaseModel
-import textwrap
 from typing import Any, Dict, List, Set, Union
 
 
 def short_json(
-    o: Union[BaseModel, Dict[str, Any], List[Any], str],
-    truncate_dict_to_length: int = 12,
-    truncate_list_to_length: int = 4,
-    truncate_str_to_length: int = 120,
+    o: Union[BaseModel, Dict[str, Any], List[Any], Set[Any], str, int, float, None],
+    slice_dict_to_length: int = 12,
+    slice_list_to_length: int = 4,
+    slice_str_to_length: int = 120,
     include: Union[Set[int], Set[str], Dict[int, Any], Dict[str, Any], None] = None,
     exclude: Union[Set[int], Set[str], Dict[int, Any], Dict[str, Any], None] = None,
     exclude_unset: bool = True,
     exclude_defaults: bool = False,
     exclude_none: bool = True,
-) -> Dict[str, Any]:
+    _depth: int = 0,
+) -> Union[Dict[str, Any], List[Any], Set[Any], str, int, float, None]:
     """
     Truncate the values into JSON, exclude unused, empty or default values.
 
@@ -29,7 +29,8 @@ def short_json(
     Returns:
         A short JSON string representation.
     """
-    d = o
+
+    d: Union[Dict[str, Any], List[Any], Set[Any], str, int, float, None]
     if isinstance(o, BaseModel):
         d = o.model_dump(
             include=include,
@@ -39,30 +40,45 @@ def short_json(
             exclude_none=exclude_none,
         )
     elif isinstance(o, str):
-        d = json.loads(o)
+        try:
+            d = json.loads(o)
+        except Exception as _:
+            d = o
+    else:
+        d = o
 
-    # work with `dict`
-    r: Dict[str, Any] = {}
-    for k, v in d.items():  # type: ignore[override]
-        if isinstance(v, dict):
-            if truncate_dict_to_length > 0 and len(v) > truncate_dict_to_length:
-                v = list(v.items())
-                v = v[slice(truncate_dict_to_length)]
-                v.append(("...", "..."))
-                v = dict(v)
-            r[k] = short_json(v)
-        elif isinstance(v, list):
-            if truncate_list_to_length > 0 and len(r[k]) > truncate_list_to_length:
-                v = v[slice(truncate_list_to_length)]
-                v.append("...")
-            r[k] = short_json(v)
-        elif isinstance(v, str):
-            if truncate_str_to_length > 0 and len(v) > truncate_str_to_length:
-                v = textwrap.shorten(
-                    v,
-                    width=truncate_str_to_length,
-                    placeholder="...",
-                )
-            r[k] = v
+    is_root = _depth > 0
+    next_depth = _depth + 1
 
-    return r
+    if isinstance(d, str):
+        if slice_str_to_length > 0 and len(d) > slice_str_to_length:
+            d = f"{d[:slice_str_to_length]}..."
+        return d
+
+    if isinstance(d, dict):
+        d = list(d.items())
+        if not is_root and slice_dict_to_length > 0 and len(d) > slice_dict_to_length:
+            d = d[slice(slice_dict_to_length)]
+            d.append(("...", "..."))
+        return dict((k, short_json(v, _depth=next_depth)) for k, v in d)
+
+    if isinstance(d, list):
+        return _sliced_and_shorted(d, slice_list_to_length, next_depth=next_depth)
+
+    if isinstance(d, set):
+        return set(_sliced_and_shorted(d, slice_list_to_length, next_depth=next_depth))
+
+    return d
+
+
+def _sliced_and_shorted(
+    v: Union[List[Any], Set[Any]],
+    limit: int,
+    next_depth: int,
+) -> List[Any]:
+    r: List[Any] = v if isinstance(v, list) else list(v)
+    if limit > 0 and len(v) > limit:
+        r = r[slice(limit)]
+        r.append("...")
+
+    return [short_json(v, _depth=next_depth) for v in r]

@@ -2,19 +2,23 @@ import openai
 from pydantic import NonNegativeFloat
 import re
 import traceback
-from typing import Any, Callable, Dict
+from typing import Any, Dict
 
 from ..config import fake_response, improve_answer, open_api_key, map_answer
 from ..context import Context
-from ..packages.aide_server.src.aide_server.helpers import construct_and_publish
+from ..packages.aide_server.src.aide_server.helpers import (
+    construct_and_publish,
+    PublishProgressFn,
+    PublishResultFn,
+)
 from ..packages.aide_server.src.aide_server.log import logger
 from ..packages.aide_server.src.aide_server.task_progress_result import Task
 
 
 async def phrasal_verbs(
     task: Task,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
 ):
     context = Context.model_validate(task.context)
 
@@ -36,8 +40,8 @@ async def phrasal_verbs(
 
 async def _construct_raw_result(
     task: Task,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
 ) -> Any:
@@ -56,11 +60,10 @@ async def _construct_raw_result(
 
 
 async def _construct_improved_result(
-    source: Any,
     task: Task,
     raw_result: Any,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
 ) -> Any:
@@ -68,12 +71,11 @@ async def _construct_improved_result(
 
 
 async def _construct_mapped_result(
-    source: Any,
     task: Task,
     raw_result: Any,
     improved_result: Any,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
 ) -> Dict[str, Any]:
