@@ -1,7 +1,7 @@
 import json
 import httpx
 from pydantic import NonNegativeFloat
-from typing import Any, Callable, Dict
+from typing import Any, Dict
 
 from ..config import (
     api_domain,
@@ -12,15 +12,19 @@ from ..config import (
     is_production,
 )
 from ..context import Context
-from ..packages.aide_server.src.aide_server.helpers import construct_and_publish
+from ..packages.aide_server.src.aide_server.helpers import (
+    construct_and_publish,
+    PublishProgressFn,
+    PublishResultFn,
+)
 from ..packages.aide_server.src.aide_server.log import logger
 from ..packages.aide_server.src.aide_server.task_progress_result import Task
 
 
 async def products_today(
     task: Task,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
 ):
     context = Context.model_validate(task.context)
 
@@ -38,8 +42,8 @@ async def products_today(
 
 async def _construct_raw_result(
     task: Task,
-    publish_progress: Callable,
-    publish_result: Callable,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
 ) -> Any:

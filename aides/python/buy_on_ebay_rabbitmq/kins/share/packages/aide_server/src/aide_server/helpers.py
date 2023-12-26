@@ -1,12 +1,62 @@
+import asyncio
 from fastapi import routing
 from pydantic import NonNegativeFloat, NonNegativeInt
 import traceback
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Awaitable, Callable, Dict, List, Optional, TypeVar
 
 from .log import logger
 from .task_progress_result import Result, Task
 
 from ....short_json.src.short_json.short_json import short_json
+
+
+# (task, progress)
+PublishProgressFn = Callable[[Task, NonNegativeFloat], Awaitable[NonNegativeFloat]]
+
+# (task, result)
+PublishResultFn = Callable[[Task, Any], Awaitable[Any]]
+
+# (task, publish_progress, publish_result, start_progress, stop_progress)
+ConstructRawResult = Callable[
+    [
+        Task,
+        PublishProgressFn,
+        PublishResultFn,
+        NonNegativeFloat,
+        NonNegativeFloat,
+    ],
+    Awaitable[Any],
+]
+
+# (task, raw_result, publish_progress, publish_result, start_progress, stop_progress)
+ConstructImprovedResult = Callable[
+    [
+        Task,
+        Any,
+        PublishProgressFn,
+        PublishResultFn,
+        NonNegativeFloat,
+        NonNegativeFloat,
+    ],
+    Awaitable[Any],
+]
+
+# (task, raw_result, improved_result, publish_progress, publish_result, start_progress, stop_progress)
+ConstructMappedResult = Callable[
+    [
+        Task,
+        Any,
+        Any,
+        PublishProgressFn,
+        PublishResultFn,
+        NonNegativeFloat,
+        NonNegativeFloat,
+    ],
+    Awaitable[Dict[str, Any]],
+]
+
+# (task, publish_progress, publish_result)
+RunFn = Callable[[Task, PublishProgressFn, PublishResultFn], Awaitable[None]]
 
 
 def construct_answer(
@@ -51,11 +101,11 @@ def construct_answer(
 async def construct_and_publish(
     act_hid: str,
     task: Task,
-    publish_progress: Callable,
-    publish_result: Callable,
-    construct_raw_result: Callable,
-    construct_improved_result: Optional[Callable] = None,
-    construct_mapped_result: Optional[Callable] = None,
+    publish_progress: PublishProgressFn,
+    publish_result: PublishResultFn,
+    construct_raw_result: ConstructRawResult,
+    construct_improved_result: Optional[ConstructImprovedResult] = None,
+    construct_mapped_result: Optional[ConstructMappedResult] = None,
     include_raw_response_in_answer: bool = True,
     include_context_in_answer: bool = True,
     start_progress_raw_result: NonNegativeFloat = 100.0 / 3 * 0,
@@ -82,38 +132,36 @@ async def construct_and_publish(
         try:
             await publish_progress(task, start_progress_raw_result)
             raw_result = fake_raw_result or await construct_raw_result(
-                task=task,
-                publish_progress=publish_progress,
-                publish_result=publish_result,
-                start_progress=start_progress_raw_result,
-                stop_progress=stop_progress_raw_result,
+                task,
+                publish_progress,
+                publish_result,
+                start_progress_raw_result,
+                stop_progress_raw_result,
             )
             await publish_progress(task, stop_progress_raw_result)
 
             if construct_improved_result:
                 await publish_progress(task, start_progress_improved_result)
                 improved_result = await construct_improved_result(
-                    source=raw_result,
-                    task=task,
-                    raw_result=raw_result,
-                    publish_progress=publish_progress,
-                    publish_result=publish_result,
-                    start_progress=start_progress_improved_result,
-                    stop_progress=stop_progress_improved_result,
+                    task,
+                    raw_result,
+                    publish_progress,
+                    publish_result,
+                    start_progress_improved_result,
+                    stop_progress_improved_result,
                 )
             await publish_progress(task, stop_progress_improved_result)
 
             if construct_mapped_result:
                 await publish_progress(task, start_progress_mapped_result)
                 mapped_result = await construct_mapped_result(
-                    source=improved_result,
-                    task=task,
-                    raw_result=raw_result,
-                    improved_result=improved_result,
-                    publish_progress=publish_progress,
-                    publish_result=publish_result,
-                    start_progress=start_progress_mapped_result,
-                    stop_progress=stop_progress_mapped_result,
+                    task,
+                    raw_result,
+                    improved_result,
+                    publish_progress,
+                    publish_result,
+                    start_progress_mapped_result,
+                    stop_progress_mapped_result,
                 )
             await publish_progress(task, stop_progress_mapped_result)
 
@@ -142,6 +190,16 @@ async def construct_and_publish(
         task,
         Result(uid_task=task.uid, value=value),
     )
+
+
+# T = TypeVar("T")
+
+
+# async def async_wrapper(value: T) -> Awaitable[T]:
+#     def wrapper(value: T) -> T:
+#         return value
+
+#     return asyncio.run(wrapper(value))  # type: ignore
 
 
 def skip_check_route(route: routing.APIRoute) -> bool:

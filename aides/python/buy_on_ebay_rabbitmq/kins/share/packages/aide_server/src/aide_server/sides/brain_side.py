@@ -1,18 +1,19 @@
-import queue
 from fastapi import APIRouter
 from pydantic import Field, NonNegativeFloat
 import time
-from typing import Any, Callable, List
+from typing import Any, List
 from faststream.rabbit import RabbitQueue
 
 from .side import Side
 from .type_side import TypeSide
 
 from ..act import Act
+from ..helpers import RunFn
 from ..inner_memo import NoneInnerMemo
 from ..log import logger
 from ..savant_router import SavantRouter
 from ..task_progress_result import Progress, Result, Task
+
 
 from .....short_json.src.short_json.short_json import short_json
 
@@ -23,12 +24,14 @@ class BrainSide(Side):
         router: APIRouter,
         savant_router: SavantRouter,
         acts: List[Act],
-        runs: List[Callable],
+        runs: List[RunFn],
     ):
         assert bool(runs), "The runs should be able, as least 1."
-        assert len(runs) == len(
-            acts
-        ), "The count of runs doesn't much the count of acts."
+        if len(runs) != len(acts):
+            logger.warn(
+                f"The count of runs ({len(runs)})"
+                f" doesn't much the count of acts ({len(acts)})."
+            )
 
         super().__init__(
             router=router,
@@ -46,7 +49,7 @@ class BrainSide(Side):
             f" and inner memo `{self.inner_memo}`."
         )
 
-    runs: List[Callable] = Field(
+    runs: List[RunFn] = Field(
         ...,
         title="Braint Runs",
         description="The runs for Brain server. Each runs should be defined into `configure.json` with same name.",
@@ -64,7 +67,9 @@ class BrainSide(Side):
         n = 1
 
         @self.taskCatcher(
-            act.hid, pusher_side=TypeSide.APPEARANCE, catcher_side=self.type
+            act.hid,
+            pusher_side=TypeSide.APPEARANCE,
+            catcher_side=self.type,
         )
         async def task_catcher(task: Task):
             ts = short_json(task, exclude={"context"})
@@ -89,13 +94,15 @@ class BrainSide(Side):
             raise Exception(f"Not found a run for task `{ts}`.")
 
         await found_run(
-            task=task,
-            publish_progress=self.publish_progress,
-            publish_result=self.publish_result,
+            task,
+            self.publish_progress,
+            self.publish_result,
         )
 
     # catcher: Keeper, [Appearance]
-    async def publish_progress(self, task: Task, progress: NonNegativeFloat):
+    async def publish_progress(
+        self, task: Task, progress: NonNegativeFloat
+    ) -> NonNegativeFloat:
         await self._publish_progress(
             task=task,
             progress=progress,
@@ -143,7 +150,7 @@ class BrainSide(Side):
         return progress
 
     # catcher: Keeper, [Appearance]
-    async def publish_result(self, task: Task, result: Any):
+    async def publish_result(self, task: Task, result: Any) -> Any:
         await self._publish_result(
             task=task,
             result=result,
