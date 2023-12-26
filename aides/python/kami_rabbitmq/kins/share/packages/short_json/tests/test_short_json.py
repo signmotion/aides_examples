@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from ..src.short_json.short_json import short_json
 
 
-class TestContext(unittest.TestCase):
+class TestShortJson(unittest.TestCase):
     def __init__(self, methodName: str = "runTest"):
         super().__init__(methodName=methodName)
         self.maxDiff = None

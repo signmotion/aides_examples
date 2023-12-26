@@ -1,4 +1,4 @@
 __pycache__
 *.env
 /.vscode/settings.json
-/aides/python/kami_rabbitmq/kins/share/data/models/llms/*.gguf
+*.gguf

@@ -1,6 +1,7 @@
 from gpt4all import GPT4All
 import json
 from pydantic import NonNegativeFloat
+import sys
 from typing import Any, Awaitable, Dict
 
 
@@ -42,24 +43,37 @@ async def _construct_raw_result(
 ):
     logger.warn("Demo GPT4All")
     model_name = "mistral-7b-openorca.Q4_0.gguf"
-    model_path = f"kins/share/data/models/llms"
-    logger.info(f"Connected to model `{model_path}`...")
+    model_path = "kins/share/data/models/llms"
+    logger.info(f"Connected to model {model_name}, path `{model_path}`...")
     model = GPT4All(
         model_name,
         model_path=model_path,
         allow_download=False,
         verbose=True,
     )
-    output = model.generate(
+
+    # output = model.generate(
+    #     "The capital of France is ",
+    #     temp=0,
+    #     max_tokens=60,
+    # )
+    # logger.info(output)
+
+    tokens = []
+    for token in model.generate(
         "The capital of France is ",
         temp=0,
-        max_tokens=120,
-    )
-    logger.info(output)
+        max_tokens=60,
+        streaming=True,
+    ):
+        sys.stdout.write(token)
+        sys.stdout.flush()
+        tokens.append(token)
+    print("".join(tokens))
 
     # TODO
 
-    return output
+    return ""
 
 
 async def _construct_improved_result(
