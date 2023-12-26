@@ -26,7 +26,7 @@ async def who_and_how_can_help(
         task=task,
         construct_raw_result=_construct_raw_result,
         construct_improved_result=_construct_improved_result,
-        construct_mapped_result=_construct_mapped_result,  # type: ignore
+        construct_mapped_result=_construct_mapped_result,
         publish_progress=publish_progress,
         publish_result=publish_result,
         fake_raw_result=_example_response_1() if fake_response else None,
@@ -39,17 +39,27 @@ async def _construct_raw_result(
     publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
-) -> Awaitable[Any]:
-    logger.error("Demo GPT4All")
-
-    model = GPT4All("mistral-7b-instruct-v0.1.Q4_0.gguf")
-    # model = GPT4All("mistral-7b-openorca.Q4_0.gguf")
-    output = model.generate("The capital of France is ", max_tokens=3)
+):
+    logger.warn("Demo GPT4All")
+    model_name = "mistral-7b-openorca.Q4_0.gguf"
+    model_path = f"kins/share/data/models/llms"
+    logger.info(f"Connected to model `{model_path}`...")
+    model = GPT4All(
+        model_name,
+        model_path=model_path,
+        allow_download=False,
+        verbose=True,
+    )
+    output = model.generate(
+        "The capital of France is ",
+        temp=0,
+        max_tokens=120,
+    )
     logger.info(output)
 
     # TODO
 
-    return "TODO"  # type: ignore
+    return output
 
 
 async def _construct_improved_result(
@@ -59,10 +69,10 @@ async def _construct_improved_result(
     publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
-) -> Awaitable[Any]:
+):
     # TODO
 
-    return None  # type: ignore
+    return None
 
 
 async def _construct_mapped_result(
@@ -73,7 +83,7 @@ async def _construct_mapped_result(
     publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
-) -> Awaitable[Dict[str, Any]]:
+):
     # TODO
 
     return {}  # type: ignore
