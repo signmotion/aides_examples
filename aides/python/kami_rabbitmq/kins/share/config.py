@@ -4,7 +4,7 @@ import os
 
 is_production = False
 use_test_context = True
-fake_response = True
+fake_response = False
 
 include_context_in_answer = True
 include_raw_response_in_answer = True

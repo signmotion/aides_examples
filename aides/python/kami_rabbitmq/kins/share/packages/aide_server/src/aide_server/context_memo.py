@@ -1,5 +1,5 @@
 from pydantic import Field
-from typing import Any, TypeVar, Generic
+from typing import Any, Optional, TypeVar, Generic
 
 from .log import logger
 from .memo_brokers.memo_broker import MemoBroker, NoneMemoBroker
@@ -9,7 +9,11 @@ C = TypeVar("C")
 
 
 class ContextMemo(Generic[C]):
-    def __init__(self, context: C, broker: MemoBroker):
+    def __init__(
+        self,
+        context: C,
+        broker: MemoBroker,
+    ):
         self.name = type(self).__name__
         self.context = context
         self.broker = broker
@@ -31,7 +35,7 @@ class ContextMemo(Generic[C]):
     )
 
     context: C = Field(
-        default=None,
+        ...,
         title="Context",
         description="Structured data of this memory.",
     )

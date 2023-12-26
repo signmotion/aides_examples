@@ -2,7 +2,7 @@ import datetime
 from pydantic import BaseModel, Field
 from typing import List
 
-from packages.aide_server.src.aide_server.configure import Configure
+from .packages.aide_server.src.aide_server.configure import Configure
 
 
 class RegisteredAide(BaseModel):

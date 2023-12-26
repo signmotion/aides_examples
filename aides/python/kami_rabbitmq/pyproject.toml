@@ -6,6 +6,7 @@ authors = ["Andrii Syrokomskyi <signmotion@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
+gpt4all = "^2.0.2"
 load-dotenv = "^0.1.0"
 fastapi = "^0.105.0"
 faststream = {extras = ["rabbit"], version = "^0.3.6"}
