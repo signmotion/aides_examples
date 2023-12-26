@@ -1,8 +1,7 @@
-import asyncio
 from fastapi import routing
 from pydantic import NonNegativeFloat, NonNegativeInt
 import traceback
-from typing import Any, Awaitable, Callable, Dict, List, Optional, TypeVar
+from typing import Any, Awaitable, Callable, Dict, List, Optional
 
 from .log import logger
 from .task_progress_result import Result, Task
@@ -150,7 +149,7 @@ async def construct_and_publish(
                     start_progress_improved_result,
                     stop_progress_improved_result,
                 )
-            await publish_progress(task, stop_progress_improved_result)
+                await publish_progress(task, stop_progress_improved_result)
 
             if construct_mapped_result:
                 await publish_progress(task, start_progress_mapped_result)
@@ -163,7 +162,7 @@ async def construct_and_publish(
                     start_progress_mapped_result,
                     stop_progress_mapped_result,
                 )
-            await publish_progress(task, stop_progress_mapped_result)
+                await publish_progress(task, stop_progress_mapped_result)
 
             break
 
@@ -184,7 +183,7 @@ async def construct_and_publish(
         error=error,
     )
 
-    await publish_progress(task, 99 if error else 100)
+    await publish_progress(task, 100)
 
     return await publish_result(
         task,

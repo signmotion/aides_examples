@@ -46,7 +46,7 @@ async def _construct_raw_result(
     publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
-) -> Any:
+):
     context = Context.model_validate(task.context)
 
     url = f"https://{api_domain}/buy/browse/v1/item_summary/search"

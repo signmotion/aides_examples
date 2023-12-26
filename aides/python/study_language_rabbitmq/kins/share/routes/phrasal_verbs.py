@@ -44,7 +44,7 @@ async def _construct_raw_result(
     publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
-) -> Any:
+):
     openai.api_key = open_api_key
     context = Context.model_validate(task.context)
     response = openai.Completion.create(  # type: ignore
@@ -66,7 +66,7 @@ async def _construct_improved_result(
     publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
-) -> Any:
+):
     return _improve(raw_result)  # type: ignore[override]
 
 
@@ -78,7 +78,7 @@ async def _construct_mapped_result(
     publish_result: PublishResultFn,
     start_progress: NonNegativeFloat,
     stop_progress: NonNegativeFloat,
-) -> Dict[str, Any]:
+):
     return _map(improved_result)
 
 

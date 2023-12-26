@@ -56,6 +56,9 @@ def short_json(
         return d
 
     if isinstance(d, dict):
+        if bool(exclude):
+            exclude_root_keys(d, exclude)
+
         d = list(d.items())
         if not is_root and slice_dict_to_length > 0 and len(d) > slice_dict_to_length:
             d = d[slice(slice_dict_to_length)]
@@ -69,6 +72,18 @@ def short_json(
         return set(_sliced_and_shorted(d, slice_list_to_length, next_depth=next_depth))
 
     return d
+
+
+def exclude_root_keys(
+    o: Dict[str, Any],
+    exclude: Union[Set[int], Set[str], Dict[int, Any], Dict[str, Any]],
+):
+    """Exclude keys from root `o`."""
+    assert bool(exclude), "Empty list."
+
+    for key in exclude:
+        if key in o:
+            del o[key]
 
 
 def _sliced_and_shorted(

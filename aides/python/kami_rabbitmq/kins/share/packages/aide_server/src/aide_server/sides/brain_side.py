@@ -180,11 +180,10 @@ class BrainSide(Side):
         queue: RabbitQueue,
     ):
         ts = short_json(task, exclude={"context"})
-        logger.info(f"Result for task `{ts}`: `{short_json(result)}`")
-
         logger.info(
-            f"Publish a result of task `{task.hid_act}` to Savant:"
-            f" queue `{queue.name}`."
+            f"Publish in Savant queue `{queue.name}`"
+            f"\n\tfor task `{ts}`:"
+            f"\n\tresult`{short_json(result)}`"
         )
         await self.push(
             Result(uid_task=task.uid, value=result),
