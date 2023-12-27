@@ -99,7 +99,7 @@ class AideServer(FastAPI):
         self.include_router(router)
         logger.info(f"🍁 Included the router to the side `{self.sidename}`.")
 
-        # !) call this functions after adding all routers
+        # !) call this functions after adding all routes
         # self._check_routes()
         # self._use_route_names_as_operation_ids()
 

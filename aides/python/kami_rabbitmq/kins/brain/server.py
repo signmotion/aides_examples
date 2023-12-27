@@ -1,6 +1,6 @@
 from ..share.config import *
 from ..share.packages.aide_server.src.aide_server.server import AideServer
-from ..share.routers.who_and_how_can_help import who_and_how_can_help
+from ..share.acts.who_and_how_can_help import who_and_how_can_help
 
 
 class Brain(AideServer):
