@@ -1,101 +1,16 @@
-from flair.data import Sentence, Span
+from flair.data import Sentence
 from flair.nn import Classifier
 import logging
 from pydantic import BaseModel, Field
-from typing import Any, Callable, List
-from .meaning_data import MeaningData
-from .slice import ValueSlice, Slice
+from typing import Any, List
 
-logger = logging.getLogger("context_from_query")
+from .detectors import default_detect_meaning_data, DetectMeaningDataFn
+from .extractors import default_extract_data, ExtractFn
+from .translators import default_base_translate_labeled_data, TranslateFn
+from .slice import Slice
+
+logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
-
-
-class Label(BaseModel):
-    value: MeaningData = Field(
-        ...,
-        title="Value",
-        description="A value for `data`.",
-    )
-
-    score: float = Field(
-        ...,
-        title="Score",
-        description="A score for `data`.",
-    )
-
-    data: Any = Field(
-        ...,
-        title="Data",
-        description="A data from `query` labeled with `value`.",
-    )
-
-
-class LabeledQuery(BaseModel):
-    query: Any = Field(
-        ...,
-        title="Query",
-        description="An original query.",
-    )
-
-    labels: List[Label] = Field(
-        ...,
-        title="Query",
-        description="An original query.",
-    )
-
-
-# (query)
-ExtractFn = Callable[[Any], LabeledQuery]
-
-# (label_value)
-DetectMeaningDataFn = Callable[[str], MeaningData]
-
-# Fill `Slice` with `LabeledQuery`
-# (index_query, labeled_query, slice)
-TranslateFn = Callable[[int, LabeledQuery, Slice], None]
-
-
-def default_detect_meaning_data(value: str) -> MeaningData:
-    # just return type by it name
-    return MeaningData[value]
-
-
-def default_extract_data(
-    query: Any,
-    detect_meaning_data: DetectMeaningDataFn = default_detect_meaning_data,
-) -> LabeledQuery:
-    sentence = Sentence(query)
-
-    model = "ner-ontonotes-fast"
-    logger.info(f"\nModel {model}")
-    tagger = Classifier.load(model)
-    tagger.predict(sentence)
-    logger.info(f"\t{sentence}")
-
-    labels: List[Label] = []
-    for label in sentence.get_labels():
-        logger.info(label)
-        assert isinstance(label.data_point, Span), "Not implemented. TODO?"
-
-        labels.append(
-            Label(
-                value=detect_meaning_data(label.value),
-                score=label.score,
-                data=label.data_point.text,
-            )
-        )
-
-    return LabeledQuery(query=query, labels=labels)
-
-
-def default_translate_labeled_data(
-    index_query: int,
-    labeled_query: LabeledQuery,
-    slice: Slice,
-):
-    for label in labeled_query.labels:
-        key = label.value.value
-        slice[key].append(ValueSlice(i=index_query, v=label.data))
 
 
 class Context(BaseModel):
@@ -114,6 +29,8 @@ class Context(BaseModel):
         assert isinstance(query, str), "Not implemented. TODO"
 
         self.add(query)
+
+        return self
 
     def add(self, query: Any):
         """
@@ -154,10 +71,16 @@ class Context(BaseModel):
         description="Detect `MeaningData` by string value.",
     )
 
+    base_translate: TranslateFn = Field(
+        default=default_base_translate_labeled_data,
+        title="Base Translator",
+        description="Base translate `LabeledQuery` to `Slice`. Call before `translates`.",
+    )
+
     translates: List[TranslateFn] = Field(
-        default=[default_translate_labeled_data],
+        default=[],
         title="Translators",
-        description="Translate `LabeledQuery` to `Slice`. Call sequentially.",
+        description="Translate `LabeledQuery` to `Slice`. Call sequentially after `base_translate`.",
     )
 
     def fill_slice(self):
@@ -180,12 +103,11 @@ class Context(BaseModel):
         # analyze & fill
         query = self.queries[-1]
         labeled_query = self.extract(query)
+        i = len(self.queries) - 1
+        self.base_translate(i, labeled_query, self.slice)
+
         for translate in self.translates:
-            translate(
-                len(self.queries) - 1,
-                labeled_query,
-                self.slice,
-            )
+            translate(i, labeled_query, self.slice)
 
         self.slice.sort()
 

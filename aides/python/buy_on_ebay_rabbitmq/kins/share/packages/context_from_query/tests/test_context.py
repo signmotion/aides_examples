@@ -2,6 +2,7 @@ import unittest
 
 from ..src.context_from_query.context import Context
 from ..src.context_from_query.meaning_data import MeaningData
+from ..src.context_from_query.translators import translate_time_in_minutes
 
 
 class TestContext(unittest.TestCase):
@@ -54,7 +55,7 @@ class TestContext(unittest.TestCase):
         self.assertEqual(expected.queries, context.queries)
         self.assertEqual(expected.slice, context.slice)
 
-    def test_context_with_give_me_products_from_ebay(self):
+    def test_context_with_give_me_products_from_ebay_canada(self):
         query = "Give me eBay auction items from the last 2 hours in Canada."
         expected = Context.model_validate(
             {
@@ -78,9 +79,16 @@ class TestContext(unittest.TestCase):
         )
 
         context: Context = Context()
-        context.add(query)
+        context += query
         self.assertEqual(expected.queries, context.queries)
         self.assertEqual(expected.slice, context.slice)
+
+    def test_context_with_give_me_products_from_ebay_canada_own_translator(self):
+        query = "Give me eBay auction items from the last 2 hours in Canada."
+
+        context: Context = Context(translates=[translate_time_in_minutes])
+        context += query
+        self.assertEqual(120, context.slice[MeaningData.TIME.value][0].v)
 
 
 if __name__ == "main":
