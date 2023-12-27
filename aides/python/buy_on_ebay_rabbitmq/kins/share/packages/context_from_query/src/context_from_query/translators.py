@@ -11,7 +11,7 @@ from .slice import Slice, ValueSlice
 TranslateFn = Callable[[int, LabeledQuery, Slice], None]
 
 
-def default_base_translate_labeled_data(
+def default_base_translate(
     index_query: int,
     labeled_query: LabeledQuery,
     slice: Slice,
@@ -51,6 +51,7 @@ def translate_time_in_minutes(
         detect_minutes = any(
             word in v
             for word in [
+                "",
                 "m",
                 "min",
                 "mins",

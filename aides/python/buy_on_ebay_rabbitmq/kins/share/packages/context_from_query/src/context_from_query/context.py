@@ -6,7 +6,7 @@ from typing import Any, List
 
 from .detectors import default_detect_meaning_data, DetectMeaningDataFn
 from .extractors import default_extract_data, ExtractFn
-from .translators import default_base_translate_labeled_data, TranslateFn
+from .translators import default_base_translate, TranslateFn
 from .slice import Slice
 
 logger = logging.getLogger(__name__)
@@ -80,7 +80,7 @@ class Context(BaseModel):
     )
 
     base_translate: TranslateFn = Field(
-        default=default_base_translate_labeled_data,
+        default=default_base_translate,
         title="Base Translator",
         description="Base translate `LabeledQuery` to `Slice`. Call before `translates`.",
     )
