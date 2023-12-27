@@ -18,6 +18,13 @@ class Context(BaseModel):
     Recognize data from queries and fill it to `Slice`.
     """
 
+    # TODO Grant add queries into constructor. See https://github.com/pydantic/pydantic/issues/1729
+    # def model_post_init(self):
+    # qs = self.queries.copy()
+    # self.queries.clear()
+    # for q in qs:
+    #     self.add(q)
+
     def __iadd__(self, query: Any):
         """
         Add a non empty `query` to context and recognize the added query.
@@ -44,8 +51,9 @@ class Context(BaseModel):
 
         q = query.strip()
         if q:
+            i = len(self.queries)
             self.queries.append(q)
-            self.fill_slice()
+            self.fill_slice(i, q)
 
     slice: Slice = Field(
         default=Slice(),
@@ -83,9 +91,9 @@ class Context(BaseModel):
         description="Translate `LabeledQuery` to `Slice`. Call sequentially after `base_translate`.",
     )
 
-    def fill_slice(self):
+    def fill_slice(self, index_query: int, query: Any):
         """
-        Recognize the last added query and fill the `slice`.
+        Fill the `slice` with query.
 
         See https://flairnlp.github.io/docs/tutorial-basics/tagging-entities for details.
         See demo section in the code below.
@@ -101,13 +109,11 @@ class Context(BaseModel):
         # self._tagging_other_things_demo(sentence)
 
         # analyze & fill
-        query = self.queries[-1]
         labeled_query = self.extract(query)
-        i = len(self.queries) - 1
-        self.base_translate(i, labeled_query, self.slice)
+        self.base_translate(index_query, labeled_query, self.slice)
 
         for translate in self.translates:
-            translate(i, labeled_query, self.slice)
+            translate(index_query, labeled_query, self.slice)
 
         self.slice.sort()
 

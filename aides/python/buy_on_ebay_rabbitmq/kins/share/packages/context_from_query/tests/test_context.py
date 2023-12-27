@@ -27,8 +27,8 @@ class TestContext(unittest.TestCase):
             }
         )
 
-        context: Context = Context()
-        context.add(query)
+        context = Context()
+        context += query
         self.assertEqual(expected.queries, context.queries)
         self.assertEqual(expected.slice, context.slice)
 
@@ -50,8 +50,8 @@ class TestContext(unittest.TestCase):
             }
         )
 
-        context: Context = Context()
-        context.add(query)
+        context = Context()
+        context += query
         self.assertEqual(expected.queries, context.queries)
         self.assertEqual(expected.slice, context.slice)
 
@@ -78,17 +78,24 @@ class TestContext(unittest.TestCase):
             }
         )
 
-        context: Context = Context()
+        context = Context()
         context += query
         self.assertEqual(expected.queries, context.queries)
         self.assertEqual(expected.slice, context.slice)
 
-    def test_context_with_give_me_products_from_ebay_canada_own_translator(self):
+    def test_context_with_give_me_products_from_ebay_canada_own_translator_h(self):
         query = "Give me eBay auction items from the last 2 hours in Canada."
 
-        context: Context = Context(translates=[translate_time_in_minutes])
+        context = Context(translates=[translate_time_in_minutes])
         context += query
         self.assertEqual(120, context.slice[MeaningData.TIME.value][0].v)
+
+    def test_context_with_give_me_products_from_ebay_canada_own_translator_hm(self):
+        query = "Give me eBay auction items from the last 2 hours 30 min in Canada."
+
+        context = Context(translates=[translate_time_in_minutes])
+        context += query
+        self.assertEqual(120 + 30, context.slice[MeaningData.TIME.value][0].v)
 
 
 if __name__ == "main":

@@ -37,12 +37,28 @@ def translate_time_in_minutes(
         last_number = int(extracted_numbers[-1])
         prelast_number = int(extracted_numbers[-2]) if len(extracted_numbers) > 1 else 0
 
-        detect_hours = any(word in v for word in ["h", "hour", "hours"])
+        detect_hours = any(
+            word in v
+            for word in [
+                "h",
+                "hour",
+                "hours",
+            ]
+        )
         if detect_hours:
             r = 60 * (prelast_number if prelast_number != 0 else last_number)
 
-        detect_minutes = any(word in v for word in ["m", "min", "minute", "minutes"])
+        detect_minutes = any(
+            word in v
+            for word in [
+                "m",
+                "min",
+                "mins",
+                "minute",
+                "minutes",
+            ]
+        )
         if detect_minutes:
-            r += prelast_number if prelast_number != 0 else last_number
+            r += last_number
 
         vs.v = r

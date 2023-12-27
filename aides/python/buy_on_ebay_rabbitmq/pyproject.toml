@@ -11,6 +11,7 @@ fastapi = "^0.105.0"
 faststream = {extras = ["rabbit"], version = "^0.3.6"}
 flair = "^0.13.1"
 httpx = "^0.26.0"
+pydantic = "^2.5.3"
 python = "^3.9"
 sanitize-filename = "^1.2.0"
 uvicorn = "^0.24.0.post1"
