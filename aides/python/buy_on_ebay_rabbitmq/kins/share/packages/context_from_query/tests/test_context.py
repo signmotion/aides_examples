@@ -1,7 +1,6 @@
 import unittest
 
 from ..src.context_from_query.context import Context
-from ..src.context_from_query.extractors import extract_data_spacy
 from ..src.context_from_query.meaning_data import MeaningData
 from ..src.context_from_query.translators import translate_time_in_minutes
 

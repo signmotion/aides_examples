@@ -26,8 +26,6 @@ async def products_today(
     publish_progress: PublishProgressFn,
     publish_result: PublishResultFn,
 ):
-    context = Context.model_validate(task.context)
-
     return await construct_and_publish(
         __name__,
         task=task,
