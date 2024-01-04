@@ -157,6 +157,11 @@ class AideServer(FastAPI):
             FilesystemMemoBroker(path_inner_memo),
             # ShelveMemoBroker(name_inner_memo),
         )
+        side_inner_memo = (
+            default_inner_memo
+            if isinstance(self.inner_memo, NoneInnerMemo)
+            else self.inner_memo
+        )
 
         if self.sidename == "appearance":
             return AppearanceSide(
@@ -164,9 +169,7 @@ class AideServer(FastAPI):
                 configure=self.configure,
                 savant_router=self.savant_router,
                 context_memo=self.context_memo,
-                inner_memo=default_inner_memo
-                if isinstance(self.inner_memo, NoneInnerMemo)
-                else self.inner_memo,
+                inner_memo=side_inner_memo,
             )
 
         if self.sidename == "brain":
@@ -182,9 +185,7 @@ class AideServer(FastAPI):
                 router,
                 savant_router=self.savant_router,
                 acts=self.configure.acts,
-                inner_memo=default_inner_memo
-                if isinstance(self.inner_memo, NoneInnerMemo)
-                else self.inner_memo,
+                inner_memo=side_inner_memo,
             )
 
         raise Exception(f"Undeclared side `{self.sidename}`.")
